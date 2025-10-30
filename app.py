@@ -103,7 +103,7 @@ projects = [
     {
         "title": "SmartTriage - AI Agent Project Gantt",
         "description": "A Gantt chart for managing a final project about an AI agent in a medical triage.",
-        "url": "https://smartriage.streamlit.app/",
+        "url": "https://smartriagegantt.streamlit.app/",
         "image_path": "images/smartriage.png"
     }
 ]
