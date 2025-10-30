@@ -95,7 +95,7 @@ st.header("My Projects")
 # A list of dictionaries, each defining a project
 projects = [
     {
-        "title": "LioStocks - AI Investment Manager",
+        "title": "LioStocks - Investment Manager",
         "description": "An intelligent platform for investment portfolio management with advanced analytics.",
         "url": "https://liostocks.streamlit.app/",
         "image_path": "images/liostocks.png" 
