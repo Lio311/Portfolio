@@ -4,7 +4,7 @@ import streamlit as st
 
 # הגדרת עמוד
 st.set_page_config(
-    page_title="My Portfolio",
+    page_title="Lior Zafrir",
     layout="wide"
 )
 
