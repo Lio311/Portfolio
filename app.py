@@ -10,7 +10,7 @@ st.set_page_config(
 
 # --- אזור התיאור האישי (באנגלית) ---
 
-st.title("My Portfolio")
+st.title("Lior Zafrir")
 st.header("About Me")
 
 # התיאור שלך
