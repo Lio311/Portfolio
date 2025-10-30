@@ -15,14 +15,12 @@ def img_to_base64(image_path):
         with open(image_path, "rb") as f:
             data = f.read()
         
-        # קביעת סוג התמונה (MIME type) לפי הסיומת
         file_extension = Path(image_path).suffix.lower()
         if file_extension == ".jpg" or file_extension == ".jpeg":
             mime_type = "image/jpeg"
         elif file_extension == ".png":
-            mime_type = "image/png" # <-- הקוד כבר תמך בזה
+            mime_type = "image/png"
         else:
-            # הגדר ברירת מחדל אם צריך
             mime_type = "image/png"
             
         b64_data = base64.b64encode(data).decode("utf-8")
@@ -37,6 +35,33 @@ st.set_page_config(
     page_title="My Portfolio",
     layout="wide"
 )
+
+# ---!!! הוספת CSS מותאם אישית !!!---
+st.markdown("""
+<style>
+    /* עיצוב הכרטיסייה (הקישור) עצמה */
+    .project-card {
+        display: block; /* גורם לקישור להתנהג כמו בלוק */
+        border-radius: 10px; /* פינות מעוגלות */
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* הצללה */
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* אנימציה חלקה */
+        overflow: hidden; /* מבטיח שהתמונה לא תחרוג מהפינות המעוגלות */
+    }
+
+    /* אפקט ה-Hover שביקשת */
+    .project-card:hover {
+        transform: scale(1.03); /* מגדיל את הכרטיס ב-3% */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3); /* מגדיל את ההצללה */
+    }
+
+    /* עיצוב התמונה בתוך הכרטיסייה */
+    .project-card img {
+        width: 100%; /* התאמה לרוחב הכרטיס */
+        height: 220px; /* ---!!! גובה קבוע לתמונה !!!--- */
+        object-fit: cover; /* מונע עיוות, ממלא את המסגרת */
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # --- אזור התיאור האישי (באנגלית) ---
 st.title("My Portfolio")
@@ -62,14 +87,12 @@ projects = [
         "title": "LioStocks - AI Investment Manager",
         "description": "An intelligent platform for investment portfolio management with advanced analytics.",
         "url": "https://liostocks.streamlit.app/",
-        # ---!!! עדכון סיומת הקובץ ל-PNG !!!---
         "image_path": "images/liostocks.png" 
     },
     {
         "title": "SmartTriage - AI Agent Project Gantt",
         "description": "A Gantt chart for managing a final project about an AI agent in a medical triage.",
         "url": "https://smartriage.streamlit.app/",
-        # ---!!! עדכון סיומת הקובץ ל-PNG !!!---
         "image_path": "images/smartriage.png"
     }
 ]
@@ -81,17 +104,13 @@ for i, project in enumerate(projects):
         st.subheader(project["title"])
         st.write(project["description"])
         
-        # 1. ממיר את התמונה המקומית לטקסט Base64
         image_base64_data = img_to_base64(project["image_path"])
         
         if image_base64_data:
-            # 2. יוצר HTML עם נתוני התמונה המוטבעים
+            # ---!!! שינוי ה-HTML כדי להשתמש ב-CSS החדש !!!---
             image_link_html = f"""
-                <a href="{project['url']}" target="_blank" title="Click to visit project">
-                    <img src="{image_base64_data}" 
-                         alt="{project['title']}" 
-                         style="width:100%; border-radius: 10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                <a href="{project['url']}" target="_blank" title="Click to visit project" class="project-card">
+                    <img src="{image_base64_data}" alt="{project['title']}">
                 </a>
             """
-            # 3. מציג את ה-HTML
             st.markdown(image_link_html, unsafe_allow_html=True)
