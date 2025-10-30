@@ -9,9 +9,7 @@ st.set_page_config(
 )
 
 # --- פונקציית עזר לשאיבת תמונות ---
-# הפונקציה הזו מקבלת URL ומחזירה תמונה ייצוגית (og:image)
-# @st.cache_data מונע מהפונקציה לרוץ שוב ושוב בכל טעינה מחדש,
-# מה שחוסך זמן ומשאבים.
+# @st.cache_data מונע מהפונקציה לרוץ שוב ושוב בכל טעינה מחדש
 @st.cache_data
 def get_og_image(url, fallback_image):
     """
@@ -42,13 +40,15 @@ def get_og_image(url, fallback_image):
 st.title("My Portfolio")
 st.header("About Me")
 
-# התיאור שלך (כבר באנגלית)
+# התיאור שלך
 about_me_text = """
 Final-year Biomedical Engineering student at Tel Aviv University with hands-on
 experience in medical device development, signal processing, and product design.
 Passionate about bridging engineering innovation and clinical needs. Demonstrated
 analytical and leadership skills through leading a multidisciplinary medical device
 project at Beilinson.
+
+I also have a strong passion for the capital market and for projects that incorporate AI technology.
 """
 st.markdown(about_me_text)
 
@@ -59,17 +59,18 @@ st.write("---") # קו מפריד
 st.header("My Projects")
 
 # הגדרת הפרויקטים שלך
-# 'fallback_image' ישמש אם הקוד לא יצליח לשאוב תמונה מהקישור
 projects = [
     {
-        "title": "LioStocks - Capital Market Analysis",
-        "description": "A platform for stock analysis integrating AI technologies.",
+        # ---!!! תיאור מעודכן !!!---
+        "title": "LioStocks - AI Investment Manager",
+        "description": "An intelligent platform for investment portfolio management with advanced analytics.",
         "url": "https://liostocks.streamlit.app/",
         "fallback_image": "https://images.unsplash.com/photo-1611974783364-ec2f493b80b4?auto=format&fit=crop&q=80&w=870"
     },
     {
-        "title": "SmartTriage - Intelligent Medical Triage",
-        "description": "An intelligent system for classifying and managing medical inquiries.",
+        # ---!!! תיאור מעודכן !!!---
+        "title": "SmartTriage - AI Agent Project Gantt",
+        "description": "A Gantt chart for managing a final project about an AI agent in a medical triage.",
         "url": "https://smartriage.streamlit.app/",
         "fallback_image": "https://images.unsplash.com/photo-1576091160550-2173ada99a6b?auto=format&fit=crop&q=80&w=870"
     }
