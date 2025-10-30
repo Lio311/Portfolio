@@ -41,7 +41,7 @@ def img_to_base64(image_path):
 # --- 1. Page Configuration ---
 # Set the page title and layout
 st.set_page_config(
-    page_title="My Portfolio",
+    page_title="Lior Zafrir",
     layout="wide"
 )
 
@@ -74,7 +74,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- 3. About Me Section ---
-st.title("My Portfolio")
+st.title("Lior Zafrir")
 st.header("About Me")
 
 # Personal description text
@@ -84,8 +84,6 @@ experience in medical device development, signal processing, and product design.
 Passionate about bridging engineering innovation and clinical needs. Demonstrated
 analytical and leadership skills through leading a multidisciplinary medical device
 project at Beilinson.
-
-I also have a strong passion for the capital market and for projects that incorporate AI technology.
 """
 st.markdown(about_me_text)
 
