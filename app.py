@@ -1,101 +1,99 @@
 import streamlit as st
+import requests
+from bs4 import BeautifulSoup
 
-# הגדרות עמוד בסיסיות
-st.set_page_config(page_title="תיק עבודות", layout="wide")
+# הגדרת עמוד - עכשיו באנגלית
+st.set_page_config(
+    page_title="My Portfolio",
+    layout="wide"
+)
 
-# --- אזור התיאור האישי ---
+# --- פונקציית עזר לשאיבת תמונות ---
+# הפונקציה הזו מקבלת URL ומחזירה תמונה ייצוגית (og:image)
+# @st.cache_data מונע מהפונקציה לרוץ שוב ושוב בכל טעינה מחדש,
+# מה שחוסך זמן ומשאבים.
+@st.cache_data
+def get_og_image(url, fallback_image):
+    """
+    Fetches the Open Graph (og:image) URL from a webpage.
+    Returns fallback_image if not found or on error.
+    """
+    try:
+        response = requests.get(url, timeout=5)
+        response.raise_for_status() # Check for HTTP errors
+        
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Find the <meta property="og:image" ...> tag
+        meta_tag = soup.find("meta", property="og:image")
+        
+        if meta_tag and meta_tag.get('content'):
+            return meta_tag['content'] # Return the image URL
+        else:
+            return fallback_image # No tag found, use fallback
+            
+    except requests.exceptions.RequestException as e:
+        # On any error (timeout, connection error, etc.), use fallback
+        print(f"Error fetching {url}: {e}")
+        return fallback_image
 
-st.title("תיק עבודות | Portfolio")
-st.header("קצת עליי")
+# --- אזור התיאור האישי (באנגלית) ---
 
-# התיאור שלך, כפי שביקשת
+st.title("My Portfolio")
+st.header("About Me")
+
+# התיאור שלך (כבר באנגלית)
 about_me_text = """
 Final-year Biomedical Engineering student at Tel Aviv University with hands-on
 experience in medical device development, signal processing, and product design.
 Passionate about bridging engineering innovation and clinical needs. Demonstrated
 analytical and leadership skills through leading a multidisciplinary medical device
 project at Beilinson.
-
-I also have a strong passion for the capital market and for projects that incorporate AI technology.
 """
-
 st.markdown(about_me_text)
 
 st.write("---") # קו מפריד
 
-# --- אזור הפרויקטים (קלפים) ---
+# --- אזור הפרויקטים (באנגלית) ---
 
-st.header("הפרויקטים שלי")
+st.header("My Projects")
 
-#
-# ---!!! עדכון: הוספתי את הפרויקטים שלך כאן !!!---
-#
-
-# הגדרת נתונים לפרויקטים
+# הגדרת הפרויקטים שלך
+# 'fallback_image' ישמש אם הקוד לא יצליח לשאוב תמונה מהקישור
 projects = [
     {
-        "title": "LioStocks - ניתוח שוק ההון",
-        "description": "פלטפורמה לניתוח מניות המשלבת טכנולוגיות AI.",
-        "image": "https://images.unsplash.com/photo-1611974783364-ec2f493b80b4?auto=format&fit=crop&q=80&w=870", # תמונה בנושא שוק ההון
-        "url": "https://liostocks.streamlit.app/"
+        "title": "LioStocks - Capital Market Analysis",
+        "description": "A platform for stock analysis integrating AI technologies.",
+        "url": "https://liostocks.streamlit.app/",
+        "fallback_image": "https://images.unsplash.com/photo-1611974783364-ec2f493b80b4?auto=format&fit=crop&q=80&w=870"
     },
     {
-        "title": "SmartTriage - טריאז' רפואי חכם",
-        "description": "מערכת חכמה לסיווג וניהול פניות רפואיות (טריאז').",
-        "image": "https://images.unsplash.com/photo-1576091160550-2173ada99a6b?auto=format&fit=crop&q=80&w=870", # תמונה בנושא טכנולוגיה רפואית
-        "url": "https://smartriage.streamlit.app/"
+        "title": "SmartTriage - Intelligent Medical Triage",
+        "description": "An intelligent system for classifying and managing medical inquiries.",
+        "url": "https://smartriage.streamlit.app/",
+        "fallback_image": "https://images.unsplash.com/photo-1576091160550-2173ada99a6b?auto=format&fit=crop&q=80&w=870"
     }
-    # אתה יכול להוסיף עוד פרויקטים כאן באותו מבנה
-    # {
-    #     "title": "פרויקט עתידי",
-    #     "description": "תיאור הפרויקט הבא שלך.",
-    #     "image": "https"//... תמונה כלשהי",
-    #     "url": "#" # קישור
-    # },
 ]
 
-# --- אפשרות א': שימוש בעמודות מובנות של Streamlit (פשוט ומומלץ) ---
-# מחלק את העמוד לעמודות לפי מספר הפרויקטים
+# יצירת עמודות דינמיות לפי מספר הפרויקטים
 cols = st.columns(len(projects))
 
 for i, project in enumerate(projects):
     with cols[i]:
         st.subheader(project["title"])
-        # הקפד על use_column_width=True כדי שהתמונה תתאים לעמודה
-        st.image(project["image"], use_column_width=True, caption=f"תצוגה מתוך {project['title']}")
         st.write(project["description"])
-        # יצירת קישור מעוצב ככפתור (אופציונלי) או כטקסט
-        # st.link_button("פתח את הפרויקט", project["url"]) # נראה טוב יותר
-        st.markdown(f"**[פתח את הפרויקט]({project['url']})** 🔗")
-
-
-# --- אפשרות ב': שימוש ב-streamlit-card (דורש התקנה, עיצוב יפה יותר) ---
-# הערה: אם תשתמש באפשרות זו, מחק או הפוך להערה את "אפשרות א'" שלמעלה
-# from streamlit_card import card
-
-# # הגדרת עמודות (לדוגמה, 2 פרויקטים בשורה)
-# num_cols = 2
-# cols = st.columns(num_cols)
-# col_index = 0
-
-# for project in projects:
-#     with cols[col_index % num_cols]:
-#         card(
-#             title=project["title"],
-#             text=project["description"],
-#             image=project["image"],
-#             url=project["url"],
-#             styles={
-#                 "card": {
-#                     "width": "100%", # הכרטיס יתפוס את כל רוחב העמודה
-#                     "margin": "10px",
-#                     "border-radius": "10px",
-#                     "box-shadow": "0 4px 8px 0 rgba(0,0,0,0.2)"
-#                 },
-#                 "image": {
-#                     "object-fit": "cover", # גורם לתמונה למלא את האזור
-#                     "height": "200px" # גובה אחיד לתמונה
-#                 }
-#             }
-#         )
-#     col_index += 1
+        
+        # 1. שואב את התמונה מהקישור (או משתמש בגיבוי)
+        image_url = get_og_image(project["url"], project["fallback_image"])
+        
+        # 2. יוצר HTML כדי להפוך את התמונה לקישור
+        image_link_html = f"""
+            <a href="{project['url']}" target="_blank" title="Click to visit project">
+                <img src="{image_url}" 
+                     alt="{project['title']}" 
+                     style="width:100%; border-radius: 10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+            </a>
+        """
+        
+        # 3. מציג את ה-HTML
+        st.markdown(image_link_html, unsafe_allow_html=True)
