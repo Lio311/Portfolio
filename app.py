@@ -27,40 +27,46 @@ st.write("---") # קו מפריד
 
 st.header("הפרויקטים שלי")
 
+#
+# ---!!! עדכון: הוספתי את הפרויקטים שלך כאן !!!---
+#
+
 # הגדרת נתונים לפרויקטים
-# החלף עם הפרויקטים האמיתיים שלך
-# 'image' יכול להיות URL לתמונה או נתיב לקובץ מקומי
 projects = [
     {
-        "title": "פרויקט 1: ניתוח שוק המניות",
-        "description": "תיאור קצר של הפרויקט. לדוגמה: מודל AI לחיזוי מגמות בשוק ההון.",
-        "image": "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDN8fHN0b2Nrc3xlbnwwfHx8fDE2NzQwNDA0Mjk&ixlib=rb-4.0.3&q=80&w=400",
-        "url": "https://github.com/your-username/project-1" # החלף בקישור שלך
+        "title": "LioStocks - ניתוח שוק ההון",
+        "description": "פלטפורמה לניתוח מניות המשלבת טכנולוגיות AI.",
+        "image": "https://images.unsplash.com/photo-1611974783364-ec2f493b80b4?auto=format&fit=crop&q=80&w=870", # תמונה בנושא שוק ההון
+        "url": "https://liostocks.streamlit.app/"
     },
     {
-        "title": "פרויקט 2: אבחון רפואי חכם",
-        "description": "תיאור קצר של הפרויקט. לדוגמה: אפליקציית Streamlit המשתמשת ב-AI לאבחון.",
-        "image": "https://images.unsplash.com/photo-1579684385127-6831d7e26e0d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDEwfHxtZWRpY2FsJTIwYWl8ZW58MHx8fHwxNjc0MDQwNDc0&ixlib=rb-4.0.3&q=80&w=400",
-        "url": "https://github.com/your-username/project-2" # החלף בקישור שלך
-    },
-    {
-        "title": "פרויקט 3: מכשור רפואי",
-        "description": "תיאור קצר של הפרויקט. לדוגמה: פרויקט הגמר שלי בפיתוח מכשיר רפואי.",
-        "image": "https://images.unsplash.com/photo-1581093433567-9601031c06cc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDExfHxiaW9tZWRpY2FsJTIwZW5naW5lZXJpbmd8ZW58MHx8fHwxNjc0MDQwNTEy&ixlib=rb-4.0.3&q=80&w=400",
-        "url": "https://github.com/your-username/project-3" # החלף בקישור שלך
+        "title": "SmartTriage - טריאז' רפואי חכם",
+        "description": "מערכת חכמה לסיווג וניהול פניות רפואיות (טריאז').",
+        "image": "https://images.unsplash.com/photo-1576091160550-2173ada99a6b?auto=format&fit=crop&q=80&w=870", # תמונה בנושא טכנולוגיה רפואית
+        "url": "https://smartriage.streamlit.app/"
     }
+    # אתה יכול להוסיף עוד פרויקטים כאן באותו מבנה
+    # {
+    #     "title": "פרויקט עתידי",
+    #     "description": "תיאור הפרויקט הבא שלך.",
+    #     "image": "https"//... תמונה כלשהי",
+    #     "url": "#" # קישור
+    # },
 ]
 
-# --- אפשרות א': שימוש בעמודות מובנות של Streamlit (פשוט יותר) ---
+# --- אפשרות א': שימוש בעמודות מובנות של Streamlit (פשוט ומומלץ) ---
 # מחלק את העמוד לעמודות לפי מספר הפרויקטים
 cols = st.columns(len(projects))
 
 for i, project in enumerate(projects):
     with cols[i]:
         st.subheader(project["title"])
-        st.image(project["image"], use_column_width=True, caption=f"תמונה עבור {project['title']}")
+        # הקפד על use_column_width=True כדי שהתמונה תתאים לעמודה
+        st.image(project["image"], use_column_width=True, caption=f"תצוגה מתוך {project['title']}")
         st.write(project["description"])
-        st.markdown(f"**[לצפייה בפרויקט]({project['url']})** 🔗")
+        # יצירת קישור מעוצב ככפתור (אופציונלי) או כטקסט
+        # st.link_button("פתח את הפרויקט", project["url"]) # נראה טוב יותר
+        st.markdown(f"**[פתח את הפרויקט]({project['url']})** 🔗")
 
 
 # --- אפשרות ב': שימוש ב-streamlit-card (דורש התקנה, עיצוב יפה יותר) ---
