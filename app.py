@@ -124,15 +124,20 @@ for i in range(0, len(projects), 2):
             project = projects[i + j]
             with col:
                 st.subheader(project["title"])
-                st.write(project["description"])
+                
+                # --- START OF CHANGE ---
+                # Replace the direct st.write with an expander
+                with st.expander("View Description", expanded=False):
+                    st.write(project["description"])
+                # --- END OF CHANGE ---
+                        
                 image_base64_data = img_to_base64(project["image_path"])
                 if image_base64_data:
                     image_link_html = f"""
                         <a href="{project['url']}" target="_blank" title="Click to visit project" class="project-card">
                             <img src="{image_base64_data}" alt="{project['title']}">
                         </a>
-                    """                    
+                    """                
                     st.markdown(image_link_html, unsafe_allow_html=True)
     st.write("")
     st.write("")
-    
