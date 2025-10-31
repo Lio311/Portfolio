@@ -114,4 +114,5 @@ for i in range(0, len(projects), 2):
                             <img src="{image_base64_data}" alt="{project['title']}">
                         </a>
                     """
+                    st.write("")
                     st.markdown(image_link_html, unsafe_allow_html=True)
