@@ -36,7 +36,7 @@ def img_to_base64(image_path):
 # --- 1. Page Configuration ---
 st.set_page_config(
     page_title="Lior Zafrir",
-    layout="wide"
+    layout="wide",
     page_icon="📈"
 )
 
