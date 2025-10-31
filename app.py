@@ -57,6 +57,20 @@ st.markdown("""
         height: 220px;
         object-fit: cover;
     }
+    
+    /* Style for the expander to make it look like part of the text */
+    div[data-testid="stExpander"] > summary {
+        font-size: 1rem;
+        color: var(--text-color);
+        opacity: 0.8;
+    }
+    div[data-testid="stExpander"] > summary:hover {
+        opacity: 1;
+    }
+    div[data-testid="stExpander"] p {
+        font-size: 1rem; /* Ensure text inside is the same size */
+    }
+    
 </style>
 """, unsafe_allow_html=True)
 
@@ -117,6 +131,8 @@ projects = [
 ]
 
 # --- Display projects (2 per row) ---
+CHAR_LIMIT_FOR_SUMMARY = 110 # Max characters to show before "..."
+
 for i in range(0, len(projects), 2):
     cols = st.columns(2)
     for j, col in enumerate(cols):
@@ -126,9 +142,22 @@ for i in range(0, len(projects), 2):
                 st.subheader(project["title"])
                 
                 # --- START OF CHANGE ---
-                # Replace the direct st.write with an expander
-                with st.expander("View Description", expanded=False):
-                    st.write(project["description"])
+                description = project["description"]
+                
+                if len(description) > CHAR_LIMIT_FOR_SUMMARY:
+                    # If text is long, find a clean break point
+                    break_point = description.rfind(' ', 0, CHAR_LIMIT_FOR_SUMMARY)
+                    if break_point == -1: # No space found, just cut
+                        break_point = CHAR_LIMIT_FOR_SUMMARY
+                    
+                    summary_text = description[:break_point] + "..."
+                    
+                    # Use the truncated summary as the expander label
+                    with st.expander(summary_text, expanded=False):
+                        st.write(description) # Full description inside
+                else:
+                    # If text is short, just display it
+                    st.write(description)
                 # --- END OF CHANGE ---
                         
                 image_base64_data = img_to_base64(project["image_path"])
