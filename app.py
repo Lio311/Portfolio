@@ -103,6 +103,12 @@ projects = [
         "image_path": "images/physiosimulator.png"
     },
     {
+        "title": "Gait Analysis",
+        "description": "A video-based gait analyzer that uses AI pose estimation to extract and plot biomechanical signals like knee angles..",
+        "url": "https://gaitanalysis3.streamlit.app/",
+        "image_path": "images/gaitanalysis3.png"
+    },
+    {
         "title": "ECG Arrhythmia Simulator",
         "description": "An interactive tool for simulating and visualizing common cardiac arrhythmias like AFib, PVCs, and Tachycardia.",
         "url": "https://ecgarrhythmiasimulator.streamlit.app/",
