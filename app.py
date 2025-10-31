@@ -113,6 +113,6 @@ for i in range(0, len(projects), 2):
                         <a href="{project['url']}" target="_blank" title="Click to visit project" class="project-card">
                             <img src="{image_base64_data}" alt="{project['title']}">
                         </a>
-                    """
-                    st.write("")
+                    """                    
                     st.markdown(image_link_html, unsafe_allow_html=True)
+    st.write("")
