@@ -59,18 +59,22 @@ st.markdown("""
     }
     
     /* Style for the expander to make it look like part of the text */
+    /* This targets the summary (the clickable part) */
     div[data-testid="stExpander"] > summary {
-        font-size: 1rem;
+        font-size: 0.9rem; /* Smaller font */
         color: var(--text-color);
-        opacity: 0.8;
+        opacity: 0.7; /* Make it subtle */
+        padding: 0;
+        margin-top: -5px; /* Pull it closer to the text above */
     }
     div[data-testid="stExpander"] > summary:hover {
-        opacity: 1;
+        opacity: 1; /* Highlight on hover */
     }
-    div[data-testid="stExpander"] p {
-        font-size: 1rem; /* Ensure text inside is the same size */
+    /* This targets the content inside the expander */
+    div[data-testid="stExpander"] div[data-testid="stMarkdownContainer"] p {
+        font-size: 1rem; /* Back to normal font size */
+        margin-top: 0;
     }
-    
 </style>
 """, unsafe_allow_html=True)
 
@@ -145,19 +149,23 @@ for i in range(0, len(projects), 2):
                 description = project["description"]
                 
                 if len(description) > CHAR_LIMIT_FOR_SUMMARY:
-                    # If text is long, find a clean break point
+                    # Find a clean break point (at a space)
                     break_point = description.rfind(' ', 0, CHAR_LIMIT_FOR_SUMMARY)
                     if break_point == -1: # No space found, just cut
                         break_point = CHAR_LIMIT_FOR_SUMMARY
                     
-                    summary_text = description[:break_point] + "..."
+                    summary_text = description[:break_point]
+                    remaining_text = description[break_point:]
                     
-                    # Use the truncated summary as the expander label
-                    with st.expander(summary_text, expanded=False):
-                        st.write(description) # Full description inside
+                    # Display the summary text
+                    st.markdown(f"{summary_text}...")
+                    
+                    # Display the rest of the text inside a subtle expander
+                    with st.expander("...read more", expanded=False):
+                        st.markdown(remaining_text) # Full description inside
                 else:
                     # If text is short, just display it
-                    st.write(description)
+                    st.markdown(description)
                 # --- END OF CHANGE ---
                         
                 image_base64_data = img_to_base64(project["image_path"])
