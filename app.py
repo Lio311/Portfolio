@@ -39,7 +39,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- 2. Custom CSS (FIXED: Split into two separate markdown blocks to prevent SyntaxError) ---
+# --- 2. Custom CSS ---
 # Block 1: Meta tags and general style block setup
 st.markdown("""
 <style>
