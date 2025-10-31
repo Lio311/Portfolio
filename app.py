@@ -42,29 +42,32 @@ st.set_page_config(
 # --- 2. Custom CSS ---
 st.markdown("""
 <style>
-    <meta property="og:title" content="Lior Zafrir - Engineering Portfolio">
-    <meta property="og:description" content="Explore my Streamlit portfolio featuring projects in signal processing, control systems, differential equation solutions, and biomedical signal analysis.">
-    <meta property="og:image" content="https://example.com/preview.jpg">
-    <meta property="og:url" content="https://my-portfolio.streamlit.app/">
-    <meta name="twitter:card" content="summary_large_image">
-    """,
-    unsafe_allow_html=True
-    .project-card {
-        display: block;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        overflow: hidden;
-    }
-    .project-card:hover {
-        transform: scale(1.03);
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
-    }
-    .project-card img {
-        width: 100%;
-        height: 220px;
-        object-fit: cover;
-    }
+    <meta property="og:title" content="Lior Zafrir - Engineering Portfolio">
+    <meta property="og:description" content="Explore my Streamlit portfolio featuring projects in signal processing, control systems, differential equation solutions, and biomedical signal analysis.">
+    <meta property="og:image" content="https://example.com/preview.jpg">
+    <meta property="og:url" content="https://my-portfolio.streamlit.app/">
+    <meta name="twitter:card" content="summary_large_image">
+    """,
+    unsafe_allow_html=True
+) 
+st.markdown("""
+<style>
+    .project-card {
+        display: block;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        overflow: hidden;
+    }
+    .project-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
+    }
+    .project-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
 </style>
 """, unsafe_allow_html=True)
 
