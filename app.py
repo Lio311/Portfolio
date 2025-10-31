@@ -110,7 +110,7 @@ projects = [
         "title": "ECG Arrhythmia Simulator",
         "description": "An interactive tool for simulating and visualizing common cardiac arrhythmias like AFib, PVCs, and Tachycardia.",
         "url": "https://ecgarrhythmiasimulator.streamlit.app/",
-        "image_path": "images/ecgarrhythmiasimulator.png"
+        "image_path": "images/ECGArrhythmiaSimulator.png"
     }
 ]
 
