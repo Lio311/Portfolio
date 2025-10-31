@@ -98,7 +98,7 @@ projects = [
     },
     {
         "title": "Glucose-Insulin Minimal Model Simulator",
-        "description": "An interactive web app simulating a 4f optical system to visualize how spatial filters in the Fourier plane perform image processing like edge detection and blurring.",
+        "description": "An interactive app that solves a system of Ordinary Differential Equations (ODEs) to simulate the physiological dynamics of glucose and insulin.",
         "url": "https://physiosimulator.streamlit.app/",
         "image_path": "images/physiosimulator.png"
     },
