@@ -48,10 +48,7 @@ st.markdown("""
     <meta property="og:url" content="https://my-portfolio.streamlit.app/">
     <meta name="twitter:card" content="summary_large_image">
     """,
-    unsafe_allow_html=True
-) 
-st.markdown("""
-<style>
+    unsafe_allow_html=True 
     .project-card {
         display: block;
         border-radius: 10px;
