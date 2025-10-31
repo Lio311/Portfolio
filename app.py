@@ -7,6 +7,7 @@ from pathlib import Path
 def img_to_base64(image_path):
     """
     Converts a local image file to a Base64 data URI.
+    This allows embedding the image directly into the HTML 'src' attribute.
     """
     try:
         img_file = Path(image_path)
@@ -38,7 +39,8 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- 2. Custom CSS (Split into two clean markdown blocks to fix SyntaxError) ---
+# --- 2. Custom CSS (FIXED: Split into two separate markdown blocks to prevent SyntaxError) ---
+# Block 1: Meta tags and general style block setup
 st.markdown("""
 <style>
     <meta property="og:title" content="Lior Zafrir - Engineering Portfolio">
@@ -51,6 +53,7 @@ st.markdown("""
 unsafe_allow_html=True
 )
 
+# Block 2: Project card specific CSS rules
 st.markdown("""
 <style>
     .project-card {
@@ -71,7 +74,6 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
-
 
 # --- 3. About Me Section ---
 st.title("Lior Zafrir")
@@ -144,6 +146,7 @@ for i in range(0, len(projects), 2):
             with col:
                 st.subheader(project["title"])
                 
+                # Use st.expander for a collapsible description
                 with st.expander("View Description", expanded=False):
                     st.write(project["description"])
                         
