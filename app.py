@@ -91,16 +91,22 @@ projects = [
         "image_path": "images/fourieropticssimulator.png"
     },
     {
-        "title": "ECG Arrhythmia Simulator",
-        "description": "An interactive cardiac electrophysiology simulator built with Streamlit. This tool leverages the NeuroKit2 library to generate high-fidelity, synthetic ECG waveforms, simulating a wide range of common arrhythmias (including AFib, PVCs, VT, and AV Blocks). The application provides dynamic parameter control and real-time Plotly visualization, serving as a powerful tool for arrhythmia analysis and education.",
-        "url": "https://ecgarrhythmiasimulator.streamlit.app/",
-        "image_path": "images/ecgarrhythmiasimulator.png"
-    },
+        "title": "rPPG - Video-Based Vitals Analyzer",
+        "description": "A real-time cardiovascular monitoring tool built in Streamlit. This app leverages Computer Vision (OpenCV, Haar Cascades) to perform facial detection, extracting a raw rPPG (remote Photoplethysmography) signal. It then employs a robust Digital Signal Processing (DSP) pipeline using SciPy and NumPy for digital filtering (Butterworth Bandpass), Frequency-Domain Analysis (FFT/PSD) to determine heart rate, and Time-Domain Analysis to calculate HRV (RMSSD). All vitals are visualized dynamically using Plotly.",
+        "url": "https://rppgvitalsanalyzer.streamlit.app/",
+        "image_path": "images/rppgvitalsanalyzer.png"
+    },    
     {
         "title": "Gait Analysis",
         "description": "A Computer Vision-based biomechanics lab for kinematic gait analysis. This Streamlit application utilizes Google's MediaPipe AI framework for real-time, markerless pose estimation from video. The pipeline processes video with OpenCV, extracts 3D landmark coordinates, and uses NumPy for kinematic calculations (e.g., knee joint angles). The resulting biomechanical time-series signals are then visualized interactively using Plotly.",
         "url": "https://gaitanalysis3.streamlit.app/",
         "image_path": "images/gaitanalysis3.png"
+    },
+    {
+        "title": "ECG Arrhythmia Simulator",
+        "description": "An interactive cardiac electrophysiology simulator built with Streamlit. This tool leverages the NeuroKit2 library to generate high-fidelity, synthetic ECG waveforms, simulating a wide range of common arrhythmias (including AFib, PVCs, VT, and AV Blocks). The application provides dynamic parameter control and real-time Plotly visualization, serving as a powerful tool for arrhythmia analysis and education.",
+        "url": "https://ecgarrhythmiasimulator.streamlit.app/",
+        "image_path": "images/ecgarrhythmiasimulator.png"
     },
     {
         "title": "Glucose-Insulin Minimal Model Simulator",
