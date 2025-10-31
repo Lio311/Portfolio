@@ -116,3 +116,5 @@ for i in range(0, len(projects), 2):
                     """                    
                     st.markdown(image_link_html, unsafe_allow_html=True)
     st.write("")
+    st.write("")
+    
