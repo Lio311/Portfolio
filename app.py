@@ -105,7 +105,7 @@ projects = [
         "description": "A Gantt chart for managing a final project about an AI agent in a medical triage.",
         "url": "https://smartriagegantt.streamlit.app/",
         "image_path": "images/smartriage.png"
-    }
+    },
     {
         "title": "ECG Arrhythmia Simulator",
         "description": "An interactive tool for simulating and visualizing common cardiac arrhythmias like AFib, PVCs, and Tachycardia.",
@@ -113,6 +113,7 @@ projects = [
         "image_path": "images/ecgarrhythmiasimulator.png"
     }
 ]
+
 # Create a layout with a column for each project
 cols = st.columns(len(projects))
 
