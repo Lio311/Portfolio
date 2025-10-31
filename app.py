@@ -95,7 +95,7 @@ st.header("My Projects")
 # A list of dictionaries, each defining a project
 projects = [
     {
-        "title": "LioStocks - Investment Manager",
+        "title": "Portfolio Manager",
         "description": "An intelligent platform for investment portfolio management with advanced analytics.",
         "url": "https://liostocks.streamlit.app/",
         "image_path": "images/liostocks.png" 
@@ -106,8 +106,13 @@ projects = [
         "url": "https://smartriagegantt.streamlit.app/",
         "image_path": "images/smartriage.png"
     }
+    {
+        "title": "ECG Arrhythmia Simulator",
+        "description": "An interactive tool for simulating and visualizing common cardiac arrhythmias like AFib, PVCs, and Tachycardia.",
+        "url": "https://ecgarrhythmiasimulator.streamlit.app/",
+        "image_path": "images/ecgarrhythmiasimulator.png"
+    }
 ]
-
 # Create a layout with a column for each project
 cols = st.columns(len(projects))
 
