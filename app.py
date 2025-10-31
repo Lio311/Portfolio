@@ -38,9 +38,17 @@ st.set_page_config(
     layout="wide"
 )
 
+
 # --- 2. Custom CSS ---
 st.markdown("""
 <style>
+    <meta property="og:title" content="Lior Zafrir - Engineering Portfolio">
+    <meta property="og:description" content="Explore my Streamlit portfolio featuring projects in signal processing, control systems, differential equation solutions, and biomedical signal analysis.">
+    <meta property="og:image" content="https://example.com/preview.jpg">
+    <meta property="og:url" content="https://my-portfolio.streamlit.app/">
+    <meta name="twitter:card" content="summary_large_image">
+    """,
+    unsafe_allow_html=True
     .project-card {
         display: block;
         border-radius: 10px;
