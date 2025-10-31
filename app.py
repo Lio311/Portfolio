@@ -2,11 +2,11 @@ import streamlit as st
 import base64
 from pathlib import Path
 
+# --- 0. Utility Functions ---
 @st.cache_data
 def img_to_base64(image_path):
     """
     Converts a local image file to a Base64 data URI.
-    This allows embedding the image directly into the HTML 'src' attribute.
     """
     try:
         img_file = Path(image_path)
@@ -16,7 +16,7 @@ def img_to_base64(image_path):
             
         with open(image_path, "rb") as f:
             data = f.read()
-        
+            
         file_extension = Path(image_path).suffix.lower()
         if file_extension in [".jpg", ".jpeg"]:
             mime_type = "image/jpeg"
@@ -38,35 +38,40 @@ st.set_page_config(
     layout="wide"
 )
 
-
-# --- 2. Custom CSS ---
+# --- 2. Custom CSS (Split into two clean markdown blocks to fix SyntaxError) ---
 st.markdown("""
 <style>
-    <meta property="og:title" content="Lior Zafrir - Engineering Portfolio">
-    <meta property="og:description" content="Explore my Streamlit portfolio featuring projects in signal processing, control systems, differential equation solutions, and biomedical signal analysis.">
-    <meta property="og:image" content="https://example.com/preview.jpg">
-    <meta property="og:url" content="https://my-portfolio.streamlit.app/">
-    <meta name="twitter:card" content="summary_large_image">
-    """,
-    unsafe_allow_html=True 
-    .project-card {
-        display: block;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        overflow: hidden;
-    }
-    .project-card:hover {
-        transform: scale(1.03);
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
-    }
-    .project-card img {
-        width: 100%;
-        height: 220px;
-        object-fit: cover;
-    }
+    <meta property="og:title" content="Lior Zafrir - Engineering Portfolio">
+    <meta property="og:description" content="Explore my Streamlit portfolio featuring projects in signal processing, control systems, differential equation solutions, and biomedical signal analysis.">
+    <meta property="og:image" content="https://example.com/preview.jpg">
+    <meta property="og:url" content="https://my-portfolio.streamlit.app/">
+    <meta name="twitter:card" content="summary_large_image">
+</style>
+""",
+unsafe_allow_html=True
+)
+
+st.markdown("""
+<style>
+    .project-card {
+        display: block;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        overflow: hidden;
+    }
+    .project-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
+    }
+    .project-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
 </style>
 """, unsafe_allow_html=True)
+
 
 # --- 3. About Me Section ---
 st.title("Lior Zafrir")
@@ -139,11 +144,8 @@ for i in range(0, len(projects), 2):
             with col:
                 st.subheader(project["title"])
                 
-                # --- START OF CHANGE ---
-                # Replace the direct st.write with an expander
                 with st.expander("View Description", expanded=False):
                     st.write(project["description"])
-                # --- END OF CHANGE ---
                         
                 image_base64_data = img_to_base64(project["image_path"])
                 if image_base64_data:
