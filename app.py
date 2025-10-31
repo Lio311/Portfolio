@@ -80,37 +80,37 @@ st.header("My Projects")
 projects = [
     {
         "title": "Portfolio Manager",
-        "description": "An intelligent platform for investment portfolio management with advanced analytics.",
+        "description": "A comprehensive FinTech dashboard for algorithmic portfolio tracking, built entirely in Streamlit. The application integrates the yfinance API to fetch real-time market data, analyst recommendations, and fundamental financial metrics (P/E, Market Cap, etc.). It features a sophisticated data pipeline using Pandas that loads a personal portfolio from Excel, performs all performance calculations (P/L, %), and handles multi-currency FX conversions (USD/ILS). The UI leverages Plotly for dynamic, interactive charting and Streamlit Session State to create a responsive, multi-view dashboard.",
         "url": "https://liostocks.streamlit.app/",
         "image_path": "images/liostocks.png"
     },
     {
         "title": "SmartTriage - AI Agent Project Gantt",
-        "description": "A Gantt chart for managing a final project about an AI agent in a medical triage.",
+        "description": "A dynamic Project Management dashboard built with Streamlit to visualize complex project timelines. This tool features a robust data pipeline using Pandas to load, clean, and process task data directly from an Excel file. It automatically calculates task progress and generates an interactive, color-coded Gantt chart using Plotly Figure Factory. The app includes a custom-styled UI with CSS Injection for a tailored user experience and features dynamic date-range filtering (1W, 1M, 3M) managed via Streamlit Session State.",
         "url": "https://smartriagegantt.streamlit.app/",
         "image_path": "images/smartriage.png"
     },
     {
         "title": "Fourier Optics Simulator",
-        "description": "An interactive web app simulating a 4f optical system to visualize how spatial filters in the Fourier plane perform image processing like edge detection and blurring.",
+        "description": "An interactive Fourier Optics simulator built in Streamlit to demonstrate 2D Spatial Filtering concepts. This application models a 4f optical system, using NumPy to perform a 2D Fast Fourier Transform (FFT) on user-uploaded images (read via Pillow/OpenCV). This process projects the image into the frequency domain (Fourier plane). The user can then apply various computational masks (Low-Pass, High-Pass, Band-Pass) to directly manipulate the spatial frequencies. The final output is reconstructed via an Inverse FFT, visually demonstrating fundamental Image Processing techniques like real-time edge detection and blurring.",
         "url": "https://fourieropticssimulator.streamlit.app/",
         "image_path": "images/fourieropticssimulator.png"
     },
     {
         "title": "Glucose-Insulin Minimal Model Simulator",
-        "description": "An interactive app that solves a system of Ordinary Differential Equations (ODEs) to simulate the physiological dynamics of glucose and insulin.",
+        "description": "A Systems Biology simulator for modeling complex physiological dynamics. This Streamlit app implements a mathematical model as a system of Ordinary Differential Equations (ODEs). It uses SciPy's (scipy.integrate.solve_ivp) numerical solvers to compute the time-series response of glucose and insulin. The platform allows for interactive modulation of key physiological parameters, with results rendered dynamically via Plotly.",
         "url": "https://physiosimulator.streamlit.app/",
         "image_path": "images/physiosimulator.png"
     },
     {
         "title": "Gait Analysis",
-        "description": "A video-based gait analyzer that uses AI pose estimation to extract and plot biomechanical signals like knee angles..",
+        "description": "A Computer Vision-based biomechanics lab for kinematic gait analysis. This Streamlit application utilizes Google's MediaPipe AI framework for real-time, markerless pose estimation from video. The pipeline processes video with OpenCV, extracts 3D landmark coordinates, and uses NumPy for kinematic calculations (e.g., knee joint angles). The resulting biomechanical time-series signals are then visualized interactively using Plotly.",
         "url": "https://gaitanalysis3.streamlit.app/",
         "image_path": "images/gaitanalysis3.png"
     },
     {
         "title": "ECG Arrhythmia Simulator",
-        "description": "An interactive tool for simulating and visualizing common cardiac arrhythmias like AFib, PVCs, and Tachycardia.",
+        "description": "An interactive cardiac electrophysiology simulator built with Streamlit. This tool leverages the NeuroKit2 library to generate high-fidelity, synthetic ECG waveforms, simulating a wide range of common arrhythmias (including AFib, PVCs, VT, and AV Blocks). The application provides dynamic parameter control and real-time Plotly visualization, serving as a powerful tool for arrhythmia analysis and education.",
         "url": "https://ecgarrhythmiasimulator.streamlit.app/",
         "image_path": "images/ecgarrhythmiasimulator.png"
     }
