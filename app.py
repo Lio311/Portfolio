@@ -57,24 +57,6 @@ st.markdown("""
         height: 220px;
         object-fit: cover;
     }
-    
-    /* Style for the expander to make it look like part of the text */
-    /* This targets the summary (the clickable part) */
-    div[data-testid="stExpander"] > summary {
-        font-size: 0.9rem; /* Smaller font */
-        color: var(--text-color);
-        opacity: 0.7; /* Make it subtle */
-        padding: 0;
-        margin-top: -5px; /* Pull it closer to the text above */
-    }
-    div[data-testid="stExpander"] > summary:hover {
-        opacity: 1; /* Highlight on hover */
-    }
-    /* This targets the content inside the expander */
-    div[data-testid="stExpander"] div[data-testid="stMarkdownContainer"] p {
-        font-size: 1rem; /* Back to normal font size */
-        margin-top: 0;
-    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -135,8 +117,6 @@ projects = [
 ]
 
 # --- Display projects (2 per row) ---
-CHAR_LIMIT_FOR_SUMMARY = 110 # Max characters to show before "..."
-
 for i in range(0, len(projects), 2):
     cols = st.columns(2)
     for j, col in enumerate(cols):
@@ -146,26 +126,9 @@ for i in range(0, len(projects), 2):
                 st.subheader(project["title"])
                 
                 # --- START OF CHANGE ---
-                description = project["description"]
-                
-                if len(description) > CHAR_LIMIT_FOR_SUMMARY:
-                    # Find a clean break point (at a space)
-                    break_point = description.rfind(' ', 0, CHAR_LIMIT_FOR_SUMMARY)
-                    if break_point == -1: # No space found, just cut
-                        break_point = CHAR_LIMIT_FOR_SUMMARY
-                    
-                    summary_text = description[:break_point]
-                    remaining_text = description[break_point:]
-                    
-                    # Display the summary text
-                    st.markdown(f"{summary_text}...")
-                    
-                    # Display the rest of the text inside a subtle expander
-                    with st.expander("...read more", expanded=False):
-                        st.markdown(remaining_text) # Full description inside
-                else:
-                    # If text is short, just display it
-                    st.markdown(description)
+                # Replace the direct st.write with an expander
+                with st.expander("View Description", expanded=False):
+                    st.write(project["description"])
                 # --- END OF CHANGE ---
                         
                 image_base64_data = img_to_base64(project["image_path"])
