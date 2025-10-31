@@ -91,6 +91,12 @@ projects = [
         "image_path": "images/smartriage.png"
     },
     {
+        "title": "Fourier Optics Simulator",
+        "description": "An interactive web app simulating a 4f optical system to visualize how spatial filters in the Fourier plane perform image processing like edge detection and blurring.",
+        "url": "https://fourieropticssimulator.streamlit.app/",
+        "image_path": "images/fourieropticssimulator.png"
+    },
+    {
         "title": "ECG Arrhythmia Simulator",
         "description": "An interactive tool for simulating and visualizing common cardiac arrhythmias like AFib, PVCs, and Tachycardia.",
         "url": "https://ecgarrhythmiasimulator.streamlit.app/",
