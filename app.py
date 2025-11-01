@@ -126,6 +126,12 @@ projects = [
     },
     {
         "title": "Glucose-Insulin Minimal Model Simulator",
+        "description": "A Streamlit application for modeling complex gemological configurations. This app implements a procedural 2D rendering engine to compute and generate real-time vector sketches of a ring model. It utilizes the Python Imaging Library (Pillow) and its ImageDraw module to dynamically render complex geometries based on a set of discrete parameters. The platform allows for interactive modulation of key gemological and metallurgical variables (e.g., 9 stone shapes, metal type, Natural/Lab) and setting architecture (e.g., 'Seven-Stone' clusters, modular side-stone selection). A parallel, rule-based pricing model simulates the financial output (in ILS) by applying a matrix of multipliers based on the selected attributes.",
+        "url": "https://ringsimulator.streamlit.app/",
+        "image_path": "images/ringsimulator.png"
+    },
+    {
+        "title": "Glucose-Insulin Minimal Model Simulator",
         "description": "A Systems Biology simulator for modeling complex physiological dynamics. This Streamlit app implements a mathematical model as a system of Ordinary Differential Equations (ODEs). It uses SciPy's (scipy.integrate.solve_ivp) numerical solvers to compute the time-series response of glucose and insulin. The platform allows for interactive modulation of key physiological parameters, with results rendered dynamically via Plotly.",
         "url": "https://physiosimulator.streamlit.app/",
         "image_path": "images/physiosimulator.png"
