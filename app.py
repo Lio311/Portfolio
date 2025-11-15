@@ -137,6 +137,12 @@ projects = [
         "image_path": "images/physiosimulator.png"
     },
     {
+        "title": "AI Perfume Description Generator",
+        "description": "An AI-powered content generator for automating SEO-optimized e-commerce descriptions. This Streamlit app implements a multi-step, generative AI pipeline. It uses the Google Custom Search API (googleapiclient.discovery) for dynamic URL discovery, BeautifulSoup (bs4) for web scraping, and the Google Gemini API (genai) in JSON mode for structured data extraction and creative content generation. The platform allows for interactive definition of products and SEO keywords, with the final, optimized copy rendered dynamically within the custom (RTL) Streamlit interface.",
+        "url": "https://perfumegenerator.streamlit.app/",
+        "image_path": "images/perfumegenerator.png"
+    },
+    {
         "title": "SmartTriage - AI Agent Project Gantt",
         "description": "A dynamic Project Management dashboard built with Streamlit to visualize complex project timelines. This tool features a robust data pipeline using Pandas to load, clean, and process task data directly from an Excel file. It automatically calculates task progress and generates an interactive, color-coded Gantt chart using Plotly Figure Factory. The app includes a custom-styled UI with CSS Injection for a tailored user experience and features dynamic date-range filtering (1W, 1M, 3M) managed via Streamlit Session State.",
         "url": "https://smartriagegantt.streamlit.app/",
