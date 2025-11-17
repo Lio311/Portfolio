@@ -101,6 +101,12 @@ projects = [
         "image_path": "images/liostocks.png"
     },
     {
+        "title": "Dental Caries Detection",
+        "description": "A comprehensive Deep Learning solution for automated Dental Caries Detection in X-ray imagery, built entirely using YOLOv8-OBB (Oriented Bounding Box). The application features a sophisticated PyTorch-based training pipeline leveraging Transfer Learning to specialize a COCO pre-trained model. The process included critical data sanitation to resolve contamination by merging 12 original classes into a single, unified 'Caries' category. The final deliverable is an interactive web application, built with Streamlit and incorporating OpenCV for real-time annotation, delivering high performance with Precision (86.2%) and Recall (75.7%) for diagnostic assistance.",
+        "url": "https://dental-carries-detector.streamlit.app/",
+        "image_path": "images/dental-carries-detector.png"
+    },
+    {
         "title": "Fourier Optics Simulator",
         "description": "An interactive Fourier Optics simulator built in Streamlit to demonstrate 2D Spatial Filtering concepts. This application models a 4f optical system, using NumPy to perform a 2D Fast Fourier Transform (FFT) on user-uploaded images (read via Pillow/OpenCV). This process projects the image into the frequency domain (Fourier plane). The user can then apply various computational masks (Low-Pass, High-Pass, Band-Pass) to directly manipulate the spatial frequencies. The final output is reconstructed via an Inverse FFT, visually demonstrating fundamental Image Processing techniques like real-time edge detection and blurring.",
         "url": "https://fourieropticssimulator.streamlit.app/",
