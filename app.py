@@ -104,7 +104,7 @@ projects = [
         "title": "Dental Clinic Management System",
         "description": "A comprehensive Full-Stack Dental Clinic Management System developed using React and Vite, architected on a serverless Firebase infrastructure. The solution leverages Firestore for real-time NoSQL data management and Firebase Authentication for secure Role-Based Access Control (RBAC). Core functionality includes a sophisticated, custom-coded scheduling engine for dynamic time-slot allocation and an automated notification system powered by EmailJS. The application features a responsive, glassmorphism-inspired UI built with Tailwind CSS and Shadcn UI, optimized for RTL support, delivering a seamless, high-performance digital experience for patient engagement and clinical administration.",
         "url": "https://lior-hadad.web.app/",
-        "image_path": "images/dentalclinic.png"
+        "image_path": "images/dental-clinic.png"
     },
     {
         "title": "Dental Caries Detection",
