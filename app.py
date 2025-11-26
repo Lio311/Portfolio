@@ -101,6 +101,12 @@ projects = [
         "image_path": "images/liostocks.png"
     },
     {
+        "title": "Dental Clinic Management System",
+        "description": "A comprehensive Full-Stack Dental Clinic Management System developed using React and Vite, architected on a serverless Firebase infrastructure. The solution leverages Firestore for real-time NoSQL data management and Firebase Authentication for secure Role-Based Access Control (RBAC). Core functionality includes a sophisticated, custom-coded scheduling engine for dynamic time-slot allocation and an automated notification system powered by EmailJS. The application features a responsive, glassmorphism-inspired UI built with Tailwind CSS and Shadcn UI, optimized for RTL support, delivering a seamless, high-performance digital experience for patient engagement and clinical administration.",
+        "url": "https://lior-hadad.web.app/",
+        "image_path": "images/dentalclinic.png"
+    },
+    {
         "title": "Dental Caries Detection",
         "description": "A comprehensive Deep Learning solution for automated Dental Caries Detection in X-ray imagery, built entirely using YOLOv8-OBB (Oriented Bounding Box). The application features a sophisticated PyTorch-based training pipeline leveraging Transfer Learning to specialize a COCO pre-trained model. The process included critical data sanitation to resolve contamination by merging 12 original classes into a single, unified 'Caries' category. The final deliverable is an interactive web application, built with Streamlit and incorporating OpenCV for real-time annotation, delivering high performance with Precision (86.2%) and Recall (75.7%) for diagnostic assistance.",
         "url": "https://dentalcarriesdetector.streamlit.app/",
