@@ -95,10 +95,10 @@ st.header("My Projects")
 
 projects = [
     {
-        "title": "Portfolio Manager",
-        "description": "A comprehensive FinTech dashboard for algorithmic portfolio tracking, built entirely in Streamlit. The application integrates the yfinance API to fetch real-time market data, analyst recommendations, and fundamental financial metrics (P/E, Market Cap, etc.). It features a sophisticated data pipeline using Pandas that loads a personal portfolio from Excel, performs all performance calculations (P/L, %), and handles multi-currency FX conversions (USD/ILS). The UI leverages Plotly for dynamic, interactive charting and Streamlit Session State to create a responsive, multi-view dashboard.",
-        "url": "https://liostocks.streamlit.app/",
-        "image_path": "images/liostocks.png"
+        "title": "Marketing Dashboard",
+        "description": "A comprehensive Marketing Operations Dashboard engineered using React and Vite, built upon a scalable Supabase serverless infrastructure. The solution utilizes PostgreSQL for structured, relational data persistence and Supabase Authentication for secure user access control. Core functionality includes a dynamic Influencer Relationship Management (IRM) system with automated performance metrics, a fully interactive content calendar for event orchestration, and a forward-looking banner scheduling engine with bulk-edit capabilities. The application features a premium, glassmorphism-inspired UI crafted with Tailwind CSS v4, fully optimized for RTL support and dark mode, delivering a seamless, high-performance digital workspace for data-driven marketing administration.",
+        "url": "https://libero-perfume.netlify.app/",
+        "image_path": "images/marketing-dashboard.png"
     },
     {
         "title": "Dental Clinic Management System",
@@ -117,6 +117,12 @@ projects = [
         "description": "An interactive Fourier Optics simulator built in Streamlit to demonstrate 2D Spatial Filtering concepts. This application models a 4f optical system, using NumPy to perform a 2D Fast Fourier Transform (FFT) on user-uploaded images (read via Pillow/OpenCV). This process projects the image into the frequency domain (Fourier plane). The user can then apply various computational masks (Low-Pass, High-Pass, Band-Pass) to directly manipulate the spatial frequencies. The final output is reconstructed via an Inverse FFT, visually demonstrating fundamental Image Processing techniques like real-time edge detection and blurring.",
         "url": "https://fourieropticssimulator.streamlit.app/",
         "image_path": "images/fourieropticssimulator.png"
+    },
+    {
+        "title": "Portfolio Manager",
+        "description": "A comprehensive FinTech dashboard for algorithmic portfolio tracking, built entirely in Streamlit. The application integrates the yfinance API to fetch real-time market data, analyst recommendations, and fundamental financial metrics (P/E, Market Cap, etc.). It features a sophisticated data pipeline using Pandas that loads a personal portfolio from Excel, performs all performance calculations (P/L, %), and handles multi-currency FX conversions (USD/ILS). The UI leverages Plotly for dynamic, interactive charting and Streamlit Session State to create a responsive, multi-view dashboard.",
+        "url": "https://liostocks.streamlit.app/",
+        "image_path": "images/liostocks.png"
     },
     {
         "title": "rPPG - Video-Based Vitals Analyzer",
