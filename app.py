@@ -113,6 +113,12 @@ projects = [
         "image_path": "images/dental-carries-detector.png"
     },
     {
+        "title": "Keseflow - Budget Manager",
+        "description": "A comprehensive full-stack web application for intelligent personal and family budget management, built with Next.js 14, TypeScript, Prisma ORM, and PostgreSQL. The system features an intuitive Hebrew-first interface with RTL support, combining real-time financial tracking with smart calendar integration. Leveraging Clerk Authentication, Vercel deployment, Radix UI components, and Tailwind CSS, the application delivers a seamless, production-ready user experience with advanced features including recurring transactions, inline editing, and optimistic UI updates for complete financial control.",
+        "url": "https://www.keseflow.com/",
+        "image_path": "images/budget-manager.png"
+    },
+    {
         "title": "Fourier Optics Simulator",
         "description": "An interactive Fourier Optics simulator built in Streamlit to demonstrate 2D Spatial Filtering concepts. This application models a 4f optical system, using NumPy to perform a 2D Fast Fourier Transform (FFT) on user-uploaded images (read via Pillow/OpenCV). This process projects the image into the frequency domain (Fourier plane). The user can then apply various computational masks (Low-Pass, High-Pass, Band-Pass) to directly manipulate the spatial frequencies. The final output is reconstructed via an Inverse FFT, visually demonstrating fundamental Image Processing techniques like real-time edge detection and blurring.",
         "url": "https://fourieropticssimulator.streamlit.app/",
