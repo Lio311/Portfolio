@@ -78,7 +78,7 @@ export function ProjectsSection() {
   );
 
   return (
-    <section id="projects" ref={containerRef} className="py-20 bg-zinc-950 relative">
+    <section id="projects" ref={containerRef} className="pt-20 pb-6 bg-zinc-950 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="projects-header">
           <SectionHeader
