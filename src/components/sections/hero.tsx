@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown, Sparkles, Code2, Cpu } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -16,27 +15,27 @@ export function HeroSection() {
       if (!heroContentRef.current) return;
 
       const elements = heroContentRef.current.children;
-      
+
       // Entrance Animation
       gsap.fromTo(
         elements,
         {
-          y: 40,
+          y: 35,
           opacity: 0,
         },
         {
           y: 0,
           opacity: 1,
-          duration: 1,
-          stagger: 0.15,
+          duration: 0.9,
+          stagger: 0.12,
           ease: "power3.out",
-          delay: 0.2,
+          delay: 0.1,
         }
       );
 
       // Scroll Parallax on Ambient Blobs
       gsap.to(".ambient-blob-1", {
-        y: 120,
+        y: 100,
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
@@ -46,7 +45,7 @@ export function HeroSection() {
       });
 
       gsap.to(".ambient-blob-2", {
-        y: -100,
+        y: -80,
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
@@ -62,7 +61,7 @@ export function HeroSection() {
     <section
       id="home"
       ref={containerRef}
-      className="relative min-h-[92vh] flex flex-col items-center justify-between pt-28 pb-24 overflow-hidden bg-zinc-950 scroll-mt-20"
+      className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-12 overflow-hidden bg-zinc-950 scroll-mt-20"
     >
       {/* Ambient Animated Mesh Background */}
       <div className="ambient-bg">
@@ -80,10 +79,10 @@ export function HeroSection() {
         }}
       />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex-grow flex flex-col justify-center items-center">
-        <div ref={heroContentRef} className="flex flex-col items-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+        <div ref={heroContentRef} className="flex flex-col items-center w-full">
           {/* Eyebrow Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900/80 border border-zinc-800 backdrop-blur-md mb-8 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900/80 border border-zinc-800 backdrop-blur-md mb-6 shadow-sm">
             <Sparkles className="w-4 h-4 text-indigo-400 animate-pulse" />
             <span className="text-xs sm:text-sm font-medium text-zinc-300">
               Biomedical Engineering & Tech Innovation
@@ -104,12 +103,12 @@ export function HeroSection() {
           </p>
 
           {/* Description */}
-          <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mb-10 leading-relaxed font-light">
+          <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mb-8 leading-relaxed font-light">
             Bridging engineering innovation and clinical needs through cutting-edge medical devices, artificial intelligence, and full-stack software architecture.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-12">
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-10">
             <Link
               href="#projects"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 transition-all duration-300 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5"
@@ -127,7 +126,7 @@ export function HeroSection() {
           </div>
 
           {/* Quick Highlight Badges */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 w-full max-w-2xl mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 w-full max-w-2xl mb-10">
             <div className="glass-card p-4 rounded-xl flex items-center justify-center gap-3">
               <Cpu className="w-5 h-5 text-indigo-400" />
               <span className="text-xs sm:text-sm font-medium text-zinc-300">DSP & AI/ML</span>
@@ -141,13 +140,13 @@ export function HeroSection() {
               <span className="text-xs sm:text-sm font-medium text-zinc-300">Medical Devices</span>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Scroll Down Indicator - Cleanly positioned with top margin */}
-      <div className="relative z-10 pt-6 pb-2 flex flex-col items-center gap-2 text-zinc-500">
-        <span className="text-[11px] font-mono tracking-widest uppercase">SCROLL</span>
-        <ChevronDown className="w-4 h-4 animate-bounce text-indigo-400" />
+          {/* Scroll Down Indicator */}
+          <div className="flex flex-col items-center gap-1.5 text-zinc-500 pt-2">
+            <span className="text-[11px] font-mono tracking-widest uppercase">SCROLL</span>
+            <ChevronDown className="w-4 h-4 animate-bounce text-indigo-400" />
+          </div>
+        </div>
       </div>
     </section>
   );

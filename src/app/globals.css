@@ -27,7 +27,12 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
   color-scheme: dark;
+}
+
+section {
+  scroll-snap-align: start;
 }
 
 body {

@@ -97,7 +97,7 @@ export function AboutSection() {
   );
 
   return (
-    <section id="about" ref={containerRef} className="py-28 bg-zinc-950/60 relative scroll-mt-20">
+    <section id="about" ref={containerRef} className="py-20 bg-zinc-950/60 relative scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="about-header">
           <SectionHeader

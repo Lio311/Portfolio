@@ -11,11 +11,13 @@ export function GSAPProvider({ children }: { children: React.ReactNode }) {
 
     gsap.registerPlugin(ScrollTrigger);
 
-    // Initialize Lenis smooth scrolling
+    // Initialize Lenis with slow, silky smooth scrolling parameters
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.8, // Slow, elegant inertia
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 2,
+      smoothWheel: true,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1.5,
     });
 
     // Synchronize Lenis scroll position with GSAP ScrollTrigger
