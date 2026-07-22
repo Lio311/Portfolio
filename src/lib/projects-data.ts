@@ -75,7 +75,7 @@ export const projectsData: Project[] = [
     description:
       "Interactive 2D Spatial Filtering simulator modeling 4f optical systems using NumPy FFT. Demonstrates real-time edge detection and blurring through frequency domain manipulation.",
     image: "/images/fourieropticssimulator.png",
-    link: "https://fourieropticssimulator.streamlit.app/",
+    link: "https://fourier-optics-simulator.vercel.app/",
     categories: ["biomedical"],
     tags: ["NumPy", "FFT", "OpenCV", "Streamlit"],
   },
@@ -85,7 +85,7 @@ export const projectsData: Project[] = [
     description:
       "FinTech dashboard for algorithmic portfolio tracking with yfinance API integration. Real-time market data, P/L calculations, multi-currency FX conversion, and interactive Plotly charts.",
     image: "/images/liostocks.png",
-    link: "https://liostocks.streamlit.app/",
+    link: "https://mystocks-liorzafrir.vercel.app/",
     categories: ["fullstack", "ai"],
     tags: ["Python", "yfinance", "Pandas", "Plotly", "Streamlit"],
   },
@@ -115,7 +115,7 @@ export const projectsData: Project[] = [
     description:
       "Interactive cardiac electrophysiology simulator using NeuroKit2 for synthetic ECG generation. Simulates AFib, PVCs, VT, and AV Blocks with dynamic parameter control and real-time visualization.",
     image: "/images/ecgarrhythmiasimulator.png",
-    link: "https://ecgarrhythmiasimulator.streamlit.app/",
+    link: "https://ecg-arrhythmia-simulator.vercel.app/",
     categories: ["biomedical"],
     tags: ["NeuroKit2", "Python", "Plotly", "Streamlit"],
   },
@@ -125,7 +125,7 @@ export const projectsData: Project[] = [
     description:
       "Procedural 2D rendering engine for gemological configurations using Pillow ImageDraw. Dynamic geometry rendering with 9 stone shapes, metal types, and rule-based pricing model in ILS.",
     image: "/images/ringsimulator.png",
-    link: "https://ringsimulator.streamlit.app/",
+    link: "https://ring-simulator.vercel.app/",
     categories: ["ai"],
     tags: ["Python", "Pillow", "Streamlit"],
   },
@@ -135,7 +135,7 @@ export const projectsData: Project[] = [
     description:
       "Systems Biology simulator modeling physiological dynamics through ODEs. Uses SciPy's solve_ivp for numerical solutions with interactive parameter modulation and Plotly visualization.",
     image: "/images/physiosimulator.png",
-    link: "https://physiosimulator.streamlit.app/",
+    link: "https://physio-simulator.vercel.app/",
     categories: ["biomedical"],
     tags: ["SciPy", "ODEs", "NumPy", "Plotly"],
   },
@@ -145,7 +145,7 @@ export const projectsData: Project[] = [
     description:
       "AI-powered content generator for SEO-optimized e-commerce descriptions. Multi-step pipeline with Google Custom Search API, BeautifulSoup scraping, and Gemini API for structured generation.",
     image: "/images/perfumegenerator.png",
-    link: "https://perfumegenerator.streamlit.app/",
+    link: "https://perfume-generator.vercel.app/",
     categories: ["ai"],
     tags: ["Google Gemini", "BeautifulSoup", "Custom Search API", "Streamlit"],
   },
