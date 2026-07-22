@@ -11,13 +11,13 @@ export interface Project {
 export const projectsData: Project[] = [
   {
     id: "ml_tlv",
-    title: "ML TLV",
+    title: "ml-tlv",
     description:
-      "Advanced AI-powered web platform built with Next.js and Google Generative AI. Features interactive 3D visualizations with React Three Fiber, GSAP animations, and robust Clerk authentication.",
+      "Advanced AI-powered E-commerce platform built with Next.js. Features a fully functional shopping cart system, secure checkout flows, interactive 3D product configurators using React Three Fiber, complex GSAP animations, and Google Generative AI for smart personalized shopping experiences.",
     image: "/images/ml_tlv.png",
     link: "https://ml-tlv.netlify.app/",
     categories: ["fullstack", "ai"],
-    tags: ["Next.js", "Google Gemini", "Three.js", "Clerk Auth", "Tailwind CSS"],
+    tags: ["Next.js 14", "E-Commerce", "Stripe", "Google Gemini", "React Three Fiber", "Clerk Auth", "GSAP"],
   },
   {
     id: "libero-wholesale",
