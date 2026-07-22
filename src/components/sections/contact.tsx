@@ -2,7 +2,8 @@
 
 import { useRef } from "react";
 import { SectionHeader } from "@/components/ui/section-header";
-import { Mail, ArrowUpRight, Github, Linkedin } from "lucide-react";
+import { Mail, ArrowUpRight } from "lucide-react";
+import { Github, Linkedin } from "@/components/icons";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
