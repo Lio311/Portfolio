@@ -21,9 +21,9 @@ export function Navbar() {
       e.preventDefault();
       const target = document.querySelector(href);
       if (target) {
-        const customWindow = window as unknown as { lenis?: { scrollTo: (target: Element) => void } };
+        const customWindow = window as unknown as { lenis?: { scrollTo: (target: Element, options?: Record<string, unknown>) => void } };
         if (customWindow.lenis) {
-          customWindow.lenis.scrollTo(target);
+          customWindow.lenis.scrollTo(target, { offset: -80 });
         } else {
           target.scrollIntoView({ behavior: "smooth" });
         }
@@ -68,6 +68,7 @@ export function Navbar() {
           {/* Logo */}
           <Link
             href="#home"
+            scroll={false}
             onClick={(e) => handleNavClick(e, "#home")}
             className="flex items-center gap-2.5 text-xl font-bold font-poppins text-white group"
           >
@@ -89,6 +90,7 @@ export function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
+                  scroll={false}
                   onClick={(e) => handleNavClick(e, link.href)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                     isActive
@@ -106,6 +108,7 @@ export function Navbar() {
           <div className="hidden md:block">
             <Link
               href="#contact"
+              scroll={false}
               onClick={(e) => handleNavClick(e, "#contact")}
               className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium text-white bg-zinc-900 border border-zinc-700/80 hover:border-indigo-500/60 hover:bg-zinc-800/80 transition-all duration-300 shadow-sm"
             >
@@ -132,6 +135,7 @@ export function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
+                scroll={false}
                 onClick={(e) => handleNavClick(e, link.href)}
                 className={`px-4 py-3 rounded-lg text-base font-medium transition-colors ${
                   activeSection === link.href.substring(1)

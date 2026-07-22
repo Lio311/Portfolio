@@ -16,11 +16,11 @@ export function HeroSection() {
     const handleWheel = (e: WheelEvent) => {
       if (window.scrollY < 50 && e.deltaY > 0 && !isNavigating) {
         const target = document.getElementById("about");
-        const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement) => void } };
+        const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement, options?: Record<string, unknown>) => void } };
         
         if (target && customWindow.lenis) {
           isNavigating = true;
-          customWindow.lenis.scrollTo(target);
+          customWindow.lenis.scrollTo(target, { offset: -80 });
           setTimeout(() => { isNavigating = false; }, 2000);
         }
       }
@@ -159,6 +159,7 @@ export function HeroSection() {
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-10">
             <Link
               href="#projects"
+              scroll={false}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 transition-all duration-300 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5"
             >
               <span>View My Work</span>
@@ -167,6 +168,7 @@ export function HeroSection() {
 
             <Link
               href="#contact"
+              scroll={false}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-zinc-200 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-800/80 hover:text-white transition-all duration-300 backdrop-blur-sm"
             >
               Get In Touch
@@ -193,9 +195,9 @@ export function HeroSection() {
           <button 
             onClick={() => {
               const target = document.getElementById("about");
-              const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement) => void } };
+              const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement, options?: Record<string, unknown>) => void } };
               if (target && customWindow.lenis) {
-                customWindow.lenis.scrollTo(target);
+                customWindow.lenis.scrollTo(target, { offset: -80 });
               } else if (target) {
                 target.scrollIntoView({ behavior: "smooth" });
               }

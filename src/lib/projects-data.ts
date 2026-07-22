@@ -10,6 +10,26 @@ export interface Project {
 
 export const projectsData: Project[] = [
   {
+    id: "ml_tlv",
+    title: "ML TLV",
+    description:
+      "Advanced AI-powered web platform built with Next.js and Google Generative AI. Features interactive 3D visualizations with React Three Fiber, GSAP animations, and robust Clerk authentication.",
+    image: "/images/ml_tlv.png",
+    link: "https://ml-tlv.netlify.app/",
+    categories: ["fullstack", "ai"],
+    tags: ["Next.js", "Google Gemini", "Three.js", "Clerk Auth", "Tailwind CSS"],
+  },
+  {
+    id: "libero-wholesale",
+    title: "Libero Wholesale",
+    description:
+      "Modern B2B wholesale platform leveraging Next.js 16 and Drizzle ORM. Includes seamless serverless database integration via Neon PostgreSQL, automated emails, and dynamic PDF generation capabilities.",
+    image: "/images/libero-wholesale.png",
+    link: "https://libero-wholesale.netlify.app/",
+    categories: ["fullstack"],
+    tags: ["Next.js 16", "Drizzle ORM", "Neon DB", "React Email", "Tailwind CSS"],
+  },
+  {
     id: "marketing-dashboard",
     title: "Marketing Dashboard",
     description:
@@ -40,8 +60,8 @@ export const projectsData: Project[] = [
     tags: ["YOLOv8", "PyTorch", "OpenCV", "Streamlit"],
   },
   {
-    id: "keseflow",
-    title: "Keseflow - Budget Manager",
+    id: "kesefly",
+    title: "Kesefly - Budget Manager",
     description:
       "Comprehensive budget management app with Next.js 14, TypeScript, Prisma ORM, and PostgreSQL. Features Hebrew-first RTL interface, recurring transactions, calendar integration, and optimistic UI updates.",
     image: "/images/budget-manager.png",
