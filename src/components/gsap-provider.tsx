@@ -4,12 +4,13 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export function GSAPProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
-
-    gsap.registerPlugin(ScrollTrigger);
 
     // Initialize Lenis with slow, silky smooth scrolling parameters
     const lenis = new Lenis({
