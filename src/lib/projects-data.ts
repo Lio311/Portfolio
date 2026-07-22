@@ -13,17 +13,17 @@ export const projectsData: Project[] = [
     id: "ml_tlv",
     title: "ml-tlv",
     description:
-      "Advanced AI-powered E-commerce platform built with Next.js. Features a fully functional shopping cart system, secure checkout flows, interactive 3D product configurators using React Three Fiber, complex GSAP animations, and Google Generative AI for smart personalized shopping experiences.",
+      "Advanced Next.js E-commerce platform featuring a secure shopping cart, interactive 3D product configurators with React Three Fiber, complex GSAP animations, and smart personalized experiences.",
     image: "/images/ml_tlv.png",
     link: "https://ml-tlv.netlify.app/",
     categories: ["fullstack", "ai"],
-    tags: ["Next.js 14", "E-Commerce", "Stripe", "Google Gemini", "React Three Fiber", "Clerk Auth", "GSAP"],
+    tags: ["Next.js 14", "React Three Fiber", "Nodemailer", "GSAP", "API Integration", "Clerk Auth", "Stripe"],
   },
   {
     id: "libero-wholesale",
     title: "Libero Wholesale",
     description:
-      "Modern B2B wholesale platform leveraging Next.js 16 and Drizzle ORM. Includes seamless serverless database integration via Neon PostgreSQL, automated emails, and dynamic PDF generation capabilities.",
+      "Modern B2B wholesale platform built with Next.js 16 and Drizzle ORM. Features Neon Serverless PostgreSQL, automated emails, and dynamic PDF generation.",
     image: "/images/libero-wholesale.png",
     link: "https://libero-wholesale.netlify.app/",
     categories: ["fullstack"],
@@ -33,7 +33,7 @@ export const projectsData: Project[] = [
     id: "kesefly",
     title: "Kesefly",
     description:
-      "Comprehensive budget management app with Next.js 14, TypeScript, Prisma ORM, and PostgreSQL. Features Hebrew-first RTL interface, recurring transactions, calendar integration, and optimistic UI updates.",
+      "Comprehensive budget management app with Next.js, Prisma, and PostgreSQL. Features a Hebrew RTL interface, recurring transactions, and optimistic UI updates.",
     image: "/images/kesefly.png",
     link: "https://www.keseflow.com/",
     categories: ["fullstack"],
