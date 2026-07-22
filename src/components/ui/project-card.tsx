@@ -39,7 +39,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <h3 className="text-lg font-bold text-white font-poppins mb-2.5 group-hover:text-indigo-300 transition-colors">
             {project.title}
           </h3>
-          <p className="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed mb-6 line-clamp-4">
+          <p className="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed mb-6 line-clamp-5">
             {project.description}
           </p>
         </div>
