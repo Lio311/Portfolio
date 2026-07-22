@@ -38,29 +38,35 @@ export function ContactSection() {
 
   useGSAP(
     () => {
-      gsap.from(".contact-header", {
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".contact-header",
-          start: "top 95%",
-        },
-      });
+      gsap.fromTo(".contact-header",
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".contact-header",
+            start: "top 95%",
+          },
+        }
+      );
 
-      gsap.from(".contact-card-item", {
-        y: 40,
-        opacity: 0,
-        scale: 0.95,
-        duration: 0.7,
-        stagger: 0.15,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".contact-header",
-          start: "top 95%",
-        },
-      });
+      gsap.fromTo(".contact-card-item",
+        { y: 40, opacity: 0, scale: 0.95 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.7,
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".contact-header",
+            start: "top 95%",
+          },
+        }
+      );
     },
     { scope: containerRef }
   );

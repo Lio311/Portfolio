@@ -28,42 +28,51 @@ export function ProjectsSection() {
   useGSAP(
     () => {
       // Header Animation
-      gsap.from(".projects-header", {
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".projects-header",
-          start: "top 85%",
-        },
-      });
+      gsap.fromTo(".projects-header",
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".projects-header",
+            start: "top 85%",
+          },
+        }
+      );
 
       // Filter Buttons Animation
-      gsap.from(".filter-buttons-container", {
-        y: 30,
-        opacity: 0,
-        duration: 0.6,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".filter-buttons-container",
-          start: "top 85%",
-        },
-      });
+      gsap.fromTo(".filter-buttons-container",
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".filter-buttons-container",
+            start: "top 85%",
+          },
+        }
+      );
 
       // Grid Cards Stagger Animation on Scroll
-      gsap.from(".project-card-wrapper", {
-        y: 60,
-        opacity: 0,
-        scale: 0.96,
-        duration: 0.7,
-        stagger: 0.1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".projects-grid",
-          start: "top 80%",
-        },
-      });
+      gsap.fromTo(".project-card-wrapper",
+        { y: 60, opacity: 0, scale: 0.96 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.7,
+          stagger: 0.1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".projects-grid",
+            start: "top 80%",
+          },
+        }
+      );
     },
     { scope: containerRef }
   );

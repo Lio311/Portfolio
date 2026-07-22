@@ -55,42 +55,51 @@ export function AboutSection() {
   useGSAP(
     () => {
       // Header Animation
-      gsap.from(".about-header", {
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".about-header",
-          start: "top 85%",
-        },
-      });
+      gsap.fromTo(".about-header",
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".about-header",
+            start: "top 85%",
+          },
+        }
+      );
 
       // Bio Card Animation
-      gsap.from(".bio-card", {
-        x: -50,
-        opacity: 0,
-        duration: 0.9,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".bio-card",
-          start: "top 80%",
-        },
-      });
+      gsap.fromTo(".bio-card",
+        { x: -50, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.9,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".bio-card",
+            start: "top 80%",
+          },
+        }
+      );
 
       // Skills Cards Stagger Animation
-      gsap.from(".skill-bento-card", {
-        y: 50,
-        opacity: 0,
-        scale: 0.95,
-        duration: 0.7,
-        stagger: 0.15,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".skills-grid-container",
-          start: "top 80%",
-        },
-      });
+      gsap.fromTo(".skill-bento-card",
+        { y: 50, opacity: 0, scale: 0.95 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.7,
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".skills-grid-container",
+            start: "top 80%",
+          },
+        }
+      );
     },
     { scope: containerRef }
   );
