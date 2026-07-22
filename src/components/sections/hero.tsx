@@ -109,7 +109,7 @@ export function HeroSection() {
     <section
       id="home"
       ref={containerRef}
-      className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-12 overflow-hidden bg-zinc-950 scroll-mt-20"
+      className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-0 overflow-hidden bg-zinc-950 scroll-mt-20"
     >
       {/* Ambient Animated Mesh Background */}
       <div className="ambient-bg">

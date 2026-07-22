@@ -13,7 +13,7 @@ export function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <div
-      className={`mb-16 flex flex-col ${
+      className={`mb-8 flex flex-col ${
         centered ? "items-center text-center" : "items-start text-left"
       }`}
     >
