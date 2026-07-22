@@ -1,7 +1,11 @@
 "use client";
 
+import { useRef } from "react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Code, Brain, Activity, Layers, GraduationCap, Award } from "lucide-react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const skillCategories = [
   {
@@ -47,18 +51,65 @@ const skillCategories = [
 ];
 
 export function AboutSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      // Header Animation
+      gsap.from(".about-header", {
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".about-header",
+          start: "top 85%",
+        },
+      });
+
+      // Bio Card Animation
+      gsap.from(".bio-card", {
+        x: -50,
+        opacity: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".bio-card",
+          start: "top 80%",
+        },
+      });
+
+      // Skills Cards Stagger Animation
+      gsap.from(".skill-bento-card", {
+        y: 50,
+        opacity: 0,
+        scale: 0.95,
+        duration: 0.7,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".skills-grid-container",
+          start: "top 80%",
+        },
+      });
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <section id="about" className="py-24 bg-zinc-950/60 relative">
+    <section id="about" ref={containerRef} className="py-28 bg-zinc-950/60 relative scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          badge="Background & Expertise"
-          title="About Me"
-          subtitle="Final-year Biomedical Engineering student at Tel Aviv University bridging technical innovation and clinical impact."
-        />
+        <div className="about-header">
+          <SectionHeader
+            badge="Background & Expertise"
+            title="About Me"
+            subtitle="Final-year Biomedical Engineering student at Tel Aviv University bridging technical innovation and clinical impact."
+          />
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Bio Card */}
-          <div className="lg:col-span-5 gradient-border-card p-8 rounded-2xl">
+          <div className="bio-card lg:col-span-5 gradient-border-card p-8 rounded-2xl">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
                 <GraduationCap className="w-6 h-6" />
@@ -93,13 +144,13 @@ export function AboutSection() {
           </div>
 
           {/* Right Skills Bento Grid */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {skillCategories.map((cat, idx) => {
+          <div className="skills-grid-container lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {skillCategories.map((cat) => {
               const IconComp = cat.icon;
               return (
                 <div
                   key={cat.title}
-                  className="gradient-border-card p-6 rounded-2xl group hover:-translate-y-1 transition-all duration-300"
+                  className="skill-bento-card gradient-border-card p-6 rounded-2xl group hover:-translate-y-1 transition-all duration-300"
                 >
                   <div className="flex items-center gap-3.5 mb-4">
                     <div

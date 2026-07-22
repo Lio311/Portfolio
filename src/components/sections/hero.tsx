@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown, Sparkles, Code2, Cpu } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -15,6 +16,8 @@ export function HeroSection() {
       if (!heroContentRef.current) return;
 
       const elements = heroContentRef.current.children;
+      
+      // Entrance Animation
       gsap.fromTo(
         elements,
         {
@@ -30,6 +33,27 @@ export function HeroSection() {
           delay: 0.2,
         }
       );
+
+      // Scroll Parallax on Ambient Blobs
+      gsap.to(".ambient-blob-1", {
+        y: 120,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+
+      gsap.to(".ambient-blob-2", {
+        y: -100,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
     },
     { scope: containerRef }
   );
@@ -38,7 +62,7 @@ export function HeroSection() {
     <section
       id="home"
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden bg-zinc-950"
+      className="relative min-h-[92vh] flex flex-col items-center justify-between pt-28 pb-24 overflow-hidden bg-zinc-950 scroll-mt-20"
     >
       {/* Ambient Animated Mesh Background */}
       <div className="ambient-bg">
@@ -56,7 +80,7 @@ export function HeroSection() {
         }}
       />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex-grow flex flex-col justify-center items-center">
         <div ref={heroContentRef} className="flex flex-col items-center">
           {/* Eyebrow Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900/80 border border-zinc-800 backdrop-blur-md mb-8 shadow-sm">
@@ -85,7 +109,7 @@ export function HeroSection() {
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-12">
             <Link
               href="#projects"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 transition-all duration-300 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5"
@@ -103,7 +127,7 @@ export function HeroSection() {
           </div>
 
           {/* Quick Highlight Badges */}
-          <div className="mt-16 grid grid-cols-2 sm:grid-cols-3 gap-4 w-full max-w-2xl">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 w-full max-w-2xl mb-8">
             <div className="glass-card p-4 rounded-xl flex items-center justify-center gap-3">
               <Cpu className="w-5 h-5 text-indigo-400" />
               <span className="text-xs sm:text-sm font-medium text-zinc-300">DSP & AI/ML</span>
@@ -120,9 +144,9 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Scroll Down Indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-zinc-500">
-        <span className="text-xs font-mono tracking-widest uppercase">Scroll</span>
+      {/* Scroll Down Indicator - Cleanly positioned with top margin */}
+      <div className="relative z-10 pt-6 pb-2 flex flex-col items-center gap-2 text-zinc-500">
+        <span className="text-[11px] font-mono tracking-widest uppercase">SCROLL</span>
         <ChevronDown className="w-4 h-4 animate-bounce text-indigo-400" />
       </div>
     </section>

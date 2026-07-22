@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { ProjectCard } from "@/components/ui/project-card";
 import { projectsData } from "@/lib/projects-data";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 type FilterCategory = "all" | "fullstack" | "ai" | "biomedical";
 
@@ -16,23 +18,69 @@ const filterOptions: { label: string; value: FilterCategory }[] = [
 
 export function ProjectsSection() {
   const [activeFilter, setActiveFilter] = useState<FilterCategory>("all");
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const filteredProjects = projectsData.filter((project) => {
     if (activeFilter === "all") return true;
     return project.categories.includes(activeFilter);
   });
 
+  useGSAP(
+    () => {
+      // Header Animation
+      gsap.from(".projects-header", {
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".projects-header",
+          start: "top 85%",
+        },
+      });
+
+      // Filter Buttons Animation
+      gsap.from(".filter-buttons-container", {
+        y: 30,
+        opacity: 0,
+        duration: 0.6,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".filter-buttons-container",
+          start: "top 85%",
+        },
+      });
+
+      // Grid Cards Stagger Animation on Scroll
+      gsap.from(".project-card-wrapper", {
+        y: 60,
+        opacity: 0,
+        scale: 0.96,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".projects-grid",
+          start: "top 80%",
+        },
+      });
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <section id="projects" className="py-24 bg-zinc-950 relative">
+    <section id="projects" ref={containerRef} className="py-28 bg-zinc-950 relative scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          badge="Portfolio Showcase"
-          title="Featured Projects"
-          subtitle="Explore 13 engineering solutions across Biomedical Engineering, AI/ML, and Full-Stack web platforms."
-        />
+        <div className="projects-header">
+          <SectionHeader
+            badge="Portfolio Showcase"
+            title="Featured Projects"
+            subtitle="Explore 13 engineering solutions across Biomedical Engineering, AI/ML, and Full-Stack web platforms."
+          />
+        </div>
 
         {/* Filter Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
+        <div className="filter-buttons-container flex flex-wrap items-center justify-center gap-2 mb-12">
           {filterOptions.map((opt) => {
             const count =
               opt.value === "all"
@@ -61,9 +109,11 @@ export function ProjectsSection() {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {filteredProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <div key={project.id} className="project-card-wrapper h-full">
+              <ProjectCard project={project} />
+            </div>
           ))}
         </div>
       </div>

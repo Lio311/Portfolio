@@ -1,6 +1,11 @@
+"use client";
+
+import { useRef } from "react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Mail, ArrowUpRight } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 const contactItems = [
   {
@@ -29,16 +34,49 @@ const contactItems = [
 ];
 
 export function ContactSection() {
-  return (
-    <section id="contact" className="py-24 bg-zinc-950/60 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          badge="Let's Connect"
-          title="Get In Touch"
-          subtitle="Open for opportunities, research collaborations, and biomedical/AI technology discussions."
-        />
+  const containerRef = useRef<HTMLDivElement>(null);
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+  useGSAP(
+    () => {
+      gsap.from(".contact-header", {
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".contact-header",
+          start: "top 85%",
+        },
+      });
+
+      gsap.from(".contact-card-item", {
+        y: 40,
+        opacity: 0,
+        scale: 0.95,
+        duration: 0.7,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".contact-cards-container",
+          start: "top 85%",
+        },
+      });
+    },
+    { scope: containerRef }
+  );
+
+  return (
+    <section id="contact" ref={containerRef} className="py-28 bg-zinc-950/60 relative scroll-mt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="contact-header">
+          <SectionHeader
+            badge="Let's Connect"
+            title="Get In Touch"
+            subtitle="Open for opportunities, research collaborations, and biomedical/AI technology discussions."
+          />
+        </div>
+
+        <div className="contact-cards-container grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
           {contactItems.map((item) => {
             const IconComp = item.icon;
             return (
@@ -47,7 +85,7 @@ export function ContactSection() {
                 href={item.href}
                 target={item.external ? "_blank" : undefined}
                 rel={item.external ? "noopener noreferrer" : undefined}
-                className="gradient-border-card p-6 rounded-2xl flex flex-col items-center text-center group hover:-translate-y-1.5 transition-all duration-300 shadow-xl"
+                className="contact-card-item gradient-border-card p-6 rounded-2xl flex flex-col items-center text-center group hover:-translate-y-1.5 transition-all duration-300 shadow-xl"
               >
                 <div
                   className={`w-14 h-14 rounded-2xl bg-gradient-to-tr ${item.color} p-[1px] mb-4`}
