@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Code2 } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -15,6 +15,23 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("#")) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        // @ts-expect-error - lenis is exposed globally
+        if (window.lenis) {
+          // @ts-expect-error - lenis is exposed globally
+          window.lenis.scrollTo(target);
+        } else {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+      setMobileMenuOpen(false);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,6 +69,7 @@ export function Navbar() {
           {/* Logo */}
           <Link
             href="#home"
+            onClick={(e) => handleNavClick(e, "#home")}
             className="flex items-center gap-2.5 text-xl font-bold font-poppins text-white group"
           >
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 p-[1px] transition-transform duration-300 group-hover:scale-105">
@@ -72,6 +90,7 @@ export function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                     isActive
                       ? "bg-indigo-600/90 text-white shadow-sm shadow-indigo-500/30"
@@ -88,6 +107,7 @@ export function Navbar() {
           <div className="hidden md:block">
             <Link
               href="#contact"
+              onClick={(e) => handleNavClick(e, "#contact")}
               className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium text-white bg-zinc-900 border border-zinc-700/80 hover:border-indigo-500/60 hover:bg-zinc-800/80 transition-all duration-300 shadow-sm"
             >
               Get in Touch
@@ -113,7 +133,7 @@ export function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className={`px-4 py-3 rounded-lg text-base font-medium transition-colors ${
                   activeSection === link.href.substring(1)
                     ? "bg-indigo-600/20 text-indigo-400 border border-indigo-500/30"

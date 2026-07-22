@@ -5,7 +5,6 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { Code, Brain, Activity, Layers, GraduationCap, Award } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const skillCategories = [
   {

@@ -12,3 +12,6 @@
 | 8 | Page Assembly & GSAP Provider Integration | completed | Full page render |
 | 9 | Asset Migration & Image Optimization | completed | Image load check |
 | 10 | Vercel Configuration & Build Verification | completed | `npm run build` |
+| 11 | Investigate Smooth Scrolling Bug Root Cause | completed | Code review |
+| 12 | Remove conflicting native CSS scroll properties | [x] | CSS check |
+| 13 | Expose Lenis and implement custom Navbar scroll logic | [x] | Component test |
