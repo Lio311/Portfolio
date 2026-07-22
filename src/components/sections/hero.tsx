@@ -193,7 +193,7 @@ export function HeroSection() {
             </a>
 
             <a
-              href="/Lior Zafrir - CV.pdf"
+              href="/lior-zafrir-cv.pdf"
               download="Lior Zafrir - CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
