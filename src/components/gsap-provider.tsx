@@ -21,8 +21,8 @@ export function GSAPProvider({ children }: { children: React.ReactNode }) {
     });
 
     // Expose lenis globally for external control
-    // @ts-expect-error - exposing to window
-    window.lenis = lenis;
+    const customWindow = window as unknown as { lenis?: Lenis };
+    customWindow.lenis = lenis;
 
     // Synchronize Lenis scroll position with GSAP ScrollTrigger
     lenis.on("scroll", ScrollTrigger.update);
@@ -37,8 +37,8 @@ export function GSAPProvider({ children }: { children: React.ReactNode }) {
     return () => {
       gsap.ticker.remove(updateTicker);
       lenis.destroy();
-      // @ts-expect-error - removing from window
-      delete window.lenis;
+      const customWindow = window as unknown as { lenis?: Lenis };
+      delete customWindow.lenis;
     };
   }, []);
 

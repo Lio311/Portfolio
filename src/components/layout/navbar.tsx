@@ -21,10 +21,9 @@ export function Navbar() {
       e.preventDefault();
       const target = document.querySelector(href);
       if (target) {
-        // @ts-expect-error - lenis is exposed globally
-        if (window.lenis) {
-          // @ts-expect-error - lenis is exposed globally
-          window.lenis.scrollTo(target);
+        const customWindow = window as unknown as { lenis?: { scrollTo: (target: Element) => void } };
+        if (customWindow.lenis) {
+          customWindow.lenis.scrollTo(target);
         } else {
           target.scrollIntoView({ behavior: "smooth" });
         }
