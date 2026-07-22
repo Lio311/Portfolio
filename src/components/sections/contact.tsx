@@ -48,7 +48,7 @@ export function ContactSection() {
         ease: "power3.out",
         scrollTrigger: {
           trigger: ".contact-header",
-          start: "top 85%",
+          start: "top 95%",
         },
       });
 
@@ -61,7 +61,7 @@ export function ContactSection() {
         ease: "power3.out",
         scrollTrigger: {
           trigger: ".contact-cards-container",
-          start: "top 85%",
+          start: "top 95%",
         },
       });
     },
