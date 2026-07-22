@@ -25,6 +25,11 @@ export const metadata: Metadata = {
     "PyTorch",
   ],
   authors: [{ name: "Lior Zafrir" }],
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
   openGraph: {
     title: "Lior Zafrir - Engineering Portfolio",
     description:
