@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronDown, Sparkles, Code2, Cpu } from "lucide-react";
+import { ArrowRight, ChevronDown, Sparkles, Code2, Cpu, Download } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -156,7 +156,7 @@ export function HeroSection() {
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-10">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 w-full mb-10">
             <Link
               href="#projects"
               scroll={false}
@@ -173,6 +173,16 @@ export function HeroSection() {
             >
               Get In Touch
             </Link>
+
+            <a
+              href="/Lior%20Zafrir%20-%20CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-zinc-200 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-800/80 hover:text-white transition-all duration-300 backdrop-blur-sm group"
+            >
+              <Download className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform" />
+              <span>Download CV</span>
+            </a>
           </div>
 
           {/* Quick Highlight Badges */}
