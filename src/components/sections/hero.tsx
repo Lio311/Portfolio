@@ -20,7 +20,7 @@ export function HeroSection() {
         
         if (target && customWindow.lenis) {
           isNavigating = true;
-          customWindow.lenis.scrollTo(target, { offset: -80 });
+          customWindow.lenis.scrollTo(target);
           setTimeout(() => { isNavigating = false; }, 2000);
         }
       }
@@ -197,7 +197,7 @@ export function HeroSection() {
               const target = document.getElementById("about");
               const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement, options?: Record<string, unknown>) => void } };
               if (target && customWindow.lenis) {
-                customWindow.lenis.scrollTo(target, { offset: -80 });
+                customWindow.lenis.scrollTo(target);
               } else if (target) {
                 target.scrollIntoView({ behavior: "smooth" });
               }

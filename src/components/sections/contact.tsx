@@ -57,7 +57,7 @@ export function ContactSection() {
         stagger: 0.15,
         ease: "power3.out",
         scrollTrigger: {
-          trigger: ".contact-cards-container",
+          trigger: ".contact-header",
           start: "top 95%",
         },
       });
@@ -66,7 +66,7 @@ export function ContactSection() {
   );
 
   return (
-    <section id="contact" ref={containerRef} className="py-20 bg-zinc-950/60 relative scroll-mt-20">
+    <section id="contact" ref={containerRef} className="py-20 bg-zinc-950/60 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="contact-header">
           <SectionHeader

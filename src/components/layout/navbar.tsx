@@ -23,7 +23,7 @@ export function Navbar() {
       if (target) {
         const customWindow = window as unknown as { lenis?: { scrollTo: (target: Element, options?: Record<string, unknown>) => void } };
         if (customWindow.lenis) {
-          customWindow.lenis.scrollTo(target, { offset: -80 });
+          customWindow.lenis.scrollTo(target);
         } else {
           target.scrollIntoView({ behavior: "smooth" });
         }
