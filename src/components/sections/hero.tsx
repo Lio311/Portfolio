@@ -109,7 +109,7 @@ export function HeroSection() {
     <section
       id="home"
       ref={containerRef}
-      className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-0 overflow-hidden bg-zinc-950 scroll-mt-20"
+      className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-10 overflow-hidden bg-zinc-950 scroll-mt-20"
     >
       {/* Ambient Animated Mesh Background */}
       <div className="ambient-bg">
@@ -157,25 +157,44 @@ export function HeroSection() {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 w-full mb-10">
-            <Link
+            <a
               href="#projects"
-              scroll={false}
+              onClick={(e) => {
+                e.preventDefault();
+                const target = document.getElementById("projects");
+                const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement) => void } };
+                if (target && customWindow.lenis) {
+                  customWindow.lenis.scrollTo(target);
+                } else if (target) {
+                  target.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 transition-all duration-300 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5"
             >
               <span>View My Work</span>
               <ArrowRight className="w-5 h-5" />
-            </Link>
+            </a>
 
-            <Link
+            <a
               href="#contact"
-              scroll={false}
+              onClick={(e) => {
+                e.preventDefault();
+                const target = document.getElementById("contact");
+                const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement) => void } };
+                if (target && customWindow.lenis) {
+                  customWindow.lenis.scrollTo(target);
+                } else if (target) {
+                  target.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-zinc-200 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-800/80 hover:text-white transition-all duration-300 backdrop-blur-sm"
             >
               Get In Touch
-            </Link>
+            </a>
 
             <a
-              href="/Lior%20Zafrir%20-%20CV.pdf"
+              href="/Lior Zafrir - CV.pdf"
+              download="Lior Zafrir - CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-zinc-200 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-800/80 hover:text-white transition-all duration-300 backdrop-blur-sm group"
