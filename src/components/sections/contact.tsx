@@ -2,8 +2,7 @@
 
 import { useRef } from "react";
 import { SectionHeader } from "@/components/ui/section-header";
-import { Mail, ArrowUpRight } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
+import { Mail, ArrowUpRight, Github, Linkedin } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -13,22 +12,25 @@ const contactItems = [
     value: "lior31197@gmail.com",
     href: "mailto:lior31197@gmail.com",
     icon: Mail,
-    color: "from-blue-500 to-indigo-500",
+    colorFrom: "from-blue-500",
+    colorTo: "to-indigo-500",
   },
   {
     title: "LinkedIn",
     value: "linkedin.com/in/liorzafrir",
     href: "https://linkedin.com/in/liorzafrir",
-    icon: LinkedinIcon,
-    color: "from-indigo-500 to-purple-500",
+    icon: Linkedin,
+    colorFrom: "from-indigo-500",
+    colorTo: "to-purple-500",
     external: true,
   },
   {
     title: "GitHub",
     value: "github.com/Lio311",
     href: "https://github.com/Lio311",
-    icon: GithubIcon,
-    color: "from-purple-500 to-pink-500",
+    icon: Github,
+    colorFrom: "from-purple-500",
+    colorTo: "to-pink-500",
     external: true,
   },
 ];
@@ -88,7 +90,7 @@ export function ContactSection() {
                 className="contact-card-item gradient-border-card p-6 rounded-2xl flex flex-col items-center text-center group hover:-translate-y-1.5 transition-all duration-300 shadow-xl"
               >
                 <div
-                  className={`w-14 h-14 rounded-2xl bg-gradient-to-tr ${item.color} p-[1px] mb-4`}
+                  className={`w-14 h-14 rounded-2xl bg-gradient-to-tr ${item.colorFrom} ${item.colorTo} p-[1px] mb-4`}
                 >
                   <div className="w-full h-full bg-zinc-950 rounded-[15px] flex items-center justify-center">
                     <IconComp className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />

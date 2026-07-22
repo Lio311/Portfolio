@@ -1,5 +1,4 @@
-import { Mail } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
+import { Mail, Github, Linkedin } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -32,7 +31,7 @@ export function Footer() {
               className="w-10 h-10 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-zinc-700 hover:bg-zinc-800 transition-all"
               aria-label="GitHub Profile"
             >
-              <GithubIcon className="w-4 h-4" />
+              <Github className="w-4 h-4" />
             </a>
             <a
               href="https://linkedin.com/in/liorzafrir"
@@ -41,7 +40,7 @@ export function Footer() {
               className="w-10 h-10 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-zinc-700 hover:bg-zinc-800 transition-all"
               aria-label="LinkedIn Profile"
             >
-              <LinkedinIcon className="w-4 h-4" />
+              <Linkedin className="w-4 h-4" />
             </a>
             <a
               href="mailto:lior31197@gmail.com"
