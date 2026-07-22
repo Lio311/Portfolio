@@ -15,7 +15,7 @@ export const projectsData: Project[] = [
     description:
       "Advanced Next.js E-commerce platform featuring a secure shopping cart, interactive 3D product configurators with React Three Fiber, complex GSAP animations, and smart personalized experiences.",
     image: "/images/ml_tlv.png",
-    link: "https://ml-tlv.netlify.app/",
+    link: "https://ml-tlv.com",
     categories: ["fullstack", "ai"],
     tags: ["Next.js 14", "React Three Fiber", "Nodemailer", "GSAP", "API Integration", "Clerk Auth", "Stripe"],
   },
@@ -25,7 +25,7 @@ export const projectsData: Project[] = [
     description:
       "Modern B2B wholesale platform built with Next.js 16 and Drizzle ORM. Features Neon Serverless PostgreSQL, automated emails, and dynamic PDF generation.",
     image: "/images/libero-wholesale.png",
-    link: "https://libero-wholesale.netlify.app/",
+    link: "https://libero-wholesale.vercel.app",
     categories: ["fullstack"],
     tags: ["Next.js 16", "Drizzle ORM", "Neon DB", "React Email", "Tailwind CSS"],
   },
@@ -35,7 +35,7 @@ export const projectsData: Project[] = [
     description:
       "Comprehensive budget management app with Next.js, Prisma, and PostgreSQL. Features a Hebrew RTL interface, recurring transactions, and optimistic UI updates.",
     image: "/images/kesefly.png",
-    link: "https://www.keseflow.com/",
+    link: "https://www.kesefly.co.il/",
     categories: ["fullstack"],
     tags: ["Next.js 14", "TypeScript", "Prisma", "PostgreSQL", "Clerk Auth"],
   },
@@ -45,7 +45,7 @@ export const projectsData: Project[] = [
     description:
       "End-to-end Marketing Operations platform built with React and Vite, running on Supabase backend with PostgreSQL. Features influencer collaboration management, campaign planning, and banner scheduling with modern glassmorphic UI.",
     image: "/images/marketing-dashboard.png",
-    link: "https://libero-perfume.netlify.app/",
+    link: "https://libero-dashboard.vercel.app",
     categories: ["fullstack"],
     tags: ["React", "Vite", "Supabase", "PostgreSQL", "Tailwind CSS"],
   },
