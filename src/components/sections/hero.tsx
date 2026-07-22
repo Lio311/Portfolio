@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, ChevronDown, Sparkles, Code2, Cpu } from "lucide-react";
 import gsap from "gsap";
@@ -9,6 +9,54 @@ import { useGSAP } from "@gsap/react";
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroContentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let isNavigating = false;
+    
+    const handleWheel = (e: WheelEvent) => {
+      if (window.scrollY < 50 && e.deltaY > 0 && !isNavigating) {
+        const target = document.getElementById("about");
+        const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement) => void } };
+        
+        if (target && customWindow.lenis) {
+          isNavigating = true;
+          customWindow.lenis.scrollTo(target);
+          setTimeout(() => { isNavigating = false; }, 2000);
+        }
+      }
+    };
+
+    let touchStartY = 0;
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+    
+    const handleTouchMove = (e: TouchEvent) => {
+      if (window.scrollY < 50 && !isNavigating) {
+        const touchEndY = e.touches[0].clientY;
+        if (touchStartY - touchEndY > 20) {
+          const target = document.getElementById("about");
+          const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement) => void } };
+          
+          if (target && customWindow.lenis) {
+            isNavigating = true;
+            customWindow.lenis.scrollTo(target);
+            setTimeout(() => { isNavigating = false; }, 2000);
+          }
+        }
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, []);
 
   useGSAP(
     () => {
@@ -142,10 +190,21 @@ export function HeroSection() {
           </div>
 
           {/* Scroll Down Indicator */}
-          <div className="flex flex-col items-center gap-1.5 text-zinc-500 pt-2">
+          <button 
+            onClick={() => {
+              const target = document.getElementById("about");
+              const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement) => void } };
+              if (target && customWindow.lenis) {
+                customWindow.lenis.scrollTo(target);
+              } else if (target) {
+                target.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+            className="flex flex-col items-center gap-1.5 text-zinc-500 pt-2 hover:text-zinc-300 transition-colors cursor-pointer"
+          >
             <span className="text-[11px] font-mono tracking-widest uppercase">SCROLL</span>
             <ChevronDown className="w-4 h-4 animate-bounce text-indigo-400" />
-          </div>
+          </button>
         </div>
       </div>
     </section>
