@@ -30,6 +30,16 @@ export const projectsData: Project[] = [
     tags: ["Next.js 16", "Drizzle ORM", "Neon DB", "React Email", "Tailwind CSS"],
   },
   {
+    id: "kesefly",
+    title: "Kesefly",
+    description:
+      "Comprehensive budget management app with Next.js 14, TypeScript, Prisma ORM, and PostgreSQL. Features Hebrew-first RTL interface, recurring transactions, calendar integration, and optimistic UI updates.",
+    image: "/images/kesefly.png",
+    link: "https://www.keseflow.com/",
+    categories: ["fullstack"],
+    tags: ["Next.js 14", "TypeScript", "Prisma", "PostgreSQL", "Clerk Auth"],
+  },
+  {
     id: "marketing-dashboard",
     title: "Marketing Dashboard",
     description:
@@ -58,16 +68,6 @@ export const projectsData: Project[] = [
     link: "https://dental-carries-detector.streamlit.app/",
     categories: ["ai", "biomedical"],
     tags: ["YOLOv8", "PyTorch", "OpenCV", "Streamlit"],
-  },
-  {
-    id: "kesefly",
-    title: "Kesefly - Budget Manager",
-    description:
-      "Comprehensive budget management app with Next.js 14, TypeScript, Prisma ORM, and PostgreSQL. Features Hebrew-first RTL interface, recurring transactions, calendar integration, and optimistic UI updates.",
-    image: "/images/budget-manager.png",
-    link: "https://www.keseflow.com/",
-    categories: ["fullstack"],
-    tags: ["Next.js 14", "TypeScript", "Prisma", "PostgreSQL", "Clerk Auth"],
   },
   {
     id: "fourier-optics",
