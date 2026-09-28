@@ -8,43 +8,43 @@ import { useGSAP } from "@gsap/react";
 
 const skillCategories = [
   {
-    title: "Languages & Frameworks",
+    title: "Languages & Web",
     icon: Code,
     color: "from-indigo-500 to-blue-500",
     skills: [
-      "Python (NumPy, SciPy, Pandas)",
-      "JavaScript (React, Next.js, Node.js)",
-      "TypeScript",
+      "TypeScript, JavaScript, Python",
+      "React, Next.js, Node.js",
+      "Tailwind CSS",
     ],
   },
   {
-    title: "AI & Machine Learning",
+    title: "AI & LLM",
     icon: Brain,
     color: "from-purple-500 to-pink-500",
     skills: [
-      "PyTorch, TensorFlow",
-      "YOLOv8, Computer Vision",
-      "Google Gemini API",
+      "LangChain, LangGraph, Vercel AI SDK",
+      "RAG, Vector DBs (pgvector), GraphRAG",
+      "Multi-Agent Systems (Swarm)",
     ],
   },
   {
-    title: "Biomedical Engineering",
-    icon: Activity,
-    color: "from-cyan-500 to-emerald-500",
-    skills: [
-      "Signal Processing (DSP)",
-      "Medical Device Development",
-      "ECG/PPG Analysis & Biomechanics",
-    ],
-  },
-  {
-    title: "Full-Stack Development",
+    title: "Backend & Cloud",
     icon: Layers,
     color: "from-amber-500 to-orange-500",
     skills: [
-      "PostgreSQL, Firebase, Supabase",
-      "Prisma ORM, Drizzle",
-      "Vercel & Netlify Deployment",
+      "PostgreSQL, Neon, Drizzle ORM",
+      "Upstash Redis, Inngest, NextAuth",
+      "Vercel Deployment",
+    ],
+  },
+  {
+    title: "Deep Learning & Vision",
+    icon: Activity,
+    color: "from-cyan-500 to-emerald-500",
+    skills: [
+      "PyTorch, YOLOv8",
+      "Computer Vision",
+      "Signal Processing",
     ],
   },
 ];
@@ -111,7 +111,7 @@ export function AboutSection() {
           <SectionHeader
             badge="Background & Expertise"
             title="About Me"
-            subtitle="Final-year Biomedical Engineering student at Tel Aviv University bridging technical innovation and clinical impact."
+            subtitle="AI Engineer & Biomedical Engineering graduate dedicated to building high-impact SaaS and agentic AI platforms."
           />
         </div>
 
@@ -120,23 +120,23 @@ export function AboutSection() {
           <div className="bio-card lg:col-span-5 gradient-border-card p-8 rounded-2xl">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-                <GraduationCap className="w-6 h-6" />
+                <Brain className="w-6 h-6" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-white font-poppins">Lior Zafrir</h3>
-                <p className="text-sm text-indigo-400">Tel Aviv University</p>
+                <p className="text-sm text-indigo-400">AI Engineer</p>
               </div>
             </div>
 
             <div className="space-y-4 text-zinc-300 text-sm sm:text-base leading-relaxed font-light">
               <p>
-                Final-year <strong className="text-white font-medium">Biomedical Engineering student</strong> at Tel Aviv University with hands-on experience in medical device development, signal processing, and product design.
+                <strong className="text-white font-medium">AI Engineer and Biomedical Engineering graduate</strong> dedicated to building high-impact SaaS and agentic AI platforms.
               </p>
               <p>
-                Demonstrated analytical and leadership skills through leading a multidisciplinary medical device project at <strong className="text-white font-medium">Beilinson Hospital</strong>.
+                Demonstrated success in translating complex research into scalable software, architecting systems like a <strong className="text-white font-medium">Multi-Agent AI Decision System</strong> and Research Agents for publication workflows.
               </p>
               <p>
-                Proficient in <strong className="text-indigo-300 font-medium">Python, JavaScript, React, Next.js</strong>, and modern AI/ML frameworks for healthcare and commercial applications.
+                A highly adaptable rapid-learner who continuously masters cutting-edge technologies like <strong className="text-indigo-300 font-medium">Next.js, LangGraph, and RAG</strong> to build end-to-end solutions driving business and clinical value.
               </p>
             </div>
 
@@ -146,7 +146,7 @@ export function AboutSection() {
                 <span>Tel Aviv University</span>
               </div>
               <span className="text-xs font-mono text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-md border border-indigo-500/20">
-                B.Sc. candidate
+                B.Sc. Graduate
               </span>
             </div>
           </div>

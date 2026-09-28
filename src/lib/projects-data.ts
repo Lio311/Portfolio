@@ -10,6 +10,16 @@ export interface Project {
 
 export const projectsData: Project[] = [
   {
+    id: "publish-ai",
+    title: "Publish-AI (Research Agent)",
+    description:
+      "AI platform automating academic paper editing and publication workflows. Built with Next.js 16, Neon Serverless Postgres, and an Inngest-powered multi-agent system utilizing RAG and GraphRAG.",
+    image: "/images/marketing-dashboard.png",
+    link: "https://publish-ai.com",
+    categories: ["fullstack", "ai"],
+    tags: ["Next.js 16", "Vercel AI SDK", "Inngest", "pgvector", "RAG"],
+  },
+  {
     id: "ml_tlv",
     title: "ml-tlv",
     description:
@@ -63,7 +73,7 @@ export const projectsData: Project[] = [
     id: "dental-caries",
     title: "Dental Caries Detection",
     description:
-      "Deep Learning solution for automated caries detection using YOLOv8-OBB with Transfer Learning. Achieved 86.2% precision and 75.7% recall with interactive Streamlit interface and real-time OpenCV annotation.",
+      "Deep Learning solution for automated caries detection using YOLOv8-OBB with Transfer Learning. Achieved 97% precision and 88.3% mAP50. Interactive Streamlit interface.",
     image: "/images/dental-carries-detector.png",
     link: "https://dental-carries-detector.streamlit.app/",
     categories: ["ai", "biomedical"],
@@ -150,13 +160,23 @@ export const projectsData: Project[] = [
     tags: ["Google Gemini", "BeautifulSoup", "Custom Search API", "Streamlit"],
   },
   {
-    id: "smarttriage",
-    title: "SmartTriage - AI Agent Project Gantt",
+    id: "watchit",
+    title: "WatchIT Medical Device",
     description:
-      "Dynamic project management dashboard with Pandas data pipeline and interactive Gantt charts. Features automatic progress calculation, color-coded timelines, and custom CSS-styled UI with date filtering.",
+      "Led end-to-end R&D of an Arduino based device for real-time thermal sensing. Executed mechanical design in SolidWorks and iterative prototyping cycles based on direct clinical feedback.",
+    image: "/images/ecgarrhythmiasimulator.png",
+    link: "#",
+    categories: ["biomedical"],
+    tags: ["Embedded C", "Arduino", "SolidWorks", "Prototyping"],
+  },
+  {
+    id: "smarttriage",
+    title: "SmartTriage - Multi-Agent ER System",
+    description:
+      "Architected a 'Council of Experts' Multi-Agent LLM system for automated ER triage. Designed 5 AI agents mimicking a multidisciplinary team, achieving 88.0% accuracy and 96.8% recall across 468 cases.",
     image: "/images/smartriage.png",
     link: "https://smartriagegantt.streamlit.app/",
-    categories: ["ai"],
-    tags: ["Pandas", "Plotly", "Excel Integration", "Streamlit"],
+    categories: ["ai", "biomedical"],
+    tags: ["LLMs", "LangGraph", "Python", "Prompt Engineering"],
   },
 ];
