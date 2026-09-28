@@ -51,10 +51,11 @@ function InnerCore() {
   texture.wrapS = THREE.ClampToEdgeWrapping;
   texture.wrapT = THREE.ClampToEdgeWrapping;
   
-  // Move the image right (negative X offset) and down (negative Y offset)
-  texture.offset.set(-0.6, -0.2);
-  // Zoom out significantly to make the face smaller
-  texture.repeat.set(2.5, 2.5);
+  // Move the image right and down
+  texture.offset.set(-0.8, -0.2);
+  
+  // Counteract the sphere's equatorial stretching (2:1 ratio) by repeating more on X than Y
+  texture.repeat.set(4.0, 2.2);
   texture.center.set(0.5, 0.5); // Set scale center to middle of the texture
 
   return (
