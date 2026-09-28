@@ -233,25 +233,33 @@ export function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Scroll Down Indicator */}
-          <motion.button 
-            variants={itemVariants}
-            onClick={() => {
-              const target = document.getElementById("about");
-              const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement, options?: Record<string, unknown>) => void } };
-              if (target && customWindow.lenis) {
-                customWindow.lenis.scrollTo(target);
-              } else if (target) {
-                target.scrollIntoView({ behavior: "smooth" });
-              }
-            }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer group z-20"
-          >
-            <span className="text-[11px] font-mono tracking-widest uppercase font-bold">SCROLL</span>
-            <ChevronDown className="w-5 h-5 animate-bounce text-indigo-400 group-hover:text-indigo-300" />
-          </motion.button>
+
         </motion.div>
       </div>
+
+      {/* Scroll Down Indicator */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.8 }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-auto"
+      >
+        <button 
+          onClick={() => {
+            const target = document.getElementById("about");
+            const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement, options?: Record<string, unknown>) => void } };
+            if (target && customWindow.lenis) {
+              customWindow.lenis.scrollTo(target);
+            } else if (target) {
+              target.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+          className="flex flex-col items-center gap-2 text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer group"
+        >
+          <span className="text-[11px] font-mono tracking-widest uppercase font-bold">SCROLL</span>
+          <ChevronDown className="w-5 h-5 animate-bounce text-indigo-400 group-hover:text-indigo-300" />
+        </button>
+      </motion.div>
     </section>
   );
 }
