@@ -2,11 +2,16 @@
 
 import { useRef, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Icosahedron, Sphere, Stars, Environment, ContactShadows, Trail, useTexture, Html } from "@react-three/drei";
+import { Float, MeshDistortMaterial, Icosahedron, Sphere, Stars, Environment, ContactShadows, Trail, Html } from "@react-three/drei";
 import * as THREE from "three";
 
+// Importing icons from react-icons
+import { SiAnthropic, SiGooglegemini, SiVercel, SiGithub, SiNeon, SiGooglecloud, SiReact, SiNextdotjs } from "react-icons/si";
+import { TbBrandOpenai } from "react-icons/tb";
+import { FaAws } from "react-icons/fa";
+
 // Agent component representing a technology node
-function Agent({ radius, speed, offset, iconSlug, color, size }: { radius: number, speed: number, offset: number, iconSlug: string, color: string, size: number }) {
+function Agent({ radius, speed, offset, IconComponent, color, size }: { radius: number, speed: number, offset: number, IconComponent: any, color: string, size: number }) {
   const ref = useRef<THREE.Group>(null);
   
   useFrame((state) => {
@@ -28,66 +33,30 @@ function Agent({ radius, speed, offset, iconSlug, color, size }: { radius: numbe
         </Sphere>
       </Trail>
       
-      {/* The HTML Icon overlay */}
-      <Html transform center style={{ pointerEvents: 'none' }} distanceFactor={10}>
+      {/* The HTML Icon overlay - Size significantly reduced */}
+      <Html transform center style={{ pointerEvents: 'none' }} distanceFactor={8}>
         <div 
-          className="bg-white rounded-full flex items-center justify-center shadow-lg border border-purple-200/50" 
-          style={{ width: '40px', height: '40px', boxShadow: `0 0 15px ${color}80` }}
+          className="bg-white rounded-full flex items-center justify-center shadow-md border border-purple-200/50" 
+          style={{ width: '18px', height: '18px', boxShadow: `0 0 8px ${color}80` }}
         >
-          {/* We fetch the icon directly from simpleicons CDN, defaulting to its brand color if we just pass the slug */}
-          <img 
-            src={`https://cdn.simpleicons.org/${iconSlug}`} 
-            alt={iconSlug} 
-            style={{ width: '22px', height: '22px', objectFit: 'contain' }} 
-          />
+          <IconComponent style={{ width: '10px', height: '10px', color: color }} />
         </div>
       </Html>
     </group>
   );
 }
 
-function InnerCore() {
-  const texture = useTexture("/images/profile-hero.png");
-  texture.wrapS = THREE.ClampToEdgeWrapping;
-  texture.wrapT = THREE.ClampToEdgeWrapping;
-  
-  // Move the image right and down
-  texture.offset.set(-0.8, -0.2);
-  
-  // Counteract the sphere's equatorial stretching (2:1 ratio) by repeating more on X than Y
-  texture.repeat.set(4.0, 2.2);
-  texture.center.set(0.5, 0.5); // Set scale center to middle of the texture
-
-  return (
-    <Icosahedron args={[1.8, 64]}> 
-      <MeshDistortMaterial
-        map={texture}
-        color="#a855f7" // Purple base color to blend with the image
-        emissive="#4c1d95" // Deep purple glow
-        emissiveIntensity={0.6}
-        envMapIntensity={0.8} 
-        clearcoat={1}
-        clearcoatRoughness={0.1}
-        metalness={0.6} // Increased metalness for that sleek 3D look
-        roughness={0.2}
-        distort={0.4} 
-        speed={3} 
-      />
-    </Icosahedron>
-  );
-}
-
 const technologies = [
-  { slug: "anthropic", radius: 2.3, speed: 0.6, color: "#d97757" },
-  { slug: "openai", radius: 2.0, speed: -0.5, color: "#10a37f" },
-  { slug: "googlegemini", radius: 2.4, speed: 0.7, color: "#8e75b2" },
-  { slug: "vercel", radius: 1.9, speed: -0.8, color: "#000000" },
-  { slug: "github", radius: 2.2, speed: 0.4, color: "#181717" },
-  { slug: "neon", radius: 2.3, speed: -0.6, color: "#00e599" },
-  { slug: "googlecloud", radius: 2.0, speed: 0.5, color: "#4285f4" },
-  { slug: "amazonwebservices", radius: 2.4, speed: -0.4, color: "#232f3e" },
-  { slug: "react", radius: 2.1, speed: 0.8, color: "#61dafb" },
-  { slug: "nextdotjs", radius: 2.2, speed: -0.7, color: "#000000" },
+  { id: "anthropic", radius: 2.3, speed: 0.6, color: "#d97757", icon: SiAnthropic },
+  { id: "openai", radius: 2.0, speed: -0.5, color: "#10a37f", icon: TbBrandOpenai },
+  { id: "googlegemini", radius: 2.4, speed: 0.7, color: "#8e75b2", icon: SiGooglegemini },
+  { id: "vercel", radius: 1.9, speed: -0.8, color: "#000000", icon: SiVercel },
+  { id: "github", radius: 2.2, speed: 0.4, color: "#181717", icon: SiGithub },
+  { id: "neon", radius: 2.3, speed: -0.6, color: "#00e599", icon: SiNeon },
+  { id: "googlecloud", radius: 2.0, speed: 0.5, color: "#4285f4", icon: SiGooglecloud },
+  { id: "aws", radius: 2.4, speed: -0.4, color: "#232f3e", icon: FaAws },
+  { id: "react", radius: 2.1, speed: 0.8, color: "#61dafb", icon: SiReact },
+  { id: "nextjs", radius: 2.2, speed: -0.7, color: "#000000", icon: SiNextdotjs },
 ];
 
 function Scene() {
@@ -107,20 +76,28 @@ function Scene() {
     <group ref={groupRef}>
       <Float speed={2} rotationIntensity={1.5} floatIntensity={2}> 
         
-        {/* Inner core with Profile Picture */}
-        <Suspense fallback={
+        {/* Original Inner Core (Purple with Environment City Reflection) */}
+        <Suspense fallback={null}>
           <Icosahedron args={[1.8, 64]}>
-            <MeshDistortMaterial color="#a855f7" distort={0.4} speed={3} />
+            <MeshDistortMaterial
+              color="#4f46e5"
+              emissive="#1e1b4b"
+              envMapIntensity={2}
+              clearcoat={1}
+              clearcoatRoughness={0.1}
+              metalness={0.9}
+              roughness={0.1}
+              distort={0.4}
+              speed={3}
+            />
           </Icosahedron>
-        }>
-          <InnerCore />
         </Suspense>
         
         {/* Technology Agents trapped INSIDE the network wireframe */}
         {technologies.map((tech, i) => (
           <Agent 
-            key={tech.slug}
-            iconSlug={tech.slug}
+            key={tech.id}
+            IconComponent={tech.icon}
             radius={tech.radius}
             speed={tech.speed}
             offset={(Math.PI * 2 * i) / technologies.length}
@@ -135,7 +112,8 @@ function Scene() {
         </Icosahedron>
       </Float>
 
-      <Environment preset="studio" /> 
+      {/* Restoring city environment for the building reflections */}
+      <Environment preset="city" /> 
       <Stars radius={100} depth={50} count={3000} factor={4} saturation={0} fade speed={1.5} /> 
       
       <ambientLight intensity={0.2} />
