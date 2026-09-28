@@ -32,13 +32,13 @@ function Agent({ radius, speed, offset, color, size }: { radius: number, speed: 
 
 function InnerCore() {
   const texture = useTexture("/images/profile-hero.png");
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
+  texture.wrapS = THREE.ClampToEdgeWrapping;
+  texture.wrapT = THREE.ClampToEdgeWrapping;
   
-  // Shift the image slightly down so the head isn't cut off at the pinched pole of the sphere
-  texture.offset.set(0, -0.2);
-  // Zoom out slightly so more of the face fits within the main viewable area
-  texture.repeat.set(1.2, 1.2);
+  // Move the image right (negative X offset) and down (negative Y offset)
+  texture.offset.set(-0.6, -0.2);
+  // Zoom out significantly to make the face smaller
+  texture.repeat.set(2.5, 2.5);
   texture.center.set(0.5, 0.5); // Set scale center to middle of the texture
 
   return (
