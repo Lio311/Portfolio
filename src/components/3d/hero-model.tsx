@@ -19,7 +19,9 @@ function Agent({ radius, speed, offset, inclination, IconComponent, color, size 
   const ref = useRef<THREE.Group>(null);
   
   useFrame((state) => {
-    const t = state.clock.elapsedTime * speed + offset;
+    // Global speed reduction factor (0.3 = 30% of original speed)
+    const GLOBAL_SPEED_MULTIPLIER = 0.3;
+    const t = state.clock.elapsedTime * speed * GLOBAL_SPEED_MULTIPLIER + offset;
     if (ref.current) {
       // 3D Spherical Orbit
       const x = Math.cos(t) * radius;
