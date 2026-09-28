@@ -2,11 +2,11 @@
 
 import { useRef, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Icosahedron, Sphere, Stars, Environment, ContactShadows, Trail, useTexture } from "@react-three/drei";
+import { Float, MeshDistortMaterial, Icosahedron, Sphere, Stars, Environment, ContactShadows, Trail, useTexture, Html } from "@react-three/drei";
 import * as THREE from "three";
 
-// Agent component representing a single AI agent moving inside the network
-function Agent({ radius, speed, offset, color, size }: { radius: number, speed: number, offset: number, color: string, size: number }) {
+// Agent component representing a technology node
+function Agent({ radius, speed, offset, iconSlug, color, size }: { radius: number, speed: number, offset: number, iconSlug: string, color: string, size: number }) {
   const ref = useRef<THREE.Group>(null);
   
   useFrame((state) => {
@@ -15,17 +15,33 @@ function Agent({ radius, speed, offset, color, size }: { radius: number, speed: 
       // Orbit inside the bounds of the 2.5 wireframe, outside the 1.8 blob
       ref.current.position.x = Math.cos(t) * radius;
       ref.current.position.z = Math.sin(t) * radius;
-      ref.current.position.y = Math.sin(t * 1.2) * (radius * 0.4); 
+      ref.current.position.y = Math.sin(t * 1.5) * (radius * 0.3); 
     }
   });
 
   return (
     <group ref={ref}>
-      <Trail width={size * 3} length={20} color={new THREE.Color(color)} attenuation={(t) => t * t}>
-        <Sphere args={[size, 16, 16]}>
-          <meshStandardMaterial color={color} emissive={color} emissiveIntensity={2} toneMapped={false} />
+      {/* Keeping a very faint trail just for the motion effect */}
+      <Trail width={size * 2} length={10} color={new THREE.Color(color)} attenuation={(t) => t * t}>
+        <Sphere args={[0.01, 8, 8]}>
+          <meshBasicMaterial color={color} transparent opacity={0} />
         </Sphere>
       </Trail>
+      
+      {/* The HTML Icon overlay */}
+      <Html transform center style={{ pointerEvents: 'none' }} distanceFactor={10}>
+        <div 
+          className="bg-white rounded-full flex items-center justify-center shadow-lg border border-purple-200/50" 
+          style={{ width: '40px', height: '40px', boxShadow: `0 0 15px ${color}80` }}
+        >
+          {/* We fetch the icon directly from simpleicons CDN, defaulting to its brand color if we just pass the slug */}
+          <img 
+            src={`https://cdn.simpleicons.org/${iconSlug}`} 
+            alt={iconSlug} 
+            style={{ width: '22px', height: '22px', objectFit: 'contain' }} 
+          />
+        </div>
+      </Html>
     </group>
   );
 }
@@ -60,6 +76,19 @@ function InnerCore() {
   );
 }
 
+const technologies = [
+  { slug: "anthropic", radius: 2.3, speed: 0.6, color: "#d97757" },
+  { slug: "openai", radius: 2.0, speed: -0.5, color: "#10a37f" },
+  { slug: "googlegemini", radius: 2.4, speed: 0.7, color: "#8e75b2" },
+  { slug: "vercel", radius: 1.9, speed: -0.8, color: "#000000" },
+  { slug: "github", radius: 2.2, speed: 0.4, color: "#181717" },
+  { slug: "neon", radius: 2.3, speed: -0.6, color: "#00e599" },
+  { slug: "googlecloud", radius: 2.0, speed: 0.5, color: "#4285f4" },
+  { slug: "amazonwebservices", radius: 2.4, speed: -0.4, color: "#232f3e" },
+  { slug: "react", radius: 2.1, speed: 0.8, color: "#61dafb" },
+  { slug: "nextdotjs", radius: 2.2, speed: -0.7, color: "#000000" },
+];
+
 function Scene() {
   const groupRef = useRef<THREE.Group>(null);
   
@@ -86,12 +115,18 @@ function Scene() {
           <InnerCore />
         </Suspense>
         
-        {/* Agents trapped INSIDE the network wireframe (Radius between 1.9 and 2.4) */}
-        <Agent radius={2.0} speed={0.8} offset={0} color="#a855f7" size={0.06} />
-        <Agent radius={2.2} speed={-0.5} offset={Math.PI} color="#ec4899" size={0.05} />
-        <Agent radius={2.4} speed={0.6} offset={Math.PI / 2} color="#06b6d4" size={0.07} />
-        <Agent radius={2.1} speed={-0.7} offset={Math.PI * 1.5} color="#10b981" size={0.04} />
-        <Agent radius={2.3} speed={0.4} offset={Math.PI / 4} color="#f59e0b" size={0.05} />
+        {/* Technology Agents trapped INSIDE the network wireframe */}
+        {technologies.map((tech, i) => (
+          <Agent 
+            key={tech.slug}
+            iconSlug={tech.slug}
+            radius={tech.radius}
+            speed={tech.speed}
+            offset={(Math.PI * 2 * i) / technologies.length}
+            color={tech.color}
+            size={0.05}
+          />
+        ))}
 
         {/* Outer wireframe bounds (The Network) */}
         <Icosahedron args={[2.5, 1]}> 
