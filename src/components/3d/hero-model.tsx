@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Icosahedron, Sphere, Stars, Environment, ContactShadows, Trail } from "@react-three/drei";
+import { Float, MeshDistortMaterial, Icosahedron, Sphere, Stars, Environment, ContactShadows, Trail, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 
 // Agent component representing a single AI agent in the network
@@ -30,6 +30,32 @@ function Agent({ radius, speed, offset, color, size }: { radius: number, speed: 
   );
 }
 
+function InnerCore() {
+  const texture = useTexture("/images/profile-hero.png");
+  // Adjust texture mapping if needed
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  // texture.repeat.set(2, 1); // Optional: repeat to wrap better
+  
+  return (
+    <Icosahedron args={[1.2, 64]}>
+      <MeshDistortMaterial
+        map={texture}
+        color="#ffffff"
+        emissive="#1e1b4b"
+        emissiveIntensity={0.2}
+        envMapIntensity={0.5} // Lowered to prevent environment from washing out the image
+        clearcoat={1}
+        clearcoatRoughness={0.1}
+        metalness={0.1} // Lowered so the texture is more visible and not just metallic
+        roughness={0.3}
+        distort={0.2} // Reduced distort so the face isn't completely mangled
+        speed={2}
+      />
+    </Icosahedron>
+  );
+}
+
 function Scene() {
   const groupRef = useRef<THREE.Group>(null);
   
@@ -48,23 +74,18 @@ function Scene() {
     <group ref={groupRef}>
       {/* Central Orchestrator / Core System */}
       <Float speed={2} rotationIntensity={1} floatIntensity={1}>
-        {/* Inner core */}
-        <Icosahedron args={[1.0, 64]}>
-          <MeshDistortMaterial
-            color="#4f46e5"
-            emissive="#1e1b4b"
-            envMapIntensity={2}
-            clearcoat={1}
-            clearcoatRoughness={0.1}
-            metalness={0.9}
-            roughness={0.1}
-            distort={0.3}
-            speed={2}
-          />
-        </Icosahedron>
+        {/* Inner core with Profile Picture */}
+        <Suspense fallback={
+          <Icosahedron args={[1.2, 64]}>
+            <MeshDistortMaterial color="#4f46e5" distort={0.2} speed={2} />
+          </Icosahedron>
+        }>
+          <InnerCore />
+        </Suspense>
+        
         {/* Outer wireframe bounds */}
-        <Icosahedron args={[1.5, 1]}>
-          <meshStandardMaterial color="#818cf8" wireframe transparent opacity={0.2} roughness={0.1} metalness={0.8} />
+        <Icosahedron args={[1.6, 1]}>
+          <meshStandardMaterial color="#818cf8" wireframe transparent opacity={0.3} roughness={0.1} metalness={0.8} />
         </Icosahedron>
       </Float>
 
@@ -75,10 +96,11 @@ function Scene() {
       <Agent radius={3.0} speed={-0.6} offset={Math.PI * 1.5} color="#10b981" size={0.10} />
       <Agent radius={4.0} speed={0.3} offset={Math.PI / 4} color="#f59e0b" size={0.09} />
 
-      <Environment preset="city" />
+      {/* Changed Environment to "studio" to avoid the city buildings reflection */}
+      <Environment preset="studio" />
       <Stars radius={100} depth={50} count={2500} factor={4} saturation={0} fade speed={1.5} />
       
-      <ambientLight intensity={0.2} />
+      <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 5]} intensity={2} />
       <pointLight position={[-10, -10, -10]} color="#ec4899" intensity={2} />
       <pointLight position={[10, -10, 10]} color="#3b82f6" intensity={2} />
