@@ -40,14 +40,14 @@ export const projectsData: Project[] = [
     tags: ["Next.js 14", "TypeScript", "Prisma", "PostgreSQL", "Clerk Auth"],
   },
   {
-    id: "marketing-dashboard",
-    title: "Marketing Dashboard",
+    id: "libero-management",
+    title: "Management Platform",
     description:
-      "End-to-end Marketing Operations platform built with React and Vite, running on Supabase backend with PostgreSQL. Features influencer collaboration management, campaign planning, and banner scheduling with modern glassmorphic UI.",
+      "Comprehensive ERP and Business Management platform built with Next.js 16 and Drizzle ORM. Features modules for inventory tracking, order fulfillment, QC, finance, shift scheduling, and marketing operations running on Neon Serverless PostgreSQL.",
     image: "/images/marketing-dashboard.png",
-    link: "https://libero-dashboard.vercel.app",
+    link: "https://libero-management.vercel.app/",
     categories: ["fullstack"],
-    tags: ["React", "Vite", "Supabase", "PostgreSQL", "Tailwind CSS"],
+    tags: ["Next.js 16", "Drizzle ORM", "Neon DB", "Tailwind CSS", "Clerk Auth"],
   },
   {
     id: "dental-clinic",
