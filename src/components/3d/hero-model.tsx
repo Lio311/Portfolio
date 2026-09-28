@@ -2,25 +2,39 @@
 
 import { useRef, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Icosahedron, Sphere, Stars, Environment, ContactShadows, Trail, Html } from "@react-three/drei";
+import { Float, Icosahedron, Sphere, Stars, Environment, ContactShadows, Trail, Html } from "@react-three/drei";
 import * as THREE from "three";
 
 // Importing icons from react-icons
-import { SiAnthropic, SiGooglegemini, SiVercel, SiGithub, SiNeon, SiGooglecloud, SiReact, SiNextdotjs } from "react-icons/si";
+import { 
+  SiAnthropic, SiGooglegemini, SiVercel, SiGithub, SiNeon, SiGooglecloud, 
+  SiReact, SiNextdotjs, SiPython, SiTypescript, SiPytorch, SiTensorflow, 
+  SiTailwindcss, SiNodedotjs, SiPostgresql, SiPrisma 
+} from "react-icons/si";
 import { TbBrandOpenai } from "react-icons/tb";
 import { FaAws } from "react-icons/fa";
 
 // Agent component representing a technology node
-function Agent({ radius, speed, offset, IconComponent, color, size }: { radius: number, speed: number, offset: number, IconComponent: any, color: string, size: number }) {
+function Agent({ radius, speed, offset, inclination, IconComponent, color, size }: { radius: number, speed: number, offset: number, inclination: number, IconComponent: any, color: string, size: number }) {
   const ref = useRef<THREE.Group>(null);
   
   useFrame((state) => {
     const t = state.clock.elapsedTime * speed + offset;
     if (ref.current) {
-      // Orbit inside the bounds of the 2.5 wireframe, outside the 1.8 blob
-      ref.current.position.x = Math.cos(t) * radius;
-      ref.current.position.z = Math.sin(t) * radius;
-      ref.current.position.y = Math.sin(t * 1.5) * (radius * 0.3); 
+      // 3D Spherical Orbit
+      const x = Math.cos(t) * radius;
+      const z = Math.sin(t) * radius;
+      
+      // Apply 3D rotation (inclination) around X axis, and offset rotation around Y axis
+      const y1 = z * Math.sin(inclination);
+      const z1 = z * Math.cos(inclination);
+      
+      const x2 = x * Math.cos(offset) - z1 * Math.sin(offset);
+      const z2 = x * Math.sin(offset) + z1 * Math.cos(offset);
+      
+      ref.current.position.x = x2;
+      ref.current.position.y = y1;
+      ref.current.position.z = z2;
     }
   });
 
@@ -33,13 +47,13 @@ function Agent({ radius, speed, offset, IconComponent, color, size }: { radius: 
         </Sphere>
       </Trail>
       
-      {/* The HTML Icon overlay - Size significantly reduced */}
+      {/* The HTML Icon overlay - Size significantly reduced by half */}
       <Html transform center style={{ pointerEvents: 'none' }} distanceFactor={8}>
         <div 
           className="bg-white rounded-full flex items-center justify-center shadow-md border border-purple-200/50" 
-          style={{ width: '18px', height: '18px', boxShadow: `0 0 8px ${color}80` }}
+          style={{ width: '9px', height: '9px', boxShadow: `0 0 4px ${color}80` }}
         >
-          <IconComponent style={{ width: '10px', height: '10px', color: color }} />
+          <IconComponent style={{ width: '5px', height: '5px', color: color }} />
         </div>
       </Html>
     </group>
@@ -57,6 +71,15 @@ const technologies = [
   { id: "aws", radius: 2.4, speed: -0.4, color: "#232f3e", icon: FaAws },
   { id: "react", radius: 2.1, speed: 0.8, color: "#61dafb", icon: SiReact },
   { id: "nextjs", radius: 2.2, speed: -0.7, color: "#000000", icon: SiNextdotjs },
+  // New added icons based on GitHub profile
+  { id: "python", radius: 2.5, speed: 0.5, color: "#3776AB", icon: SiPython },
+  { id: "typescript", radius: 2.1, speed: -0.6, color: "#3178C6", icon: SiTypescript },
+  { id: "pytorch", radius: 2.4, speed: 0.7, color: "#EE4C2C", icon: SiPytorch },
+  { id: "tensorflow", radius: 2.2, speed: -0.5, color: "#FF6F00", icon: SiTensorflow },
+  { id: "tailwindcss", radius: 1.8, speed: 0.8, color: "#06B6D4", icon: SiTailwindcss },
+  { id: "nodejs", radius: 2.3, speed: -0.7, color: "#339933", icon: SiNodedotjs },
+  { id: "postgresql", radius: 2.5, speed: 0.4, color: "#4169E1", icon: SiPostgresql },
+  { id: "prisma", radius: 1.9, speed: -0.6, color: "#2D3748", icon: SiPrisma },
 ];
 
 function Scene() {
@@ -77,18 +100,25 @@ function Scene() {
       <Float speed={2} rotationIntensity={1.5} floatIntensity={2}> 
         
         {/* Purple bubble (Inner Core) removed as requested */}        
-        {/* Technology Agents trapped INSIDE the network wireframe */}
-        {technologies.map((tech, i) => (
-          <Agent 
-            key={tech.id}
-            IconComponent={tech.icon}
-            radius={tech.radius}
-            speed={tech.speed}
-            offset={(Math.PI * 2 * i) / technologies.length}
-            color={tech.color}
-            size={0.05}
-          />
-        ))}
+        {/* Technology Agents scattered across the 3D network */}
+        {technologies.map((tech, i) => {
+          // Calculate spread offset and inclination so they fly all over the sphere
+          const offset = (Math.PI * 2 * i) / technologies.length;
+          const inclination = (Math.PI * i) / (technologies.length / 2); // Vary inclination heavily
+          
+          return (
+            <Agent 
+              key={tech.id}
+              IconComponent={tech.icon}
+              radius={tech.radius}
+              speed={tech.speed}
+              offset={offset}
+              inclination={inclination}
+              color={tech.color}
+              size={0.025} /* Trail size also halved */
+            />
+          );
+        })}
 
         {/* Outer wireframe bounds (The Network) */}
         <Icosahedron args={[2.5, 1]}> 
