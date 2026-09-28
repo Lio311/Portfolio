@@ -76,23 +76,7 @@ function Scene() {
     <group ref={groupRef}>
       <Float speed={2} rotationIntensity={1.5} floatIntensity={2}> 
         
-        {/* Original Inner Core (Purple with Environment City Reflection) */}
-        <Suspense fallback={null}>
-          <Icosahedron args={[1.8, 64]}>
-            <MeshDistortMaterial
-              color="#4f46e5"
-              emissive="#1e1b4b"
-              envMapIntensity={2}
-              clearcoat={1}
-              clearcoatRoughness={0.1}
-              metalness={0.9}
-              roughness={0.1}
-              distort={0.4}
-              speed={3}
-            />
-          </Icosahedron>
-        </Suspense>
-        
+        {/* Purple bubble (Inner Core) removed as requested */}        
         {/* Technology Agents trapped INSIDE the network wireframe */}
         {technologies.map((tech, i) => (
           <Agent 
