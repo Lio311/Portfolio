@@ -245,7 +245,7 @@ export function HeroSection() {
                 target.scrollIntoView({ behavior: "smooth" });
               }
             }}
-            className="flex flex-col items-center gap-2 text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer group"
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer group z-20"
           >
             <span className="text-[11px] font-mono tracking-widest uppercase font-bold">SCROLL</span>
             <ChevronDown className="w-5 h-5 animate-bounce text-indigo-400 group-hover:text-indigo-300" />
