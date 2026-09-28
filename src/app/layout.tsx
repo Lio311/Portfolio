@@ -3,6 +3,8 @@ import { inter, poppins } from "@/lib/fonts";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { GSAPProvider } from "@/components/gsap-provider";
+import { SmoothScroll } from "@/components/smooth-scroll";
+import { CustomCursor } from "@/components/custom-cursor";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -59,11 +61,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
       <body className="antialiased bg-zinc-950 text-zinc-100 selection:bg-indigo-500 selection:text-white">
-        <GSAPProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </GSAPProvider>
+        <SmoothScroll>
+          <CustomCursor />
+          <GSAPProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </GSAPProvider>
+        </SmoothScroll>
       </body>
     </html>
   );

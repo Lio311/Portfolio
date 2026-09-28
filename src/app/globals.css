@@ -37,6 +37,12 @@ body {
   overflow-x: hidden;
 }
 
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-poppins), system-ui, -apple-system, sans-serif;
 }

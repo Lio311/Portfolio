@@ -5,7 +5,10 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { ProjectCard } from "@/components/ui/project-card";
 import { projectsData } from "@/lib/projects-data";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type FilterCategory = "all" | "fullstack" | "ai" | "biomedical";
 
