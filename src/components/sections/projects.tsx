@@ -87,7 +87,7 @@ export function ProjectsSection() {
           <SectionHeader
             badge="Portfolio Showcase"
             title="Featured Projects"
-            subtitle="Explore 13 engineering solutions across Biomedical Engineering, AI/ML, and Full-Stack web platforms."
+            subtitle={`Explore ${projectsData.length} engineering solutions across Biomedical Engineering, AI/ML, and Full-Stack web platforms.`}
           />
         </div>
 
