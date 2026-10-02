@@ -7,6 +7,7 @@ import { CustomCursor } from "@/components/custom-cursor";
 import { CommandPalette } from "@/components/command-palette";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { MotionProvider } from "@/components/motion-provider";
+import { ShaderBackdrop } from "@/components/shader-backdrop";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -75,6 +76,7 @@ export default function RootLayout({
           >
             Skip to projects
           </a>
+          <ShaderBackdrop />
           <ScrollProgress />
           <CustomCursor />
           <GSAPProvider>

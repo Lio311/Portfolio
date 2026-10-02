@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Clock, Lock, Timer, Radio, Cpu, Send } from "lucide-react";
 import gsap from "gsap";
@@ -131,6 +131,11 @@ export function BotsSection() {
   const active = bots.find((b) => b.id === activeId) ?? bots[0];
   const containerRef = useRef<HTMLElement>(null);
 
+  // The shader backdrop tints toward the selected bot's colour
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("accent-change", { detail: active.accent }));
+  }, [active.accent]);
+
   useGSAP(
     () => {
       gsap.fromTo(
@@ -150,7 +155,7 @@ export function BotsSection() {
   );
 
   return (
-    <section id="bots" ref={containerRef} className="relative py-20 bg-zinc-950 scroll-mt-20 overflow-hidden">
+    <section id="bots" ref={containerRef} className="relative py-20 scroll-mt-20 overflow-hidden">
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none opacity-60" style={{ background: `radial-gradient(800px 400px at 50% 0%, ${active.accent}14, transparent 70%)`, transition: "background 0.6s" }} />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bots-reveal">
