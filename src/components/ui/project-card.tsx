@@ -19,8 +19,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 });
   const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 });
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["6deg", "-6deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-6deg", "6deg"]);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["4deg", "-4deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-4deg", "4deg"]);
 
   // Spotlight that follows the pointer across the card
   const glowX = useTransform(mouseXSpring, [-0.5, 0.5], ["0%", "100%"]);
@@ -47,7 +47,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <motion.div
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      // Inline transition beats .gradient-border-card's `transition: all`, which would also ease
+      // the spring-driven tilt and make the card lag, then snap
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d", transition: "box-shadow 0.3s ease" }}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       className="gradient-border-card relative rounded-2xl overflow-hidden flex flex-col h-full group transition-shadow duration-300 shadow-xl shadow-black/40 bg-zinc-950/40 backdrop-blur-md border border-white/10 hover:shadow-indigo-900/30 focus-within:ring-2 focus-within:ring-indigo-500/70"
@@ -110,7 +112,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             project.title
           )}
         </h3>
-        <p className="text-sm text-zinc-300 font-light leading-relaxed mb-4 line-clamp-4 group-hover:line-clamp-none">
+        <p className="text-sm text-zinc-300 font-light leading-relaxed mb-4 line-clamp-5">
           {project.description}
         </p>
 

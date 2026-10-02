@@ -77,7 +77,8 @@ export const projectsData: Project[] = [
     description:
       "AI platform automating academic paper editing and publication workflows. Built with Next.js 16, Neon Serverless Postgres, and an Inngest-powered multi-agent system utilizing RAG and GraphRAG.",
     cover: "agent-graph",
-    link: "https://publish-ai.com",
+    link: "https://publish-ai-nine.vercel.app",
+    repo: "https://github.com/Lio311/PublishAI",
     categories: ["fullstack", "ai"],
     tags: ["Next.js 16", "Vercel AI SDK", "Inngest", "pgvector", "RAG"],
   },

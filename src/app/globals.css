@@ -70,9 +70,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glass-nav {
-  background: rgba(9, 9, 11, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(9, 9, 11, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .gradient-border-card {
