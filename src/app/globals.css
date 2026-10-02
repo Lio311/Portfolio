@@ -177,3 +177,78 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb:hover {
   background: #3f3f46;
 }
+
+/* Project covers (ui/project-cover.tsx) */
+.cover-bar {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: cover-bar 3.2s ease-in-out infinite alternate;
+}
+@keyframes cover-bar {
+  0% { transform: scaleY(0.82); }
+  100% { transform: scaleY(1.04); }
+}
+.cover-scan { animation: cover-scan 4s linear infinite; }
+@keyframes cover-scan {
+  0% { transform: translateX(-80px); }
+  100% { transform: translateX(400px); }
+}
+.cover-blink { animation: cover-blink 1.4s ease-in-out infinite; }
+@keyframes cover-blink {
+  50% { opacity: 0.25; }
+}
+.cover-row { animation: cover-row 0.6s ease-out both; }
+@keyframes cover-row {
+  from { opacity: 0; transform: translateY(8px); }
+}
+.cover-ring { animation: cover-ring 1.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes cover-ring {
+  from { stroke-dashoffset: var(--ring-from); }
+}
+.cover-flow { animation: cover-flow 1.2s linear infinite; }
+@keyframes cover-flow {
+  to { stroke-dashoffset: -22; }
+}
+.cover-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cover-pulse 2.4s ease-in-out infinite;
+}
+@keyframes cover-pulse {
+  50% { transform: scale(1.25); opacity: 0.4; }
+}
+.cover-trace {
+  stroke-dasharray: 140;
+  animation: cover-trace 2.2s linear infinite;
+}
+@keyframes cover-trace {
+  from { stroke-dashoffset: 140; }
+  to { stroke-dashoffset: -140; }
+}
+
+/* Data packets on the bot pipeline rail (sections/bots.tsx) */
+.bot-packet-x { left: 0; animation: bot-packet-x 3.3s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+@keyframes bot-packet-x {
+  0% { left: 0; opacity: 0; }
+  10%, 90% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+.bot-packet-y { top: 0; animation: bot-packet-y 3.2s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+@keyframes bot-packet-y {
+  0% { top: 0; opacity: 0; }
+  10%, 90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+:focus-visible {
+  outline: 2px solid #818cf8;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, Suspense } from "react";
+import { useEffect, useRef, useState, type ComponentType, type CSSProperties } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Icosahedron, Sphere, Stars, Environment, ContactShadows, Trail, Html } from "@react-three/drei";
 import * as THREE from "three";
@@ -15,7 +15,7 @@ import { TbBrandOpenai } from "react-icons/tb";
 import { FaAws } from "react-icons/fa";
 
 // Agent component representing a technology node
-function Agent({ radius, speed, offset, inclination, IconComponent, color, size }: { radius: number, speed: number, offset: number, inclination: number, IconComponent: any, color: string, size: number }) {
+function Agent({ radius, speed, offset, inclination, IconComponent, color, size }: { radius: number, speed: number, offset: number, inclination: number, IconComponent: ComponentType<{ style?: CSSProperties }>, color: string, size: number }) {
   const ref = useRef<THREE.Group>(null);
   
   useFrame((state) => {
@@ -143,10 +143,25 @@ function Scene() {
 }
 
 export default function Hero3DBackground() {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(true);
+  // Pull the camera back on phones so the globe frames the copy instead of crowding it
+  const [cameraZ] = useState(() => (window.innerWidth < 640 ? 12 : 8));
+
+  // Stop the render loop once the hero scrolls away; no point drawing an unseen scene.
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none">
+    <div ref={wrapRef} className="absolute inset-0 z-0 pointer-events-none">
       <Canvas 
-        camera={{ position: [0, 0, 8], fov: 45 }} 
+        frameloop={inView ? "always" : "never"}
+        camera={{ position: [0, 0, cameraZ], fov: 45 }} 
         dpr={[1, 2]}
         className="pointer-events-auto"
         style={{ pointerEvents: 'auto' }}

@@ -11,6 +11,8 @@ if (typeof window !== "undefined") {
 export function GSAPProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
+    // Smooth-scroll inertia is motion too; native scrolling for people who opt out
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     // Initialize Lenis with slow, silky smooth scrolling parameters
     const lenis = new Lenis({

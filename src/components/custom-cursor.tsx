@@ -22,7 +22,7 @@ export function CustomCursor() {
     if (isTouchDevice) return;
 
     const moveCursor = (e: MouseEvent) => {
-      if (!isVisible) setIsVisible(true);
+      setIsVisible(true);
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
     };
@@ -55,7 +55,7 @@ export function CustomCursor() {
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);
     };
-  }, [cursorX, cursorY, isVisible]);
+  }, [cursorX, cursorY]);
 
   return (
     <motion.div

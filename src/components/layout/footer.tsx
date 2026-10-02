@@ -20,7 +20,7 @@ export function Footer() {
 
           {/* Center text */}
           <p className="text-xs text-zinc-500 text-center">
-            Built with Next.js 15, Tailwind CSS, shadcn/ui & GSAP. Deployed on Vercel.
+            Built with Next.js 16, React 19, React Three Fiber, GSAP, Framer Motion & Tailwind 4. Deployed on Vercel.
           </p>
 
           {/* Right social links */}

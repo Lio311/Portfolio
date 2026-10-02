@@ -1,20 +1,82 @@
+export type ProjectCategory = "automation" | "fullstack" | "ai" | "biomedical";
+
+/** Code-drawn covers for projects without a public screenshot (see ui/project-cover.tsx). */
+export type CoverKind = "price-radar" | "job-match" | "agent-graph" | "device";
+
 export interface Project {
   id: string;
   title: string;
   description: string;
-  image: string;
-  link: string;
-  categories: ("fullstack" | "ai" | "biomedical")[];
+  /** Screenshot in /public/images; projects without one get a drawn `cover`. */
+  image?: string;
+  cover?: CoverKind;
+  /** Live site. Omit when the app is private (passcode dashboards) or offline. */
+  link?: string;
+  repo?: string;
+  categories: ProjectCategory[];
   tags: string[];
+  /** Short proof points shown on the card, e.g. "22 competitor sites". */
+  highlights?: string[];
+  isNew?: boolean;
 }
 
 export const projectsData: Project[] = [
+  {
+    id: "dira-bot",
+    title: "diraBot (Real-Estate Aggregator)",
+    description:
+      "Autonomous bot that scrapes Yad2, Madlan, OnMap, Homeless and Facebook groups every 8 hours, dedupes the same flat across sites, tracks price history and verifies taken-down ads. Emails new matches and price drops to double-opt-in subscribers and serves a map-first dashboard.",
+    image: "/images/dira-bot.jpg",
+    link: "https://dira-bot-three.vercel.app",
+    repo: "https://github.com/Lio311/dira-bot",
+    categories: ["automation", "fullstack"],
+    tags: ["Next.js 16", "Playwright", "Apify", "Drizzle", "Neon", "MapLibre", "GitHub Actions"],
+    highlights: ["6 sources", "Runs every 8h", "Cross-site dedupe"],
+    isNew: true,
+  },
+  {
+    id: "libero-bot",
+    title: "liberoBot (Price Intelligence)",
+    description:
+      "Nightly competitive-pricing engine for a perfume e-commerce store. Pulls in-stock products from the WooCommerce API, scans 22 competitor sites in parallel (Shopify, WooCommerce, Konimbo, SFCC, Magento parsers), matches products by barcode, volume and concentration, and emails a DST-aware 08:00 digest.",
+    cover: "price-radar",
+    repo: "https://github.com/Lio311/libero-bot",
+    categories: ["automation", "fullstack"],
+    tags: ["Next.js 16", "Cheerio", "WooCommerce API", "Drizzle", "Neon", "GitHub Actions"],
+    highlights: ["22 competitor sites", "~1,300 SKUs tracked", "Zero paid scrapers"],
+    isNew: true,
+  },
+  {
+    id: "jobot",
+    title: "joBot (AI Job Hunter)",
+    description:
+      "Personal job-search agent that crawls LinkedIn, AllJobs, Drushim, Google X-ray and 60+ company ATS boards (Greenhouse, Lever, Ashby, Comeet) three times a day. Scores every role against the CV locally, then Claude refines the promising ones with JSON-schema structured output and explains the fit.",
+    cover: "job-match",
+    repo: "https://github.com/Lio311/joBot",
+    categories: ["automation", "ai", "fullstack"],
+    tags: ["Claude API", "Structured Output", "Next.js 16", "Drizzle", "MapLibre", "PWA"],
+    highlights: ["8 job sources", "LLM scoring", "CV → profile draft"],
+    isNew: true,
+  },
+  {
+    id: "perfume-studio",
+    title: "Perfume Studio (3D Configurator)",
+    description:
+      "Real-time 3D configurator for private-label perfume packaging. Procedural bottles, caps and boxes snap together by real FEA neck standards, with transmission-glass rendering, undo/redo, PDF supplier-catalog import, a voice assistant, and a companion Swift iOS app that scans and measures physical parts.",
+    image: "/images/perfume-studio.jpg",
+    link: "https://perfume-studio-indol.vercel.app",
+    repo: "https://github.com/Lio311/perfume-studio",
+    categories: ["fullstack", "ai"],
+    tags: ["React Three Fiber", "Three.js", "Zustand", "PDF.js", "Web Speech", "Swift / iOS", "Vitest"],
+    highlights: ["Procedural 3D", "iOS scanner app", "68 test suites"],
+    isNew: true,
+  },
   {
     id: "publish-ai",
     title: "Publish-AI (Research Agent)",
     description:
       "AI platform automating academic paper editing and publication workflows. Built with Next.js 16, Neon Serverless Postgres, and an Inngest-powered multi-agent system utilizing RAG and GraphRAG.",
-    image: "/images/marketing-dashboard.png",
+    cover: "agent-graph",
     link: "https://publish-ai.com",
     categories: ["fullstack", "ai"],
     tags: ["Next.js 16", "Vercel AI SDK", "Inngest", "pgvector", "RAG"],
@@ -51,7 +113,7 @@ export const projectsData: Project[] = [
   },
   {
     id: "libero-management",
-    title: "Management Platform",
+    title: "Libero Management (ERP)",
     description:
       "Comprehensive ERP and Business Management platform built with Next.js 16 and Drizzle ORM. Features modules for inventory tracking, order fulfillment, QC, finance, shift scheduling, and marketing operations running on Neon Serverless PostgreSQL.",
     image: "/images/marketing-dashboard.png",
@@ -164,8 +226,7 @@ export const projectsData: Project[] = [
     title: "WatchIT Medical Device",
     description:
       "Led end-to-end R&D of an Arduino based device for real-time thermal sensing. Executed mechanical design in SolidWorks and iterative prototyping cycles based on direct clinical feedback.",
-    image: "/images/ecgarrhythmiasimulator.png",
-    link: "#",
+    cover: "device",
     categories: ["biomedical"],
     tags: ["Embedded C", "Arduino", "SolidWorks", "Prototyping"],
   },

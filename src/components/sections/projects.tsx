@@ -3,17 +3,19 @@
 import { useState, useRef } from "react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { ProjectCard } from "@/components/ui/project-card";
-import { projectsData } from "@/lib/projects-data";
+import { projectsData, type ProjectCategory } from "@/lib/projects-data";
+import { AnimatePresence, motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type FilterCategory = "all" | "fullstack" | "ai" | "biomedical";
+type FilterCategory = "all" | ProjectCategory;
 
 const filterOptions: { label: string; value: FilterCategory }[] = [
   { label: "All Projects", value: "all" },
+  { label: "Bots & Automation", value: "automation" },
   { label: "Full-Stack", value: "fullstack" },
   { label: "AI & ML", value: "ai" },
   { label: "Biomedical", value: "biomedical" },
@@ -59,35 +61,18 @@ export function ProjectsSection() {
           },
         }
       );
-
-      // Grid Cards Stagger Animation on Scroll
-      gsap.fromTo(".project-card-wrapper",
-        { y: 60, opacity: 0, scale: 0.96 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.7,
-          stagger: 0.1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ".projects-grid",
-            start: "top 80%",
-          },
-        }
-      );
     },
     { scope: containerRef }
   );
 
   return (
-    <section id="projects" ref={containerRef} className="pt-20 pb-6 bg-zinc-950 relative">
+    <section id="projects" ref={containerRef} className="pt-20 pb-6 bg-zinc-950 relative scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="projects-header">
           <SectionHeader
             badge="Portfolio Showcase"
             title="Featured Projects"
-            subtitle={`Explore ${projectsData.length} engineering solutions across Biomedical Engineering, AI/ML, and Full-Stack web platforms.`}
+            subtitle={`${projectsData.length} shipped projects across autonomous bots, AI/ML, full-stack platforms and biomedical engineering.`}
           />
         </div>
 
@@ -97,14 +82,13 @@ export function ProjectsSection() {
             const count =
               opt.value === "all"
                 ? projectsData.length
-                : projectsData.filter((p) =>
-                    p.categories.includes(opt.value as "fullstack" | "ai" | "biomedical")
-                  ).length;
+                : projectsData.filter((p) => p.categories.includes(opt.value as ProjectCategory)).length;
 
             return (
               <button
                 key={opt.value}
                 onClick={() => setActiveFilter(opt.value)}
+                aria-pressed={activeFilter === opt.value}
                 className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 ${
                   activeFilter === opt.value
                     ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/25 scale-105"
@@ -121,13 +105,24 @@ export function ProjectsSection() {
         </div>
 
         {/* Projects Grid */}
-        <div className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {filteredProjects.map((project) => (
-            <div key={project.id} className="project-card-wrapper h-full">
-              <ProjectCard project={project} />
-            </div>
-          ))}
-        </div>
+        <motion.div layout className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project, i) => (
+              <motion.div
+                key={project.id}
+                layout
+                initial={{ opacity: 0, y: 40, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-60px" }}
+                exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
+                transition={{ duration: 0.5, delay: (i % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className="project-card-wrapper h-full"
+              >
+                <ProjectCard project={project} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
     </section>
   );

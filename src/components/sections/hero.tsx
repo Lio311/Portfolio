@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import Link from "next/link";
+import { useRef } from "react";
 import dynamic from "next/dynamic";
-import { ArrowRight, ChevronDown, Sparkles, Code2, Cpu, Download } from "lucide-react";
+import { ArrowRight, ChevronDown, Sparkles, Code2, Bot, Download, Activity } from "lucide-react";
 import { motion, Variants } from "framer-motion";
+import { scrollToId } from "@/lib/scroll";
+import { projectsData } from "@/lib/projects-data";
 
 // Dynamically import the 3D background so it doesn't break SSR
 const Hero3DBackground = dynamic(() => import("../3d/hero-model"), {
@@ -13,54 +14,6 @@ const Hero3DBackground = dynamic(() => import("../3d/hero-model"), {
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let isNavigating = false;
-    
-    const handleWheel = (e: WheelEvent) => {
-      if (window.scrollY < 50 && e.deltaY > 0 && !isNavigating) {
-        const target = document.getElementById("about");
-        const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement, options?: Record<string, unknown>) => void } };
-        
-        if (target && customWindow.lenis) {
-          isNavigating = true;
-          customWindow.lenis.scrollTo(target);
-          setTimeout(() => { isNavigating = false; }, 2000);
-        }
-      }
-    };
-
-    let touchStartY = 0;
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
-    };
-    
-    const handleTouchMove = (e: TouchEvent) => {
-      if (window.scrollY < 50 && !isNavigating) {
-        const touchEndY = e.touches[0].clientY;
-        if (touchStartY - touchEndY > 20) {
-          const target = document.getElementById("about");
-          const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement) => void } };
-          
-          if (target && customWindow.lenis) {
-            isNavigating = true;
-            customWindow.lenis.scrollTo(target);
-            setTimeout(() => { isNavigating = false; }, 2000);
-          }
-        }
-      }
-    };
-
-    window.addEventListener("wheel", handleWheel, { passive: true });
-    window.addEventListener("touchstart", handleTouchStart, { passive: true });
-    window.addEventListener("touchmove", handleTouchMove, { passive: true });
-    
-    return () => {
-      window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
-    };
-  }, []);
 
   // Framer Motion Variants for Aggressive Modern Typography
   const containerVariants: Variants = {
@@ -81,6 +34,8 @@ export function HeroSection() {
       y: 0,
       scale: 1,
       filter: "blur(0px)",
+      // Drop the filter afterwards: a lingering blur(0px) layer paints a box over the WebGL canvas
+      transitionEnd: { filter: "none" },
       transition: {
         type: "spring",
         stiffness: 100,
@@ -115,6 +70,13 @@ export function HeroSection() {
       {/* 3D Interactive Background */}
       <Hero3DBackground />
 
+      {/* Soft veil so the copy stays readable over the orbiting icons */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-[1] pointer-events-none"
+        style={{ background: "radial-gradient(ellipse 55% 45% at 50% 52%, rgba(9,9,11,0.72), rgba(9,9,11,0.25) 60%, transparent 80%)" }}
+      />
+
       {/* Grid Pattern Overlay */}
       <div
         className="absolute inset-0 z-0 opacity-20 pointer-events-none"
@@ -132,24 +94,30 @@ export function HeroSection() {
           animate="visible"
         >
           {/* Eyebrow Badge */}
-          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900/80 border border-zinc-800 backdrop-blur-md mb-6 shadow-sm">
+          <motion.button
+            type="button"
+            variants={itemVariants}
+            onClick={() => scrollToId("bots")}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900/80 border border-zinc-800 hover:border-indigo-500/60 backdrop-blur-md mb-6 shadow-sm transition-colors"
+          >
             <Sparkles className="w-4 h-4 text-indigo-400 animate-pulse" />
             <span className="text-xs sm:text-sm font-medium text-zinc-300">
-              Biomedical Engineering & Tech Innovation
+              New: 3 autonomous bots running in production
             </span>
-          </motion.div>
+            <ArrowRight className="w-3.5 h-3.5 text-zinc-500" />
+          </motion.button>
 
           {/* Main Title */}
           <motion.h1 variants={itemVariants} className="text-4xl sm:text-6xl md:text-8xl font-black text-white tracking-tighter font-poppins mb-6 uppercase">
             <span className="block text-zinc-400 text-xl sm:text-2xl font-semibold mb-2 font-inter tracking-widest uppercase">
               Hi, I&apos;m
             </span>
-            <span className="flex justify-center overflow-hidden py-2">
+            <span className="flex justify-center overflow-hidden py-2 drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
               {titleText.split("").map((char, index) => (
                 <motion.span
                   key={index}
                   variants={letterVariants}
-                  className={char === " " ? "mr-4" : "inline-block gradient-text drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]"}
+                  className={char === " " ? "mr-4" : "inline-block gradient-text"}
                   style={{ display: "inline-block" }}
                 >
                   {char === " " ? "\u00A0" : char}
@@ -160,12 +128,12 @@ export function HeroSection() {
 
           {/* Subtitle */}
           <motion.p variants={itemVariants} className="text-lg sm:text-2xl font-bold text-zinc-200 mb-6 max-w-3xl leading-relaxed tracking-wide">
-            Biomedical Engineer <span className="text-indigo-400 mx-2">|</span> Full-Stack Developer <span className="text-purple-400 mx-2">|</span> AI Enthusiast
+            AI Engineer <span className="text-indigo-400 mx-2">|</span> Full-Stack Developer <span className="text-purple-400 mx-2">|</span> Biomedical Engineer
           </motion.p>
 
           {/* Description */}
           <motion.p variants={itemVariants} className="text-base sm:text-lg text-zinc-400 max-w-2xl mb-10 leading-relaxed font-light">
-            Bridging engineering innovation and clinical needs through cutting-edge medical devices, artificial intelligence, and full-stack software architecture.
+            I build software that works on its own: LLM agents, scraping bots that run on a schedule, real-time 3D web apps, and the full-stack platforms behind them.
           </motion.p>
 
           {/* CTAs */}
@@ -174,13 +142,7 @@ export function HeroSection() {
               href="#projects"
               onClick={(e) => {
                 e.preventDefault();
-                const target = document.getElementById("projects");
-                const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement) => void } };
-                if (target && customWindow.lenis) {
-                  customWindow.lenis.scrollTo(target);
-                } else if (target) {
-                  target.scrollIntoView({ behavior: "smooth" });
-                }
+                scrollToId("projects");
               }}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 transition-all duration-300 shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] hover:-translate-y-1"
             >
@@ -192,13 +154,7 @@ export function HeroSection() {
               href="#contact"
               onClick={(e) => {
                 e.preventDefault();
-                const target = document.getElementById("contact");
-                const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement) => void } };
-                if (target && customWindow.lenis) {
-                  customWindow.lenis.scrollTo(target);
-                } else if (target) {
-                  target.scrollIntoView({ behavior: "smooth" });
-                }
+                scrollToId("contact");
               }}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-zinc-200 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-600 hover:bg-zinc-800/80 hover:text-white transition-all duration-300 backdrop-blur-sm"
             >
@@ -220,20 +176,24 @@ export function HeroSection() {
           {/* Quick Highlight Badges */}
           <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-3 gap-4 w-full max-w-2xl mb-12">
             <div className="glass-card p-4 rounded-xl flex items-center justify-center gap-3 hover:scale-105 transition-transform duration-300 border border-zinc-800 hover:border-indigo-500/50 bg-zinc-900/50 backdrop-blur-sm">
-              <Cpu className="w-5 h-5 text-indigo-400" />
-              <span className="text-xs sm:text-sm font-bold text-zinc-200 uppercase tracking-wider">DSP & AI/ML</span>
+              <Bot className="w-5 h-5 text-indigo-400" />
+              <span className="text-xs sm:text-sm font-bold text-zinc-200 uppercase tracking-wider">AI Agents & Bots</span>
             </div>
             <div className="glass-card p-4 rounded-xl flex items-center justify-center gap-3 hover:scale-105 transition-transform duration-300 border border-zinc-800 hover:border-purple-500/50 bg-zinc-900/50 backdrop-blur-sm">
               <Code2 className="w-5 h-5 text-purple-400" />
-              <span className="text-xs sm:text-sm font-bold text-zinc-200 uppercase tracking-wider">Full-Stack Web</span>
+              <span className="text-xs sm:text-sm font-bold text-zinc-200 uppercase tracking-wider">Full-Stack & 3D</span>
             </div>
             <div className="glass-card p-4 rounded-xl flex items-center justify-center gap-3 col-span-2 sm:col-span-1 hover:scale-105 transition-transform duration-300 border border-zinc-800 hover:border-pink-500/50 bg-zinc-900/50 backdrop-blur-sm">
-              <Sparkles className="w-5 h-5 text-pink-400" />
-              <span className="text-xs sm:text-sm font-bold text-zinc-200 uppercase tracking-wider">Medical Devices</span>
+              <Activity className="w-5 h-5 text-pink-400" />
+              <span className="text-xs sm:text-sm font-bold text-zinc-200 uppercase tracking-wider">Biomedical DSP</span>
             </div>
           </motion.div>
 
-
+          <motion.p variants={itemVariants} className="text-xs font-mono text-zinc-500 tracking-wide">
+            {projectsData.length} projects shipped <span className="text-zinc-700 mx-1.5">/</span> 3 bots on cron
+            <span className="text-zinc-700 mx-1.5">/</span> 1 iOS app <span className="text-zinc-700 mx-1.5">/</span> press{" "}
+            <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">/</kbd> to search
+          </motion.p>
         </motion.div>
       </div>
 
@@ -245,15 +205,7 @@ export function HeroSection() {
         className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-auto"
       >
         <button 
-          onClick={() => {
-            const target = document.getElementById("about");
-            const customWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement, options?: Record<string, unknown>) => void } };
-            if (target && customWindow.lenis) {
-              customWindow.lenis.scrollTo(target);
-            } else if (target) {
-              target.scrollIntoView({ behavior: "smooth" });
-            }
-          }}
+          onClick={() => scrollToId("about")}
           className="flex flex-col items-center gap-2 text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer group"
         >
           <span className="text-[11px] font-mono tracking-widest uppercase font-bold">SCROLL</span>

@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, Search, X } from "lucide-react";
+import { scrollToId } from "@/lib/scroll";
 
 const navLinks = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
+  { name: "Bots", href: "#bots" },
   { name: "Projects", href: "#projects" },
   { name: "Contact", href: "#contact" },
 ];
@@ -19,15 +21,7 @@ export function Navbar() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.startsWith("#")) {
       e.preventDefault();
-      const target = document.querySelector(href);
-      if (target) {
-        const customWindow = window as unknown as { lenis?: { scrollTo: (target: Element, options?: Record<string, unknown>) => void } };
-        if (customWindow.lenis) {
-          customWindow.lenis.scrollTo(target);
-        } else {
-          target.scrollIntoView({ behavior: "smooth" });
-        }
-      }
+      scrollToId(href);
       setMobileMenuOpen(false);
     }
   };
@@ -53,7 +47,8 @@ export function Navbar() {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -104,8 +99,17 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Contact Button */}
-          <div className="hidden md:block">
+          {/* Search + Contact */}
+          <div className="hidden md:flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event("open-command-palette"))}
+              className="p-2.5 rounded-lg text-zinc-400 bg-zinc-900 border border-zinc-700/80 hover:text-white hover:border-indigo-500/60 transition-colors"
+              aria-label="Search (Ctrl+K)"
+              title="Search  ⌘K"
+            >
+              <Search className="w-4 h-4" />
+            </button>
             <Link
               href="#contact"
               scroll={false}
@@ -121,6 +125,7 @@ export function Navbar() {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white"
             aria-label="Toggle Navigation Menu"
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>

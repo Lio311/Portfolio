@@ -1,18 +1,30 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { inter, poppins } from "@/lib/fonts";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { GSAPProvider } from "@/components/gsap-provider";
-import { SmoothScroll } from "@/components/smooth-scroll";
 import { CustomCursor } from "@/components/custom-cursor";
+import { CommandPalette } from "@/components/command-palette";
+import { ScrollProgress } from "@/components/scroll-progress";
+import { MotionProvider } from "@/components/motion-provider";
 import "./globals.css";
 
+export const viewport: Viewport = {
+  themeColor: "#09090b",
+};
+
 export const metadata: Metadata = {
-  title: "Lior Zafrir - Biomedical Engineer & Full-Stack Developer",
+  appleWebApp: { capable: true, title: "Lior Zafrir", statusBarStyle: "black-translucent" },
+  metadataBase: new URL("https://liorzafrir.vercel.app"),
+  title: "Lior Zafrir - AI Engineer & Full-Stack Developer",
   description:
-    "Portfolio of Lior Zafrir — Biomedical Engineering student at Tel Aviv University specializing in Signal Processing (DSP), AI/ML, Medical Devices, and Full-Stack Web Development.",
+    "Portfolio of Lior Zafrir, AI Engineer and Biomedical Engineering graduate (Tel Aviv University): autonomous scraping bots, LLM agents, 3D web apps, full-stack SaaS and biomedical signal processing.",
   keywords: [
     "Lior Zafrir",
+    "AI Engineer",
+    "LLM Agents",
+    "Web Scraping",
+    "Automation",
     "Biomedical Engineering",
     "Portfolio",
     "Signal Processing",
@@ -27,11 +39,6 @@ export const metadata: Metadata = {
     "PyTorch",
   ],
   authors: [{ name: "Lior Zafrir" }],
-  icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
-  },
   openGraph: {
     title: "Lior Zafrir - Engineering Portfolio",
     description:
@@ -45,7 +52,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Lior Zafrir - Engineering Portfolio",
     description:
-      "Biomedical Engineering student showcasing innovative projects in AI, signal processing, and full-stack web development.",
+      "AI Engineer building autonomous bots, LLM agents, 3D web apps and full-stack platforms.",
   },
   robots: {
     index: true,
@@ -61,14 +68,22 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
       <body className="antialiased bg-zinc-950 text-zinc-100 selection:bg-indigo-500 selection:text-white">
-        <SmoothScroll>
+        <MotionProvider>
+          <a
+            href="#projects"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-indigo-600 focus:text-white"
+          >
+            Skip to projects
+          </a>
+          <ScrollProgress />
           <CustomCursor />
           <GSAPProvider>
             <Navbar />
             <main>{children}</main>
             <Footer />
           </GSAPProvider>
-        </SmoothScroll>
+          <CommandPalette />
+        </MotionProvider>
       </body>
     </html>
   );

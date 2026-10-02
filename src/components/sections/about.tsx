@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { SectionHeader } from "@/components/ui/section-header";
-import { Code, Brain, Activity, Layers, GraduationCap, Award } from "lucide-react";
+import { Code, Brain, Activity, Layers, Award } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -13,8 +13,8 @@ const skillCategories = [
     color: "from-indigo-500 to-blue-500",
     skills: [
       "TypeScript, JavaScript, Python",
-      "React, Next.js, Node.js",
-      "Tailwind CSS",
+      "React 19, Next.js 16, Node.js",
+      "Three.js / React Three Fiber, Tailwind CSS",
     ],
   },
   {
@@ -22,19 +22,19 @@ const skillCategories = [
     icon: Brain,
     color: "from-purple-500 to-pink-500",
     skills: [
-      "LangChain, LangGraph, Vercel AI SDK",
+      "Claude API (structured output), LangGraph, Vercel AI SDK",
       "RAG, Vector DBs (pgvector), GraphRAG",
       "Multi-Agent Systems (Swarm)",
     ],
   },
   {
-    title: "Backend & Cloud",
+    title: "Backend, Data & Automation",
     icon: Layers,
     color: "from-amber-500 to-orange-500",
     skills: [
-      "PostgreSQL, Neon, Drizzle ORM",
-      "Upstash Redis, Inngest, NextAuth",
-      "Vercel Deployment",
+      "PostgreSQL, Neon, Drizzle ORM, Inngest",
+      "Scraping: Playwright, Cheerio, Apify",
+      "GitHub Actions cron pipelines, Vercel",
     ],
   },
   {
@@ -111,7 +111,7 @@ export function AboutSection() {
           <SectionHeader
             badge="Background & Expertise"
             title="About Me"
-            subtitle="AI Engineer & Biomedical Engineering graduate dedicated to building high-impact SaaS and agentic AI platforms."
+            subtitle="From signal processing in the lab to autonomous agents in production."
           />
         </div>
 
