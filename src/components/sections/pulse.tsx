@@ -5,10 +5,8 @@ import { motion, useInView } from "framer-motion";
 import { SectionHeader } from "@/components/ui/section-header";
 import { GithubIcon } from "@/components/ui/icons";
 import snapshot from "@/data/github-pulse.json";
-import { aggregate, fetchGithubPulse, mergePulse, type GithubPulse } from "@/lib/github-pulse";
+import { aggregate, type GithubPulse } from "@/lib/github-pulse";
 
-const CACHE_KEY = "gh-pulse-v1";
-const CACHE_MS = 60 * 60 * 1000;
 const DAY_MS = 86400 * 1000;
 const LEVELS = ["#18181b", "#312e81", "#4f46e5", "#a855f7", "#ec4899"];
 const LANG_COLORS: Record<string, string> = {
@@ -18,45 +16,6 @@ const LANG_COLORS: Record<string, string> = {
   "Jupyter Notebook": "#da5b0b",
   Swift: "#f05138",
 };
-
-type Status = { kind: "snapshot" | "live"; at: string };
-
-/** Live GitHub numbers on top of the build-time snapshot, cached for an hour per visitor. */
-function useLivePulse(enabled: boolean) {
-  const [pulse, setPulse] = useState<GithubPulse>(snapshot as GithubPulse);
-  const [status, setStatus] = useState<Status>({ kind: "snapshot", at: (snapshot as GithubPulse).generatedAt });
-
-  useEffect(() => {
-    if (!enabled) return;
-    let cancelled = false;
-    const apply = (live: GithubPulse) => {
-      if (cancelled) return;
-      setPulse(mergePulse(snapshot as GithubPulse, live));
-      setStatus({ kind: "live", at: live.generatedAt });
-    };
-    try {
-      const cached = JSON.parse(sessionStorage.getItem(CACHE_KEY) ?? "null") as GithubPulse | null;
-      if (cached && Date.now() - Date.parse(cached.generatedAt) < CACHE_MS) {
-        apply(cached);
-        return;
-      }
-    } catch {}
-    fetchGithubPulse()
-      .then((live) => {
-        if (!live) return;
-        try {
-          sessionStorage.setItem(CACHE_KEY, JSON.stringify(live));
-        } catch {}
-        apply(live);
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
-    };
-  }, [enabled]);
-
-  return { pulse, status };
-}
 
 function CountUp({ value, run }: { value: number; run: boolean }) {
   const [n, setN] = useState(0);
@@ -95,7 +54,7 @@ const ago = (iso: string) => {
 export function PulseSection() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-120px" });
-  const { pulse, status } = useLivePulse(inView);
+  const pulse = snapshot as GithubPulse;
   const [hover, setHover] = useState<{ i: number; x: number; y: number } | null>(null);
   const heatRef = useRef<HTMLDivElement>(null);
 
@@ -134,12 +93,12 @@ export function PulseSection() {
   return (
     <section id="pulse" ref={ref} className="relative py-20 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader badge="Live from GitHub" title="Shipping Pulse" subtitle="Every commit across my repos over the last twelve months." />
+        <SectionHeader badge="From GitHub" title="Shipping Pulse" subtitle="Every commit across my repos over the last twelve months." />
 
         <div className="flex justify-center mb-8 -mt-2">
           <span className="inline-flex items-center gap-2 text-[11px] font-mono px-3 py-1.5 rounded-full bg-zinc-900/80 border border-zinc-800 text-zinc-400">
-            <span className={`w-1.5 h-1.5 rounded-full ${status.kind === "live" ? "bg-emerald-400 animate-pulse" : "bg-zinc-500"}`} />
-            {status.kind === "live" ? "live · GitHub API" : "snapshot"} · {new Date(status.at).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" })}
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            auto-updated daily · last sync {new Date(pulse.generatedAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" })}
           </span>
         </div>
 

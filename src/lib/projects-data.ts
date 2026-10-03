@@ -170,6 +170,7 @@ export const projectsData: Project[] = [
     description:
       "Perfume e-commerce storefront: secure cart and Stripe checkout, Clerk accounts, an interactive 3D product configurator in React Three Fiber, GSAP animations and transactional email. The site is currently being redesigned.",
     image: "/images/ml_tlv.png",
+    link: "https://www.ml-tlv.com",
     categories: ["fullstack"],
     tags: ["Next.js", "React Three Fiber", "GSAP", "Stripe", "Clerk", "Nodemailer"],
   },

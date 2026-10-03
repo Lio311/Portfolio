@@ -65,7 +65,7 @@ export function HeroSection() {
     <section
       id="home"
       ref={containerRef}
-      className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-10 overflow-hidden scroll-mt-20"
+      className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-28 overflow-hidden scroll-mt-20"
     >
       {/* 3D Interactive Background */}
       <Hero3DBackground />
@@ -190,12 +190,16 @@ export function HeroSection() {
           </motion.div>
 
           <motion.p variants={itemVariants} className="text-xs font-mono text-zinc-500 tracking-wide">
-            {projectsData.length} projects shipped <span className="text-zinc-700 mx-1.5">/</span> 3 bots on cron
-            <span className="text-zinc-700 mx-1.5">/</span> 1 iOS app <span className="text-zinc-700 mx-1.5">/</span> press{" "}
-            <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">/</kbd> to search
-            <span className="hidden sm:inline">
-              {" "}
-              · <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">`</kbd> for a terminal
+            <span className="whitespace-nowrap">{projectsData.length} projects shipped</span>
+            <span className="text-zinc-700 mx-1.5">/</span>
+            <span className="whitespace-nowrap">3 bots on cron</span>
+            <span className="text-zinc-700 mx-1.5">/</span>
+            <span className="whitespace-nowrap">1 iOS app</span>
+            {/* Keyboard hints only where there's a keyboard */}
+            <span className="hidden [@media(pointer:fine)]:inline">
+              <span className="text-zinc-700 mx-1.5">/</span> press{" "}
+              <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">/</kbd> to search ·{" "}
+              <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">`</kbd> for a terminal
             </span>
           </motion.p>
         </motion.div>
