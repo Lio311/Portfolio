@@ -243,8 +243,9 @@ h1, h2, h3, h4, h5, h6 {
 .about-stage:not(.is-scrubbed) .journey-stack { display: flex; flex-direction: column; gap: 1.25rem; }
 .about-stage:not(.is-scrubbed) .journey-panel + .journey-panel { padding-left: 1rem; border-left: 2px solid rgba(129, 140, 248, 0.35); }
 .about-stage.is-scrubbed .journey-stack { display: grid; }
-.about-stage.is-scrubbed .journey-panel { grid-area: 1 / 1; transition: opacity 0.4s ease, transform 0.4s ease; }
-.about-stage.is-scrubbed .journey-panel[data-on="false"] { opacity: 0; transform: translateY(12px); pointer-events: none; }
+/* Outgoing panel clears in 0.15s before the next fades in, so two stops never overlap */
+.about-stage.is-scrubbed .journey-panel { grid-area: 1 / 1; transition: opacity 0.35s ease 0.15s, transform 0.35s ease 0.15s; }
+.about-stage.is-scrubbed .journey-panel[data-on="false"] { opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity 0.15s ease, transform 0.15s ease; }
 .journey-dot { transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s; }
 .journey-node[data-on="true"] .journey-dot { background: #a78bfa; border-color: #a78bfa; }
 .journey-node[data-on="true"] .journey-year { color: #c4b5fd; }

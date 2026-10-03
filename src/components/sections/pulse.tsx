@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { createFitPin } from "@/lib/pin-fit";
 import { SectionHeader } from "@/components/ui/section-header";
 import { GithubIcon } from "@/components/ui/icons";
 import snapshot from "@/data/github-pulse.json";
@@ -61,6 +62,7 @@ export function PulseSection() {
   const [hover, setHover] = useState<{ i: number; x: number; y: number } | null>(null);
   const heatRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   const [scrubbed, setScrubbed] = useState(false);
   const timelapse = useRef<{ apply: (p: number) => void; st: ScrollTrigger } | null>(null);
 
@@ -108,9 +110,10 @@ export function PulseSection() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add("(min-width: 768px) and (min-height: 820px) and (prefers-reduced-motion: no-preference)", () => {
+      mm.add("(min-width: 768px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)", () => {
         const stage = stageRef.current;
-        if (!stage) return;
+        const pinEl = pinRef.current;
+        if (!stage || !pinEl) return;
         const cells = [...stage.querySelectorAll<SVGRectElement>("rect[data-i]")];
         const busiestLabel = stage.querySelector<HTMLElement>("[data-stat-label=busiest]");
         const head = stage.querySelector<HTMLElement>(".pulse-head");
@@ -139,12 +142,14 @@ export function PulseSection() {
           if (head) head.textContent = cut < 0 ? "scroll to replay the year ↓" : `${data.dateOf(at).toLocaleDateString("en-GB", { month: "short", year: "numeric", timeZone: "UTC" })} · week ${headCol + 1}/52`;
         };
 
+        const pin = createFitPin([{ pin: pinEl, fit: stage }], { end: "+=1600", scrub: true, onUpdate: (self) => apply(self.progress) });
+        if (!pin) return;
         setScrubbed(true);
         stage.classList.add("is-scrubbed");
-        const st = ScrollTrigger.create({ trigger: stage, start: "top top+=84", end: "+=1600", pin: true, scrub: true, onUpdate: (self) => apply(self.progress) });
-        apply(st.progress);
-        timelapse.current = { apply, st };
+        apply(pin.st.progress);
+        timelapse.current = { apply, st: pin.st };
         return () => {
+          pin.cleanup();
           timelapse.current = null;
           stage.classList.remove("is-scrubbed");
           setScrubbed(false);
@@ -170,101 +175,103 @@ export function PulseSection() {
   return (
     <section id="pulse" ref={ref} className="relative py-20 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div ref={stageRef} className="pulse-stage">
-          <SectionHeader badge="From GitHub" title="Shipping Pulse" subtitle="Every commit across my repos over the last twelve months." />
+        <div ref={pinRef}>
+          <div ref={stageRef} className="pulse-stage">
+            <SectionHeader badge="From GitHub" title="Shipping Pulse" subtitle="Every commit across my repos over the last twelve months." />
 
-          <div className="flex justify-center mb-8 -mt-2">
-            <span className="inline-flex items-center gap-2 text-[11px] font-mono px-3 py-1.5 rounded-full bg-zinc-900/80 border border-zinc-800 text-zinc-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              auto-updated daily · last sync {new Date(pulse.generatedAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" })}
-            </span>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-            {[
-              { key: "total", label: "commits · 12 months", value: data.total },
-              { key: "active", label: "active days", value: data.active },
-              { key: "longest", label: "longest streak (days)", value: data.longest },
-              { key: "busiest", label: `busiest day · ${fmtDay(data.dateOf(data.busiest))}`, value: data.days[data.busiest] },
-            ].map((s) => (
-              <div key={s.key} className="gradient-border-card rounded-2xl p-5">
-                <p className="text-3xl sm:text-4xl font-bold font-poppins text-white">
-                  {scrubbed ? (
-                    <span data-stat={s.key} className="tabular-nums">
-                      0
-                    </span>
-                  ) : (
-                    <CountUp value={s.value} run={inView} />
-                  )}
-                </p>
-                <p className="text-xs text-zinc-500 mt-1" data-stat-label={s.key}>
-                  {s.label}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="gradient-border-card rounded-2xl p-5 sm:p-6 mb-6 relative">
-            <p className="pulse-head hidden text-[11px] font-mono text-indigo-300 mb-2 text-right" aria-hidden="true" />
-            <div ref={heatRef} className="overflow-x-auto pb-2" data-lenis-prevent-horizontal>
-              <svg width={52 * (cell + gap) + 28} height={7 * (cell + gap) + 22} className="block mx-auto" role="img" aria-label={`${data.total} commits over the last 52 weeks`}>
-                {data.months.map((m) => (
-                  <text key={m.col} x={28 + m.col * (cell + gap)} y={11} fill="#71717a" fontSize="10" fontFamily="ui-monospace, monospace">
-                    {m.label}
-                  </text>
-                ))}
-                {["Mon", "Wed", "Fri"].map((d, i) => (
-                  <text key={d} x={0} y={22 + (i * 2 + 1) * (cell + gap) + cell - 3} fill="#52525b" fontSize="9" fontFamily="ui-monospace, monospace">
-                    {d}
-                  </text>
-                ))}
-                {Array.from({ length: 52 }, (_, c) => (
-                  <motion.g key={c} initial={{ opacity: 0, y: 6 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: c * 0.018, duration: 0.35 }}>
-                    {Array.from({ length: 7 }, (_, r) => {
-                      const i = c * 7 + r;
-                      const n = data.days[i];
-                      const future = data.dateOf(i).getTime() > Date.now();
-                      if (future) return null;
-                      return (
-                        <rect
-                          key={r}
-                          x={28 + c * (cell + gap)}
-                          y={20 + r * (cell + gap)}
-                          width={cell}
-                          height={cell}
-                          rx={3}
-                          data-i={i}
-                          data-l={data.level(n)}
-                          fill={LEVELS[data.level(n)]}
-                          stroke={hover?.i === i ? "#fff" : "transparent"}
-                          onPointerEnter={(e) => {
-                            const card = heatRef.current?.parentElement?.getBoundingClientRect();
-                            const rb = e.currentTarget.getBoundingClientRect();
-                            if (card) setHover({ i, x: rb.left - card.left + rb.width / 2, y: rb.top - card.top - 6 });
-                          }}
-                          onPointerLeave={() => setHover(null)}
-                        />
-                      );
-                    })}
-                  </motion.g>
-                ))}
-              </svg>
+            <div className="flex justify-center mb-8 -mt-2">
+              <span className="inline-flex items-center gap-2 text-[11px] font-mono px-3 py-1.5 rounded-full bg-zinc-900/80 border border-zinc-800 text-zinc-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                auto-updated daily · last sync {new Date(pulse.generatedAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" })}
+              </span>
             </div>
-            {hover && (
-              <div className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full px-2.5 py-1.5 rounded-md bg-black/90 border border-zinc-700 text-[11px] text-zinc-200 whitespace-nowrap" style={{ left: hover.x, top: hover.y }}>
-                <b className="text-white">{data.days[hover.i]}</b> commits ·{" "}
-                {data.dateOf(hover.i).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" })}
-              </div>
-            )}
-            <div className="flex items-center justify-end gap-1.5 mt-3 text-[10px] text-zinc-500 font-mono">
-              less
-              {LEVELS.map((c) => (
-                <span key={c} className="w-2.5 h-2.5 rounded-sm" style={{ background: c }} />
+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+              {[
+                { key: "total", label: "commits · 12 months", value: data.total },
+                { key: "active", label: "active days", value: data.active },
+                { key: "longest", label: "longest streak (days)", value: data.longest },
+                { key: "busiest", label: `busiest day · ${fmtDay(data.dateOf(data.busiest))}`, value: data.days[data.busiest] },
+              ].map((s) => (
+                <div key={s.key} className="gradient-border-card rounded-2xl p-5">
+                  <p className="text-3xl sm:text-4xl font-bold font-poppins text-white">
+                    {scrubbed ? (
+                      <span data-stat={s.key} className="tabular-nums">
+                        0
+                      </span>
+                    ) : (
+                      <CountUp value={s.value} run={inView} />
+                    )}
+                  </p>
+                  <p className="text-xs text-zinc-500 mt-1" data-stat-label={s.key}>
+                    {s.label}
+                  </p>
+                </div>
               ))}
-              more
             </div>
-          </div>
 
+            <div className="gradient-border-card rounded-2xl p-5 sm:p-6 mb-6 relative">
+              <p className="pulse-head hidden text-[11px] font-mono text-indigo-300 mb-2 text-right" aria-hidden="true" />
+              <div ref={heatRef} className="overflow-x-auto pb-2" data-lenis-prevent-horizontal>
+                <svg width={52 * (cell + gap) + 28} height={7 * (cell + gap) + 22} className="block mx-auto" role="img" aria-label={`${data.total} commits over the last 52 weeks`}>
+                  {data.months.map((m) => (
+                    <text key={m.col} x={28 + m.col * (cell + gap)} y={11} fill="#71717a" fontSize="10" fontFamily="ui-monospace, monospace">
+                      {m.label}
+                    </text>
+                  ))}
+                  {["Mon", "Wed", "Fri"].map((d, i) => (
+                    <text key={d} x={0} y={22 + (i * 2 + 1) * (cell + gap) + cell - 3} fill="#52525b" fontSize="9" fontFamily="ui-monospace, monospace">
+                      {d}
+                    </text>
+                  ))}
+                  {Array.from({ length: 52 }, (_, c) => (
+                    <motion.g key={c} initial={{ opacity: 0, y: 6 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: c * 0.018, duration: 0.35 }}>
+                      {Array.from({ length: 7 }, (_, r) => {
+                        const i = c * 7 + r;
+                        const n = data.days[i];
+                        const future = data.dateOf(i).getTime() > Date.now();
+                        if (future) return null;
+                        return (
+                          <rect
+                            key={r}
+                            x={28 + c * (cell + gap)}
+                            y={20 + r * (cell + gap)}
+                            width={cell}
+                            height={cell}
+                            rx={3}
+                            data-i={i}
+                            data-l={data.level(n)}
+                            fill={LEVELS[data.level(n)]}
+                            stroke={hover?.i === i ? "#fff" : "transparent"}
+                            onPointerEnter={(e) => {
+                              const card = heatRef.current?.parentElement?.getBoundingClientRect();
+                              const rb = e.currentTarget.getBoundingClientRect();
+                              if (card) setHover({ i, x: rb.left - card.left + rb.width / 2, y: rb.top - card.top - 6 });
+                            }}
+                            onPointerLeave={() => setHover(null)}
+                          />
+                        );
+                      })}
+                    </motion.g>
+                  ))}
+                </svg>
+              </div>
+              {hover && (
+                <div className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full px-2.5 py-1.5 rounded-md bg-black/90 border border-zinc-700 text-[11px] text-zinc-200 whitespace-nowrap" style={{ left: hover.x, top: hover.y }}>
+                  <b className="text-white">{data.days[hover.i]}</b> commits ·{" "}
+                  {data.dateOf(hover.i).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" })}
+                </div>
+              )}
+              <div className="flex items-center justify-end gap-1.5 mt-3 text-[10px] text-zinc-500 font-mono">
+                less
+                {LEVELS.map((c) => (
+                  <span key={c} className="w-2.5 h-2.5 rounded-sm" style={{ background: c }} />
+                ))}
+                more
+              </div>
+            </div>
+
+          </div>
         </div>
 
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">

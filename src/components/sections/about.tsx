@@ -4,8 +4,8 @@ import { useRef } from "react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Code, Brain, Activity, Layers, Award } from "lucide-react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { createFitPin } from "@/lib/pin-fit";
 
 type SkillKey = "web" | "ai" | "backend" | "dl";
 
@@ -100,6 +100,9 @@ function applyJourney(stage: HTMLElement, p: number) {
 export function AboutSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const fullPinRef = useRef<HTMLDivElement>(null);
+  const fullFitRef = useRef<HTMLDivElement>(null);
+  const stagePinRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -111,22 +114,30 @@ export function AboutSection() {
         { y: 0, opacity: 1, scale: 1, duration: 0.7, stagger: 0.15, ease: "power3.out", scrollTrigger: { trigger: ".skills-grid-container", start: "top 80%" } }
       );
 
-      // The journey is scroll-driven where the two columns sit side by side and fit on screen
+      // The journey is scroll-driven where the two columns sit side by side; the heading stays in
+      // frame with it when the screen is tall enough
       const mm = gsap.matchMedia();
-      mm.add("(min-width: 1024px) and (min-height: 820px) and (prefers-reduced-motion: no-preference)", () => {
+      mm.add("(min-width: 1024px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)", () => {
         const stage = stageRef.current;
-        if (!stage) return;
+        const [fullPin, fullFit, stagePin] = [fullPinRef.current, fullFitRef.current, stagePinRef.current];
+        if (!stage || !fullPin || !fullFit || !stagePin) return;
         stage.classList.add("is-scrubbed");
-        const st = ScrollTrigger.create({
-          trigger: stage,
-          start: "top top+=96",
-          end: "+=1800",
-          pin: true,
-          scrub: true,
-          onUpdate: (self) => applyJourney(stage, self.progress),
-        });
-        applyJourney(stage, st.progress);
-        return () => stage.classList.remove("is-scrubbed");
+        const pin = createFitPin(
+          [
+            { pin: fullPin, fit: fullFit },
+            { pin: stagePin, fit: stage },
+          ],
+          { end: "+=1800", scrub: true, onUpdate: (self) => applyJourney(stage, self.progress) }
+        );
+        if (!pin) {
+          stage.classList.remove("is-scrubbed");
+          return;
+        }
+        applyJourney(stage, pin.st.progress);
+        return () => {
+          pin.cleanup();
+          stage.classList.remove("is-scrubbed");
+        };
       });
     },
     { scope: containerRef }
@@ -135,98 +146,104 @@ export function AboutSection() {
   return (
     <section id="about" ref={containerRef} className="pt-0 pb-20 relative scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="about-header">
-          <SectionHeader badge="Background & Expertise" title="About Me" subtitle="From signal processing in the lab to autonomous agents in production." />
-        </div>
-
-        <div ref={stageRef} className="about-stage grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Bio + journey */}
-          <div className="bio-card lg:col-span-5 gradient-border-card p-7 rounded-2xl">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-                <Brain className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-white font-poppins">Lior Zafrir</h3>
-                <p className="text-sm text-indigo-400">AI Engineer</p>
-              </div>
+        <div ref={fullPinRef}>
+          <div ref={fullFitRef}>
+            <div className="about-header">
+              <SectionHeader badge="Background & Expertise" title="About Me" subtitle="From signal processing in the lab to autonomous agents in production." />
             </div>
 
-            {/* Timeline rail (scroll-driven layout only) */}
-            <div className="journey-rail relative mb-6" aria-hidden="true">
-              <div className="absolute top-[7px] left-[7px] right-[7px] h-px bg-zinc-800">
-                <div className="journey-fill h-full origin-left bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" style={{ transform: "scaleX(0)" }} />
-              </div>
-              <ol className="relative flex justify-between">
-                {journey.map((j) => (
-                  <li key={j.title} data-on="false" className="journey-node flex flex-col items-center gap-2 w-0">
-                    <span className="journey-dot w-[15px] h-[15px] rounded-full border-2 border-zinc-700 bg-zinc-950" />
-                    <span className="journey-year text-[10px] font-mono text-zinc-500 whitespace-nowrap">{j.when === "During the degree" ? "B.Sc." : j.when.slice(0, 4)}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-            <div className="journey-stack">
-              <div data-on="true" className="journey-panel space-y-4 text-zinc-300 text-sm sm:text-base leading-relaxed font-light">
-                <p>
-                  <strong className="text-white font-medium">AI Engineer and Biomedical Engineering graduate</strong> dedicated to building high-impact SaaS and agentic AI platforms.
-                </p>
-                <p>
-                  Demonstrated success in translating complex research into scalable software, architecting systems like a <strong className="text-white font-medium">Multi-Agent AI Decision System</strong> and Research Agents for publication workflows.
-                </p>
-                <p className="journey-hint text-xs font-mono text-indigo-300/80">scroll to walk through the path ↓</p>
-              </div>
-              {journey.map((j) => (
-                <div key={j.title} data-on="true" className="journey-panel">
-                  <p className="text-[11px] font-mono uppercase tracking-widest text-indigo-300 mb-1.5">{j.when}</p>
-                  <h4 className="text-lg font-bold text-white font-poppins mb-2">{j.title}</h4>
-                  <p className="text-sm text-zinc-300 leading-relaxed font-light mb-3">{j.text}</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {j.tags.map((t) => (
-                      <span key={t} className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/10 text-zinc-300">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-6 pt-5 border-t border-zinc-800/80 flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs text-zinc-400">
-                <Award className="w-4 h-4 text-indigo-400" />
-                <span>Tel Aviv University</span>
-              </div>
-              <span className="text-xs font-mono text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-md border border-indigo-500/20">B.Sc. Graduate</span>
-            </div>
-          </div>
-
-          {/* Skills bento */}
-          <div className="skills-grid-container lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {skillCategories.map((cat) => {
-              const IconComp = cat.icon;
-              return (
-                <div key={cat.title} data-skill={cat.key} data-lit="all" className="skill-bento-card gradient-border-card p-6 rounded-2xl group">
-                  <div className="flex items-center gap-3.5 mb-4">
-                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-tr ${cat.color} p-[1px]`}>
-                      <div className="w-full h-full bg-zinc-950 rounded-[11px] flex items-center justify-center">
-                        <IconComp className="w-5 h-5 text-white" />
-                      </div>
+            <div ref={stagePinRef}>
+              <div ref={stageRef} className="about-stage grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                {/* Bio + journey */}
+                <div className="bio-card lg:col-span-5 gradient-border-card p-7 rounded-2xl">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                      <Brain className="w-6 h-6" />
                     </div>
-                    <h4 className="text-base font-bold text-white font-poppins group-hover:text-indigo-300 transition-colors">{cat.title}</h4>
+                    <div>
+                      <h3 className="text-xl font-bold text-white font-poppins">Lior Zafrir</h3>
+                      <p className="text-sm text-indigo-400">AI Engineer</p>
+                    </div>
                   </div>
-                  <ul className="space-y-2">
-                    {cat.skills.map((skill) => (
-                      <li key={skill} className="text-xs sm:text-sm text-zinc-400 flex items-center gap-2 font-light">
-                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500/60" />
-                        <span>{skill}</span>
-                      </li>
+
+                  {/* Timeline rail (scroll-driven layout only) */}
+                  <div className="journey-rail relative mb-6" aria-hidden="true">
+                    <div className="absolute top-[7px] left-[7px] right-[7px] h-px bg-zinc-800">
+                      <div className="journey-fill h-full origin-left bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" style={{ transform: "scaleX(0)" }} />
+                    </div>
+                    <ol className="relative flex justify-between">
+                      {journey.map((j) => (
+                        <li key={j.title} data-on="false" className="journey-node flex flex-col items-center gap-2 w-0">
+                          <span className="journey-dot w-[15px] h-[15px] rounded-full border-2 border-zinc-700 bg-zinc-950" />
+                          <span className="journey-year text-[10px] font-mono text-zinc-500 whitespace-nowrap">{j.when === "During the degree" ? "B.Sc." : j.when.slice(0, 4)}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+
+                  <div className="journey-stack">
+                    <div data-on="true" className="journey-panel space-y-4 text-zinc-300 text-sm sm:text-base leading-relaxed font-light">
+                      <p>
+                        <strong className="text-white font-medium">AI Engineer and Biomedical Engineering graduate</strong> dedicated to building high-impact SaaS and agentic AI platforms.
+                      </p>
+                      <p>
+                        Demonstrated success in translating complex research into scalable software, architecting systems like a <strong className="text-white font-medium">Multi-Agent AI Decision System</strong> and Research Agents for publication workflows.
+                      </p>
+                      <p className="journey-hint text-xs font-mono text-indigo-300/80">scroll to walk through the path ↓</p>
+                    </div>
+                    {journey.map((j) => (
+                      <div key={j.title} data-on="true" className="journey-panel">
+                        <p className="text-[11px] font-mono uppercase tracking-widest text-indigo-300 mb-1.5">{j.when}</p>
+                        <h4 className="text-lg font-bold text-white font-poppins mb-2">{j.title}</h4>
+                        <p className="text-sm text-zinc-300 leading-relaxed font-light mb-3">{j.text}</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {j.tags.map((t) => (
+                            <span key={t} className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/10 text-zinc-300">
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
+
+                  <div className="mt-6 pt-5 border-t border-zinc-800/80 flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-xs text-zinc-400">
+                      <Award className="w-4 h-4 text-indigo-400" />
+                      <span>Tel Aviv University</span>
+                    </div>
+                    <span className="text-xs font-mono text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-md border border-indigo-500/20">B.Sc. Graduate</span>
+                  </div>
                 </div>
-              );
-            })}
+
+                {/* Skills bento */}
+                <div className="skills-grid-container lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {skillCategories.map((cat) => {
+                    const IconComp = cat.icon;
+                    return (
+                      <div key={cat.title} data-skill={cat.key} data-lit="all" className="skill-bento-card gradient-border-card p-6 rounded-2xl group">
+                        <div className="flex items-center gap-3.5 mb-4">
+                          <div className={`w-10 h-10 rounded-xl bg-gradient-to-tr ${cat.color} p-[1px]`}>
+                            <div className="w-full h-full bg-zinc-950 rounded-[11px] flex items-center justify-center">
+                              <IconComp className="w-5 h-5 text-white" />
+                            </div>
+                          </div>
+                          <h4 className="text-base font-bold text-white font-poppins group-hover:text-indigo-300 transition-colors">{cat.title}</h4>
+                        </div>
+                        <ul className="space-y-2">
+                          {cat.skills.map((skill) => (
+                            <li key={skill} className="text-xs sm:text-sm text-zinc-400 flex items-center gap-2 font-light">
+                              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500/60" />
+                              <span>{skill}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
