@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ComponentType, type CSSProperties } f
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Icosahedron, Sphere, Stars, Environment, ContactShadows, Trail, Html } from "@react-three/drei";
 import * as THREE from "three";
+import { heroScroll } from "@/lib/hero-scroll";
 
 // Importing icons from react-icons
 import { 
@@ -86,11 +87,17 @@ const technologies = [
 
 function Scene() {
   const groupRef = useRef<THREE.Group>(null);
+  const baseZ = useRef<number | null>(null);
   
   useFrame((state) => {
+    // Scrolling out of the hero pulls the camera back and spins the network (heroScroll is 0..1)
+    const p = heroScroll.progress;
+    baseZ.current ??= state.camera.position.z;
+    state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, baseZ.current * (1 + p * 0.9), 0.1);
+
     if (groupRef.current) {
-      const targetX = state.pointer.y * 0.3; 
-      const targetY = state.pointer.x * 0.3; 
+      const targetX = state.pointer.y * 0.3 + p * 0.5;
+      const targetY = state.pointer.x * 0.3 + p * Math.PI * 0.9;
       
       groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetX, 0.05);
       groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetY, 0.05);
@@ -158,7 +165,7 @@ export default function Hero3DBackground() {
   }, []);
 
   return (
-    <div ref={wrapRef} className="absolute inset-0 z-0 pointer-events-none">
+    <div ref={wrapRef} className="hero-canvas absolute inset-0 z-0 pointer-events-none">
       <Canvas 
         frameloop={inView ? "always" : "never"}
         camera={{ position: [0, 0, cameraZ], fov: 45 }} 

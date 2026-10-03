@@ -235,3 +235,24 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes bot-line-in {
   from { opacity: 0; transform: translateX(-6px); }
 }
+
+/* About journey (sections/about.tsx). Scroll-driven: panels stack in one grid cell and swap,
+   the rail fills, skill cards light up per stop. Otherwise: a plain vertical timeline. */
+.about-stage:not(.is-scrubbed) .journey-rail,
+.about-stage:not(.is-scrubbed) .journey-hint { display: none; }
+.about-stage:not(.is-scrubbed) .journey-stack { display: flex; flex-direction: column; gap: 1.25rem; }
+.about-stage:not(.is-scrubbed) .journey-panel + .journey-panel { padding-left: 1rem; border-left: 2px solid rgba(129, 140, 248, 0.35); }
+.about-stage.is-scrubbed .journey-stack { display: grid; }
+.about-stage.is-scrubbed .journey-panel { grid-area: 1 / 1; transition: opacity 0.4s ease, transform 0.4s ease; }
+.about-stage.is-scrubbed .journey-panel[data-on="false"] { opacity: 0; transform: translateY(12px); pointer-events: none; }
+.journey-dot { transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s; }
+.journey-node[data-on="true"] .journey-dot { background: #a78bfa; border-color: #a78bfa; }
+.journey-node[data-on="true"] .journey-year { color: #c4b5fd; }
+.journey-node.is-current .journey-dot { transform: scale(1.25); box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.2), 0 0 18px #a78bfa; }
+.skill-bento-card { transition: filter 0.4s ease, box-shadow 0.4s ease; }
+.skill-bento-card[data-lit="false"] { filter: grayscale(0.85) brightness(0.5); }
+.skill-bento-card[data-lit="true"] { box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.55), 0 0 36px rgba(139, 92, 246, 0.22); }
+
+/* Pulse time-lapse (sections/pulse.tsx) */
+.pulse-stage.is-scrubbed .pulse-head { display: block; }
+.pulse-stage rect.is-head { stroke: rgba(255, 255, 255, 0.85); stroke-width: 1.5; }

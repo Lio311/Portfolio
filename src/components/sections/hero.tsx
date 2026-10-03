@@ -5,6 +5,10 @@ import dynamic from "next/dynamic";
 import { ArrowRight, ChevronDown, Sparkles, Code2, Bot, Download, Activity } from "lucide-react";
 import { motion, Variants } from "framer-motion";
 import { scrollToId } from "@/lib/scroll";
+import { heroScroll } from "@/lib/hero-scroll";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { projectsData } from "@/lib/projects-data";
 
 // Dynamically import the 3D background so it doesn't break SSR
@@ -61,11 +65,77 @@ export function HeroSection() {
 
   const titleText = "Lior Zafrir";
 
+  // Cinematic exit: as the hero scrolls away the copy lifts off, the globe pulls back and the name
+  // flies into the navbar logo, landing exactly when the hero's bottom edge reaches the top.
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const hero = containerRef.current;
+        const name = hero?.querySelector<HTMLElement>(".hero-name");
+        const logo = document.getElementById("nav-logo");
+        if (!hero || !name || !logo) return;
+
+        // Where the name must travel so its centre meets the logo's centre at progress 1. Layout
+        // offsets ignore transforms, so neither this tween nor framer's entrance animation skews it.
+        const flight = () => {
+          let x0 = name.offsetWidth / 2;
+          let y0 = name.offsetHeight / 2;
+          for (let el: HTMLElement | null = name; el; el = el.offsetParent as HTMLElement | null) {
+            x0 += el.offsetLeft;
+            y0 += el.offsetTop;
+          }
+          const l = logo.getBoundingClientRect();
+          const heroBottom = hero.offsetTop + hero.offsetHeight;
+          // The navbar tightens from py-5 to py-3 once scrolled, lifting the logo 8px
+          const logoY = l.top + l.height / 2 - (window.scrollY > 20 ? 0 : 8);
+          return {
+            x: l.left + l.width / 2 - x0,
+            y: logoY - (y0 - heroBottom),
+            scale: (l.width * 0.9) / name.offsetWidth,
+          };
+        };
+        let f = flight();
+
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: {
+            trigger: hero,
+            start: "top top",
+            end: "bottom top",
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+            onRefreshInit: () => {
+              f = flight();
+            },
+            onUpdate: (self) => {
+              heroScroll.progress = self.progress;
+            },
+          },
+        });
+        tl.to(".hero-scroll-cue", { opacity: 0, y: 20, duration: 0.12 }, 0)
+          .to(".hero-fade-top, .hero-hi", { opacity: 0, y: -50, duration: 0.35 }, 0)
+          .to(".hero-fade-bottom", { opacity: 0, y: -90, filter: "blur(8px)", duration: 0.55 }, 0)
+          .to(".hero-canvas", { opacity: 0, scale: 1.25, duration: 1 }, 0)
+          .to(name, { x: () => f.x, y: () => f.y, scale: () => f.scale, duration: 1 }, 0)
+          .to(name, { opacity: 0, duration: 0.12 }, 0.88)
+          // The logo "catches" the name
+          .to(logo, { scale: 1.18, duration: 0.07 }, 0.88)
+          .to(logo, { scale: 1, duration: 0.05 }, 0.95);
+
+        return () => {
+          heroScroll.progress = 0;
+        };
+      });
+    },
+    { scope: containerRef }
+  );
+
   return (
     <section
       id="home"
       ref={containerRef}
-      className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-28 overflow-hidden scroll-mt-20"
+      className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-28 overflow-x-clip scroll-mt-20"
     >
       {/* 3D Interactive Background */}
       <Hero3DBackground />
@@ -94,25 +164,27 @@ export function HeroSection() {
           animate="visible"
         >
           {/* Eyebrow Badge */}
-          <motion.button
-            type="button"
-            variants={itemVariants}
-            onClick={() => scrollToId("bots")}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900/80 border border-zinc-800 hover:border-indigo-500/60 backdrop-blur-md mb-6 shadow-sm transition-colors"
-          >
-            <Sparkles className="w-4 h-4 text-indigo-400 animate-pulse" />
-            <span className="text-xs sm:text-sm font-medium text-zinc-300">
-              New: 3 autonomous bots running in production
-            </span>
-            <ArrowRight className="w-3.5 h-3.5 text-zinc-500" />
-          </motion.button>
+          <div className="hero-fade-top">
+            <motion.button
+              type="button"
+              variants={itemVariants}
+              onClick={() => scrollToId("bots")}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900/80 border border-zinc-800 hover:border-indigo-500/60 backdrop-blur-md mb-6 shadow-sm transition-colors"
+            >
+              <Sparkles className="w-4 h-4 text-indigo-400 animate-pulse" />
+              <span className="text-xs sm:text-sm font-medium text-zinc-300">
+                New: 3 autonomous bots running in production
+              </span>
+              <ArrowRight className="w-3.5 h-3.5 text-zinc-500" />
+            </motion.button>
+          </div>
 
           {/* Main Title */}
           <motion.h1 variants={itemVariants} className="text-4xl sm:text-6xl md:text-8xl font-black text-white tracking-tighter font-poppins mb-6 uppercase">
-            <span className="block text-zinc-400 text-xl sm:text-2xl font-semibold mb-2 font-inter tracking-widest uppercase">
+            <span className="hero-hi block text-zinc-400 text-xl sm:text-2xl font-semibold mb-2 font-inter tracking-widest uppercase">
               Hi, I&apos;m
             </span>
-            <span className="flex justify-center overflow-hidden py-2 drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+            <span className="hero-name flex justify-center overflow-hidden py-2 drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
               {titleText.split("").map((char, index) => (
                 <motion.span
                   key={index}
@@ -126,82 +198,84 @@ export function HeroSection() {
             </span>
           </motion.h1>
 
-          {/* Subtitle */}
-          <motion.p variants={itemVariants} className="text-lg sm:text-2xl font-bold text-zinc-200 mb-6 max-w-3xl leading-relaxed tracking-wide">
-            AI Engineer <span className="text-indigo-400 mx-2">|</span> Full-Stack Developer <span className="text-purple-400 mx-2">|</span> Biomedical Engineer
-          </motion.p>
+          <div className="hero-fade-bottom flex flex-col items-center w-full">
+            {/* Subtitle */}
+            <motion.p variants={itemVariants} className="text-lg sm:text-2xl font-bold text-zinc-200 mb-6 max-w-3xl leading-relaxed tracking-wide">
+              AI Engineer <span className="text-indigo-400 mx-2">|</span> Full-Stack Developer <span className="text-purple-400 mx-2">|</span> Biomedical Engineer
+            </motion.p>
 
-          {/* Description */}
-          <motion.p variants={itemVariants} className="text-base sm:text-lg text-zinc-400 max-w-2xl mb-10 leading-relaxed font-light">
-            I build software that works on its own: LLM agents, scraping bots that run on a schedule, real-time 3D web apps, and the full-stack platforms behind them.
-          </motion.p>
+            {/* Description */}
+            <motion.p variants={itemVariants} className="text-base sm:text-lg text-zinc-400 max-w-2xl mb-10 leading-relaxed font-light">
+              I build software that works on its own: LLM agents, scraping bots that run on a schedule, real-time 3D web apps, and the full-stack platforms behind them.
+            </motion.p>
 
-          {/* CTAs */}
-          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 w-full mb-12">
-            <a
-              href="#projects"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToId("projects");
-              }}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 transition-all duration-300 shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] hover:-translate-y-1"
-            >
-              <span>View My Work</span>
-              <ArrowRight className="w-5 h-5" />
-            </a>
+            {/* CTAs */}
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 w-full mb-12">
+              <a
+                href="#projects"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToId("projects");
+                }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 transition-all duration-300 shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] hover:-translate-y-1"
+              >
+                <span>View My Work</span>
+                <ArrowRight className="w-5 h-5" />
+              </a>
 
-            <a
-              href="#contact"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToId("contact");
-              }}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-zinc-200 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-600 hover:bg-zinc-800/80 hover:text-white transition-all duration-300 backdrop-blur-sm"
-            >
-              Get In Touch
-            </a>
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToId("contact");
+                }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-zinc-200 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-600 hover:bg-zinc-800/80 hover:text-white transition-all duration-300 backdrop-blur-sm"
+              >
+                Get In Touch
+              </a>
 
-            <a
-              href="/lior-zafrir-cv.pdf"
-              download="Lior Zafrir - CV.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-zinc-200 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-600 hover:bg-zinc-800/80 hover:text-white transition-all duration-300 backdrop-blur-sm group"
-            >
-              <Download className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
-              <span>Download CV</span>
-            </a>
-          </motion.div>
+              <a
+                href="/lior-zafrir-cv.pdf"
+                download="Lior Zafrir - CV.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-zinc-200 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-600 hover:bg-zinc-800/80 hover:text-white transition-all duration-300 backdrop-blur-sm group"
+              >
+                <Download className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
+                <span>Download CV</span>
+              </a>
+            </motion.div>
 
-          {/* Quick Highlight Badges */}
-          <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-3 gap-4 w-full max-w-2xl mb-12">
-            <div className="glass-card p-4 rounded-xl flex items-center justify-center gap-3 hover:scale-105 transition-transform duration-300 border border-zinc-800 hover:border-indigo-500/50 bg-zinc-900/50 backdrop-blur-sm">
-              <Bot className="w-5 h-5 text-indigo-400" />
-              <span className="text-xs sm:text-sm font-bold text-zinc-200 uppercase tracking-wider">AI Agents & Bots</span>
-            </div>
-            <div className="glass-card p-4 rounded-xl flex items-center justify-center gap-3 hover:scale-105 transition-transform duration-300 border border-zinc-800 hover:border-purple-500/50 bg-zinc-900/50 backdrop-blur-sm">
-              <Code2 className="w-5 h-5 text-purple-400" />
-              <span className="text-xs sm:text-sm font-bold text-zinc-200 uppercase tracking-wider">Full-Stack & 3D</span>
-            </div>
-            <div className="glass-card p-4 rounded-xl flex items-center justify-center gap-3 col-span-2 sm:col-span-1 hover:scale-105 transition-transform duration-300 border border-zinc-800 hover:border-pink-500/50 bg-zinc-900/50 backdrop-blur-sm">
-              <Activity className="w-5 h-5 text-pink-400" />
-              <span className="text-xs sm:text-sm font-bold text-zinc-200 uppercase tracking-wider">Biomedical DSP</span>
-            </div>
-          </motion.div>
+            {/* Quick Highlight Badges */}
+            <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-3 gap-4 w-full max-w-2xl mb-12">
+              <div className="glass-card p-4 rounded-xl flex items-center justify-center gap-3 hover:scale-105 transition-transform duration-300 border border-zinc-800 hover:border-indigo-500/50 bg-zinc-900/50 backdrop-blur-sm">
+                <Bot className="w-5 h-5 text-indigo-400" />
+                <span className="text-xs sm:text-sm font-bold text-zinc-200 uppercase tracking-wider">AI Agents & Bots</span>
+              </div>
+              <div className="glass-card p-4 rounded-xl flex items-center justify-center gap-3 hover:scale-105 transition-transform duration-300 border border-zinc-800 hover:border-purple-500/50 bg-zinc-900/50 backdrop-blur-sm">
+                <Code2 className="w-5 h-5 text-purple-400" />
+                <span className="text-xs sm:text-sm font-bold text-zinc-200 uppercase tracking-wider">Full-Stack & 3D</span>
+              </div>
+              <div className="glass-card p-4 rounded-xl flex items-center justify-center gap-3 col-span-2 sm:col-span-1 hover:scale-105 transition-transform duration-300 border border-zinc-800 hover:border-pink-500/50 bg-zinc-900/50 backdrop-blur-sm">
+                <Activity className="w-5 h-5 text-pink-400" />
+                <span className="text-xs sm:text-sm font-bold text-zinc-200 uppercase tracking-wider">Biomedical DSP</span>
+              </div>
+            </motion.div>
 
-          <motion.p variants={itemVariants} className="text-xs font-mono text-zinc-500 tracking-wide">
-            <span className="whitespace-nowrap">{projectsData.length} projects shipped</span>
-            <span className="text-zinc-700 mx-1.5">/</span>
-            <span className="whitespace-nowrap">3 bots on cron</span>
-            <span className="text-zinc-700 mx-1.5">/</span>
-            <span className="whitespace-nowrap">1 iOS app</span>
-            {/* Keyboard hints only where there's a keyboard */}
-            <span className="hidden [@media(pointer:fine)]:inline">
-              <span className="text-zinc-700 mx-1.5">/</span> press{" "}
-              <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">/</kbd> to search ·{" "}
-              <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">`</kbd> for a terminal
-            </span>
-          </motion.p>
+            <motion.p variants={itemVariants} className="text-xs font-mono text-zinc-500 tracking-wide">
+              <span className="whitespace-nowrap">{projectsData.length} projects shipped</span>
+              <span className="text-zinc-700 mx-1.5">/</span>
+              <span className="whitespace-nowrap">3 bots on cron</span>
+              <span className="text-zinc-700 mx-1.5">/</span>
+              <span className="whitespace-nowrap">1 iOS app</span>
+              {/* Keyboard hints only where there's a keyboard */}
+              <span className="hidden [@media(pointer:fine)]:inline">
+                <span className="text-zinc-700 mx-1.5">/</span> press{" "}
+                <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">/</kbd> to search ·{" "}
+                <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">`</kbd> for a terminal
+              </span>
+            </motion.p>
+          </div>
         </motion.div>
       </div>
 
@@ -214,7 +288,7 @@ export function HeroSection() {
       >
         <button 
           onClick={() => scrollToId("about")}
-          className="flex flex-col items-center gap-2 text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer group"
+          className="hero-scroll-cue flex flex-col items-center gap-2 text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer group"
         >
           <span className="text-[11px] font-mono tracking-widest uppercase font-bold">SCROLL</span>
           <ChevronDown className="w-5 h-5 animate-bounce text-indigo-400 group-hover:text-indigo-300" />

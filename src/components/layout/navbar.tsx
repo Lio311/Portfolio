@@ -68,7 +68,7 @@ export function Navbar() {
             onClick={(e) => handleNavClick(e, "#home")}
             className="flex items-center gap-2.5 text-xl font-bold font-poppins text-white group"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 p-[1px] transition-transform duration-300 group-hover:scale-105">
+            <div id="nav-logo" className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 p-[1px]">
               <div className="w-full h-full bg-zinc-950 rounded-[11px] flex items-center justify-center">
                 <span className="gradient-text font-black text-sm tracking-wider">LZ</span>
               </div>
