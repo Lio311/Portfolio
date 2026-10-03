@@ -89,6 +89,7 @@ const PALETTES: Record<string, [string, string, string]> = {
   about: ["#1d4ed8", "#6366f1", "#0891b2"],
   bots: ["#4f46e5", "#2dd4bf", "#2dd4bf"],
   projects: ["#7c3aed", "#db2777", "#4f46e5"],
+  pulse: ["#4338ca", "#a855f7", "#ec4899"],
   contact: ["#4338ca", "#2563eb", "#9333ea"],
 };
 
@@ -182,7 +183,7 @@ export function ShaderBackdrop() {
       },
       { rootMargin: "-50% 0px -50% 0px" }
     );
-    ["home", "about", "bots", "projects", "contact"].forEach((id) => {
+    ["home", "about", "bots", "projects", "pulse", "contact"].forEach((id) => {
       const el = document.getElementById(id);
       if (el) io.observe(el);
     });

@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
+import dynamic from "next/dynamic";
+import { LayoutGrid, Orbit } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { ProjectCard } from "@/components/ui/project-card";
 import { projectsData, type ProjectCategory } from "@/lib/projects-data";
@@ -10,6 +12,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const ProjectGalaxy = dynamic(() => import("@/components/3d/project-galaxy"), {
+  ssr: false,
+  loading: () => <div className="h-[72vh] min-h-[520px] rounded-2xl border border-zinc-800 bg-zinc-950/60 animate-pulse" />,
+});
+
+type View = "grid" | "galaxy";
 
 type FilterCategory = "all" | ProjectCategory;
 
@@ -23,6 +32,14 @@ const filterOptions: { label: string; value: FilterCategory }[] = [
 
 export function ProjectsSection() {
   const [activeFilter, setActiveFilter] = useState<FilterCategory>("all");
+  const [view, setView] = useState<View>("grid");
+
+  // The terminal and command palette can switch views
+  useEffect(() => {
+    const onView = (e: Event) => setView((e as CustomEvent<View>).detail);
+    window.addEventListener("projects-view", onView);
+    return () => window.removeEventListener("projects-view", onView);
+  }, []);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const filteredProjects = projectsData.filter((project) => {
@@ -78,6 +95,25 @@ export function ProjectsSection() {
 
         {/* Filter Buttons */}
         <div className="filter-buttons-container flex flex-wrap items-center justify-center gap-2 mb-12">
+          <div role="group" aria-label="View" className="inline-flex p-1 rounded-full bg-zinc-900 border border-zinc-800 mr-1 sm:mr-3">
+            {([
+              ["grid", "Grid", LayoutGrid],
+              ["galaxy", "3D Galaxy", Orbit],
+            ] as const).map(([v, label, Icon]) => (
+              <button
+                key={v}
+                type="button"
+                onClick={() => setView(v)}
+                aria-pressed={view === v}
+                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
+                  view === v ? "bg-white text-zinc-950" : "text-zinc-400 hover:text-white"
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                {label}
+              </button>
+            ))}
+          </div>
           {filterOptions.map((opt) => {
             const count =
               opt.value === "all"
@@ -104,25 +140,28 @@ export function ProjectsSection() {
           })}
         </div>
 
-        {/* Projects Grid */}
-        <motion.div layout className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, i) => (
-              <motion.div
-                key={project.id}
-                layout
-                initial={{ opacity: 0, y: 40, scale: 0.97 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: "-60px" }}
-                exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
-                transition={{ duration: 0.5, delay: (i % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="project-card-wrapper h-full"
-              >
-                <ProjectCard project={project} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        {view === "galaxy" ? (
+          <ProjectGalaxy filter={activeFilter} />
+        ) : (
+          <motion.div layout className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((project, i) => (
+                <motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, y: 40, scale: 0.97 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
+                  transition={{ duration: 0.5, delay: (i % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  className="project-card-wrapper h-full"
+                >
+                  <ProjectCard project={project} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        )}
       </div>
     </section>
   );

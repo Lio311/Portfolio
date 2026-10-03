@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/footer";
 import { GSAPProvider } from "@/components/gsap-provider";
 import { CustomCursor } from "@/components/custom-cursor";
 import { CommandPalette } from "@/components/command-palette";
+import { Terminal } from "@/components/terminal";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { MotionProvider } from "@/components/motion-provider";
 import { ShaderBackdrop } from "@/components/shader-backdrop";
@@ -85,6 +86,7 @@ export default function RootLayout({
             <Footer />
           </GSAPProvider>
           <CommandPalette />
+          <Terminal />
         </MotionProvider>
       </body>
     </html>

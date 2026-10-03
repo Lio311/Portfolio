@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, Command, CornerDownLeft, Download, FolderGit2, Hash, Mail, Search } from "lucide-react";
+import { ArrowUpRight, Command, CornerDownLeft, Download, FolderGit2, Hash, Mail, Orbit, Search, SquareTerminal } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 import { projectsData } from "@/lib/projects-data";
 import { scrollToId } from "@/lib/scroll";
@@ -41,6 +41,7 @@ export function CommandPalette() {
         ["about", "About me"],
         ["bots", "Autonomous bots"],
         ["projects", "All projects"],
+        ["pulse", "GitHub pulse"],
         ["contact", "Contact"],
       ].map(([id, label]) => ({
         id: `nav-${id}`,
@@ -62,6 +63,25 @@ export function CommandPalette() {
           else scrollToId("projects");
         },
       })),
+      {
+        id: "terminal",
+        group: "Actions",
+        label: "Open terminal",
+        hint: "` key",
+        icon: SquareTerminal,
+        run: () => window.dispatchEvent(new Event("open-terminal")),
+      },
+      {
+        id: "galaxy",
+        group: "Actions",
+        label: "Explore projects in 3D",
+        hint: "galaxy view",
+        icon: Orbit,
+        run: () => {
+          scrollToId("projects");
+          window.dispatchEvent(new CustomEvent("projects-view", { detail: "galaxy" }));
+        },
+      },
       {
         id: "copy-email",
         group: "Actions",

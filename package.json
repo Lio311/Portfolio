@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "pulse": "npx -y tsx scripts/github-pulse.mts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

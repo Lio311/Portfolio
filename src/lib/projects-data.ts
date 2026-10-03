@@ -1,7 +1,7 @@
 export type ProjectCategory = "automation" | "fullstack" | "ai" | "biomedical";
 
 /** Code-drawn covers for projects without a public screenshot (see ui/project-cover.tsx). */
-export type CoverKind = "price-radar" | "job-match" | "agent-graph" | "device";
+export type CoverKind = "device";
 
 export interface Project {
   id: string;
@@ -39,7 +39,7 @@ export const projectsData: Project[] = [
     title: "liberoBot (Price Intelligence)",
     description:
       "Nightly competitive-pricing engine for a perfume e-commerce store. Pulls in-stock products from the WooCommerce API, scans 22 competitor sites in parallel (Shopify, WooCommerce, Konimbo, SFCC, Magento parsers), matches products by barcode, volume and concentration, and emails a DST-aware 08:00 digest.",
-    cover: "price-radar",
+    image: "/images/libero-bot.jpg",
     repo: "https://github.com/Lio311/libero-bot",
     categories: ["automation", "fullstack"],
     tags: ["Next.js 16", "Cheerio", "WooCommerce API", "Drizzle", "Neon", "GitHub Actions"],
@@ -51,7 +51,7 @@ export const projectsData: Project[] = [
     title: "joBot (AI Job Hunter)",
     description:
       "Personal job-search agent that crawls LinkedIn, AllJobs, Drushim, Google X-ray and 60+ company ATS boards (Greenhouse, Lever, Ashby, Comeet) three times a day. Scores every role against the CV locally, then Claude refines the promising ones with JSON-schema structured output and explains the fit.",
-    cover: "job-match",
+    image: "/images/jobot.jpg",
     repo: "https://github.com/Lio311/joBot",
     categories: ["automation", "ai", "fullstack"],
     tags: ["Claude API", "Structured Output", "Next.js 16", "Drizzle", "MapLibre", "PWA"],
@@ -76,7 +76,7 @@ export const projectsData: Project[] = [
     title: "PublishAI (Multi-Agent Research Platform)",
     description:
       "SaaS that takes an academic paper from Word/PDF to journal-ready: 14 specialised agents (planning, scientific review, QA, cover letter, rebuttal) orchestrated with LangGraph and Inngest, track-changes review UI, GraphRAG consistency checks, sandboxed code execution, and auto-submission to journals through custom MCP servers.",
-    cover: "agent-graph",
+    image: "/images/publish-ai.jpg",
     link: "https://publish-ai-nine.vercel.app",
     repo: "https://github.com/Lio311/PublishAI",
     categories: ["ai", "fullstack"],

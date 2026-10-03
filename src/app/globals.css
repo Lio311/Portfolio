@@ -179,43 +179,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Project covers (ui/project-cover.tsx) */
-.cover-bar {
-  transform-box: fill-box;
-  transform-origin: bottom;
-  animation: cover-bar 3.2s ease-in-out infinite alternate;
-}
-@keyframes cover-bar {
-  0% { transform: scaleY(0.82); }
-  100% { transform: scaleY(1.04); }
-}
-.cover-scan { animation: cover-scan 4s linear infinite; }
-@keyframes cover-scan {
-  0% { transform: translateX(-80px); }
-  100% { transform: translateX(400px); }
-}
 .cover-blink { animation: cover-blink 1.4s ease-in-out infinite; }
 @keyframes cover-blink {
   50% { opacity: 0.25; }
-}
-.cover-row { animation: cover-row 0.6s ease-out both; }
-@keyframes cover-row {
-  from { opacity: 0; transform: translateY(8px); }
-}
-.cover-ring { animation: cover-ring 1.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
-@keyframes cover-ring {
-  from { stroke-dashoffset: var(--ring-from); }
-}
-.cover-flow { animation: cover-flow 1.2s linear infinite; }
-@keyframes cover-flow {
-  to { stroke-dashoffset: -22; }
-}
-.cover-pulse {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: cover-pulse 2.4s ease-in-out infinite;
-}
-@keyframes cover-pulse {
-  50% { transform: scale(1.25); opacity: 0.4; }
 }
 .cover-trace {
   stroke-dasharray: 140;
@@ -251,4 +217,21 @@ h1, h2, h3, h4, h5, h6 {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Scroll-driven bot run (sections/bots.tsx). Nodes and log lines carry data-on; the pinned
+   ScrollTrigger flips them as the scroll advances. Unpinned layouts keep everything on. */
+.bot-packet-scrub { display: none; }
+.bots-stage.is-scrubbed .bot-packet-x { display: none; }
+.bots-stage.is-scrubbed .bot-packet-scrub { display: block; }
+.bot-stage-node .node-box,
+.bot-stage-node .node-items { transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease; }
+.bot-stage-node[data-on="false"] .node-box { opacity: 0.35; transform: scale(0.92); box-shadow: none !important; }
+.bot-stage-node[data-on="false"] .node-items { opacity: 0.3; }
+.bot-stage-node.is-current .node-box { transform: scale(1.12); box-shadow: 0 0 40px color-mix(in srgb, var(--accent) 45%, transparent) !important; }
+.bot-log-line { transition: opacity 0.3s ease, transform 0.3s ease; }
+.bot-log-line[data-on="false"] { opacity: 0; transform: translateX(-6px); }
+.bots-stage:not(.is-scrubbed) .bot-log-line { animation: bot-line-in 0.4s ease both; animation-delay: calc(var(--i) * 90ms); }
+@keyframes bot-line-in {
+  from { opacity: 0; transform: translateX(-6px); }
 }

@@ -193,6 +193,10 @@ export function HeroSection() {
             {projectsData.length} projects shipped <span className="text-zinc-700 mx-1.5">/</span> 3 bots on cron
             <span className="text-zinc-700 mx-1.5">/</span> 1 iOS app <span className="text-zinc-700 mx-1.5">/</span> press{" "}
             <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">/</kbd> to search
+            <span className="hidden sm:inline">
+              {" "}
+              · <kbd className="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">`</kbd> for a terminal
+            </span>
           </motion.p>
         </motion.div>
       </div>
